@@ -15,6 +15,7 @@
 - 英文人名
 - 手机号码(中国大陆)
 - 联系地址(中国大陆)
+- 车牌号(中国大陆，包括新能源车型)
 - 域名
 - 静态URL
 - 日期(特定日期之前/特定日期之后)
@@ -136,4 +137,12 @@ String pwd2 = generator.randomStrongPassword(16, true);
 ```
 //生成1个随机中国大陆地址
 String addr = generator.randomAddress();
+```
+#### 随机中国大陆车牌号
+```
+//生成1个随机中国大陆车牌号(新能源车型)
+String n1 = generator.randomPlateNumber(true);
+
+//生成1个随机中国大陆车牌号(非新能源车型)
+String n2 = generator.randomPlateNumber(false);
 ```

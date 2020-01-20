@@ -415,4 +415,39 @@ public class RandomGenerator {
         String road = roadList.get(RandomUtils.nextInt(0, roadList.size())) + directionList.get(RandomUtils.nextInt(0, directionList.size()));
         return prefix + road + "路" + randomInt(1, 1000) + "号";
     }
+
+    /**
+     * 生成随机的中国大陆车牌号
+     *
+     * @param isNewEnergyVehicle 是否为新能源车型
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber(boolean isNewEnergyVehicle) {
+        int length = 5;
+        List<String> plateNumbers = new ArrayList<>(length);
+        String prefix = RandomConstant.provincePrefixList.get(RandomUtils.nextInt(0, RandomConstant.provincePrefixList.size()));
+        //最多2个字母
+        int alphaCnt = randomInt(0, 3);
+        if (alphaCnt > 0) {
+            for (int i = 0; i < alphaCnt; i++) {
+                plateNumbers.add(RandomConstant.plateNumbersList.get(RandomUtils.nextInt(0, RandomConstant.plateNumbersList.size())));
+            }
+        }
+        //剩余部分全是数字
+        int numericCnt = length - alphaCnt;
+        for (int i = 0; i < numericCnt; i++) {
+            plateNumbers.add(String.valueOf(randomInt(0, 10)));
+        }
+        //打乱顺序
+        Collections.shuffle(plateNumbers);
+
+        String newEnergyVehicleTag = "";
+        if (isNewEnergyVehicle) {
+            int j = randomInt(0, 2);
+            //新能源车牌前缀为D或F
+            newEnergyVehicleTag = (j == 0 ? "D" : "F");
+        }
+        return prefix + RandomConstant.plateNumbersList.get(RandomUtils.nextInt(0, RandomConstant.plateNumbersList.size()))
+                + newEnergyVehicleTag + Joiner.on("").join(plateNumbers);
+    }
 }
