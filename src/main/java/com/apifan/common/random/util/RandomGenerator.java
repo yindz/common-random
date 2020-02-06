@@ -450,4 +450,13 @@ public class RandomGenerator {
         return prefix + RandomConstant.plateNumbersList.get(RandomUtils.nextInt(0, RandomConstant.plateNumbersList.size()))
                 + newEnergyVehicleTag + Joiner.on("").join(plateNumbers);
     }
+
+    /**
+     * 生成随机的中国大陆车牌号(非新能源车型)
+     *
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber() {
+        return randomPlateNumber(false);
+    }
 }
