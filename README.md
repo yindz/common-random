@@ -146,3 +146,8 @@ String n1 = generator.randomPlateNumber(true);
 //生成1个随机中国大陆车牌号(非新能源车型)
 String n2 = generator.randomPlateNumber(false);
 ```
+#### 随机网络昵称
+```
+//生成1个随机网络昵称，最大长度为8个字符
+String nickName = generator.randomNickName(8);
+```
