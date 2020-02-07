@@ -21,6 +21,7 @@
 - 日期(特定日期之前/特定日期之后)
 - 强密码
 - 网络昵称(登录名)
+- QQ号码
 
 ## 如何使用
 ### 配置仓库
@@ -151,4 +152,9 @@ String n2 = generator.randomPlateNumber(false);
 ```
 //生成1个随机网络昵称，最大长度为8个字符
 String nickName = generator.randomNickName(8);
+```
+#### 随机QQ号
+```
+//生成1个随机QQ号
+String nickName = generator.randomQQAccount();
 ```

@@ -474,4 +474,14 @@ public class RandomGenerator {
     public String randomPlateNumber() {
         return randomPlateNumber(false);
     }
+
+    /**
+     * 生成随机的QQ号码
+     *
+     * @return 随机的QQ号码
+     */
+    public String randomQQAccount() {
+        //目前QQ号码最短5位，最长11位
+        return String.valueOf(randomLong(10000L, 100000000000L));
+    }
 }
