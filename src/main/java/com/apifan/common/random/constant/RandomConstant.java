@@ -2,6 +2,7 @@ package com.apifan.common.random.constant;
 
 import com.google.common.collect.Lists;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -41,4 +42,18 @@ public class RandomConstant {
      */
     public static final List<String> plateNumbersList = Lists.newArrayList(
             "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+
+    /**
+     * 默认字体
+     */
+    public static final Font defaultFont = new Font("Dialog", Font.PLAIN, 78);
+
+    /**
+     * 姓名图片可选颜色
+     */
+    public static final List<String> namePictureColorsList = Lists.newArrayList(
+            "255,111,97", "107,91,149", "136,176,75", "146,168,209", "149,82,81"
+            , "181,101,167", "0,155,119", "221,65,36", "214,80,118", "68,184,172"
+            , "239,192,80", "91,94,166", "155,35,53", "223,207,190", "85,180,176"
+            , "225,93,68", "127,205,205", "188,36,60", "195,68,122", "152,180,212");
 }

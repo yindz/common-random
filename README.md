@@ -81,13 +81,34 @@ String i = generator.randomChinese();
 String j = generator.randomChinese(4);
 ```
 #### 随机人名
+##### 中文名
 ```
 //生成1个随机中文人名
 String k = generator.randomChineseName();
-
+```
+##### 英文名
+```
 //生成1个随机英文人名
 String l = generator.randomEnglishName();
 ```
+##### 生成姓名头像
+- 该功能可以根据用户姓名快速生成各类网站、app的用户头像
+- 背景颜色随机，数据源取自最近十几年来广受欢迎的颜色，详情参见(Colors of the Year)[https://www.w3schools.com/colors/colors_trends.asp]
+- 支持使用自定义字体，但是需要使用者自行保证字体版权合法以避免纠纷
+```
+//姓名
+String name = generator.randomChineseName();
+//头像文件保存路径
+String targetPath = "/home/user/picture/" + name + ".png;
+
+//使用默认的Dialog字体
+generator.generateNamePicture(name, targetPath);
+
+//使用自定义的字体
+String font = "/home/user/font/SourceHanSansCN-Normal.ttf";
+generator.generateNamePicture(name, targetPath, font);
+```
+
 #### 随机中国大陆手机号
 ```
 //生成1个随机中国大陆手机号
