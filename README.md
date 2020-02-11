@@ -25,21 +25,13 @@
 - 网络昵称(登录名)
 - QQ号码
 - 学历
+- 高校名称(数据取自教育部网站)
 
 ## 如何使用
 ### 配置仓库
-暂时尚未进入maven中央仓库，因此请在 pom.xml 中配置一个仓库地址：
-```xml
-<repositories>
-    <repository>
-        <id>apifan-repo</id>
-        <name>apifan-repo</name>
-        <url>http://118.31.70.236:8004/nexus/content/repositories/biz-repo/</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-</repositories>
+暂时尚未进入maven中央仓库，因此请安装到本地仓库目录：
+```
+mvn install
 ```
 ### 引入依赖
 ```xml
@@ -196,4 +188,7 @@ String nickName = generator.randomQQAccount();
 ```
 //随机获取学历
 String degree = generator.randomDegree();
+
+//随机获取高校名称
+String college = generator.randomCollege();
 ```

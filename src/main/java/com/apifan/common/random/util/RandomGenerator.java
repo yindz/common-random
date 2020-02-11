@@ -1,12 +1,13 @@
 package com.apifan.common.random.util;
 
 import com.apifan.common.random.constant.RandomConstant;
+import com.apifan.common.random.source.Area;
+import com.apifan.common.random.source.AreaSource;
+import com.apifan.common.random.source.CollegeSource;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.io.Resources;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -68,22 +69,6 @@ public class RandomGenerator {
      */
     private List<String> firstNamesEN = new ArrayList<>();
 
-    /**
-     * 地区信息
-     */
-    private List<Area> areaList = new ArrayList<>();
-
-
-    /**
-     * 中国大陆常见道路名称
-     */
-    private List<String> roadList = new ArrayList<>();
-
-    /**
-     * 道路名称中常见的方向
-     */
-    private List<String> directionList = new ArrayList<>();
-
     private static final RandomGenerator generator = new RandomGenerator();
 
     private RandomGenerator() {
@@ -93,23 +78,6 @@ public class RandomGenerator {
             maleFirstNamesCN = Resources.asCharSource(Resources.getResource("male-first-names-cn.txt"), Charsets.UTF_8).readLines();
             lastNamesEN = Resources.asCharSource(Resources.getResource("last-names-en.txt"), Charsets.UTF_8).readLines();
             firstNamesEN = Resources.asCharSource(Resources.getResource("first-names-en.txt"), Charsets.UTF_8).readLines();
-            roadList = Resources.asCharSource(Resources.getResource("address-road-cn.txt"), Charsets.UTF_8).readLines();
-            directionList = Resources.asCharSource(Resources.getResource("address-direction-cn.txt"), Charsets.UTF_8).readLines();
-            List<String> areaLines = Resources.asCharSource(Resources.getResource("area.csv"), Charsets.UTF_8).readLines();
-            if (CollectionUtils.isNotEmpty(areaLines)) {
-                areaLines.forEach(i -> {
-                    if (StringUtils.isEmpty(i)) {
-                        return;
-                    }
-                    List<String> row = Splitter.on(",").splitToList(i);
-                    Area area = new Area();
-                    area.setProvince(row.get(0));
-                    area.setCity(row.get(1));
-                    area.setCounty(row.get(2));
-                    area.setZipCode(row.get(3));
-                    areaList.add(area);
-                });
-            }
         } catch (IOException e) {
             logger.error("初始化数据异常", e);
         }
@@ -450,7 +418,7 @@ public class RandomGenerator {
      * @return 随机省级行政区名称
      */
     public String randomProvince() {
-        Area area = getRandomArea();
+        Area area = AreaSource.getInstance().nextArea();
         return area.getProvince();
     }
 
@@ -461,7 +429,7 @@ public class RandomGenerator {
      * @return 随机城市名称
      */
     public String randomCity(String separator) {
-        Area area = getRandomArea();
+        Area area = AreaSource.getInstance().nextArea();
         return area.getProvince() + Objects.toString(separator, "") + area.getCity();
     }
 
@@ -470,8 +438,8 @@ public class RandomGenerator {
      *
      * @return 随机邮编
      */
-    public String randomZipCode(){
-        Area area = getRandomArea();
+    public String randomZipCode() {
+        Area area = AreaSource.getInstance().nextArea();
         return area.getZipCode();
     }
 
@@ -481,10 +449,7 @@ public class RandomGenerator {
      * @return 随机的中国大陆地址
      */
     public String randomAddress() {
-        Area area = getRandomArea();
-        String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
-        String road = roadList.get(RandomUtils.nextInt(0, roadList.size())) + directionList.get(RandomUtils.nextInt(0, directionList.size()));
-        return prefix + road + "路" + randomInt(1, 1000) + "号";
+        return AreaSource.getInstance().nextAddress();
     }
 
     /**
@@ -597,6 +562,15 @@ public class RandomGenerator {
     }
 
     /**
+     * 随机高校名称
+     *
+     * @return 随机高校名称
+     */
+    public String randomCollege() {
+        return CollegeSource.getInstance().next();
+    }
+
+    /**
      * 获取字体
      *
      * @param fontPath 字体文件路径
@@ -633,14 +607,5 @@ public class RandomGenerator {
     private Color getRandomColor() {
         String[] color = RandomConstant.namePictureColorsList.get(randomInt(0, RandomConstant.namePictureColorsList.size())).split(",");
         return new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2]));
-    }
-
-    /**
-     * 获取随机的地区信息
-     *
-     * @return 随机的地区信息
-     */
-    private Area getRandomArea() {
-        return areaList.get(randomInt(0, areaList.size()));
     }
 }
