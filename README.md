@@ -23,6 +23,7 @@
 - 日期(特定日期之前/特定日期之后)
 - 强密码
 - 网络昵称(登录名)
+- IPv4地址
 - QQ号码
 - 学历
 - 高校名称(数据取自教育部网站)
@@ -43,48 +44,44 @@ mvn install
 ```
 
 ### 基础用法
-#### 获取实例(单例，线程安全)
-```
-RandomGenerator generator = RandomGenerator.getInstance();
-```
 #### 随机数字
 ```
 //生成1个1~101(不含)之间的随机整数
-int a = generator.randomInt(1, 101);
+int a = NumberSource.getInstance().randomInt(1, 101);
 
 //生成8个1~101(不含)之间的随机整数
-int[] b = generator.randomInt(1, 101, 8);
+int[] b = NumberSource.getInstance().randomInt(1, 101, 8);
 
 //生成1个10000000000~20000000001(不含)之间的随机长整数
-long c = generator.randomLong(10000000000L, 20000000001L);
+long c = NumberSource.getInstance().randomLong(10000000000L, 20000000001L);
 
 //生成9个10000000000~20000000001(不含)之间的随机长整数
-long[] d = generator.randomLong(10000000000L, 20000000001L, 9);
+long[] d = NumberSource.getInstance().randomLong(10000000000L, 20000000001L, 9);
 
 //生成1个0.01~0.51(不含)之间的随机整数
-double e = generator.randomDouble(0.01D, 0.51D);
+double e = NumberSource.getInstance().randomDouble(0.01D, 0.51D);
 
 //生成8个0.01~0.51(不含)之间的随机整数
-double[] f = generator.randomDouble(0.01D, 0.51D, 8);
+double[] f = NumberSource.getInstance().randomDouble(0.01D, 0.51D, 8);
 ```
 #### 随机汉字
 ```
 //生成1个随机汉字
-String i = generator.randomChinese();
+String i = OtherSource.getInstance().randomChinese();
 
 //生成4个随机汉字
-String j = generator.randomChinese(4);
+String j = OtherSource.getInstance().randomChinese(4);
 ```
 #### 随机人名
 ##### 中文名
 ```
 //生成1个随机中文人名
-String k = generator.randomChineseName();
+String k = PersonInfoSource.getInstance().randomChineseName();
 ```
 ##### 英文名
 ```
 //生成1个随机英文人名
-String l = generator.randomEnglishName();
+String l = PersonInfoSource.getInstance().randomEnglishName();
 ```
 ##### 生成姓名头像
 - 该功能可以根据用户姓名快速生成各类网站、app的用户头像
@@ -92,103 +89,108 @@ String l = generator.randomEnglishName();
 - 支持使用自定义字体，但是需要使用者自行保证字体版权合法以避免纠纷
 ```
 //姓名
-String name = generator.randomChineseName();
+String name = PersonInfoSource.getInstance().randomChineseName();
 //头像文件保存路径
 String targetPath = "/home/user/picture/" + name + ".png;
 
 //使用默认的Dialog字体
-generator.generateNamePicture(name, targetPath);
+PersonInfoSource.getInstance().generateNamePicture(name, targetPath);
 
 //使用自定义的字体
 String font = "/home/user/font/SourceHanSansCN-Normal.ttf";
-generator.generateNamePicture(name, targetPath, font);
+PersonInfoSource.getInstance().generateNamePicture(name, targetPath, font);
 ```
 
 #### 随机中国大陆手机号
 ```
 //生成1个随机中国大陆手机号
-String m = generator.randomChineseMobile();
+String m = PersonInfoSource.getInstance().randomChineseMobile();
 ```
 #### 随机邮箱地址
 ```
 //生成1个随机邮箱地址，邮箱用户名最大长度为10
-String n = generator.randomEmail(10);
+String n = InternetSource.getInstance().randomEmail(10);
 ```
 #### 随机域名
 ```
 //生成1个随机域名，域名最大长度为16
-String dm = generator.randomDomain(16);
+String dm = InternetSource.getInstance().randomDomain(16);
+```
+#### 随机IPv4地址
+```
+//生成1个随机IPv4地址
+String dm = InternetSource.getInstance().randomIpv4();
 ```
 #### 随机静态URL
 ```
 //生成1个随机静态URL，后缀为jpg
-String url = generator.randomStaticUrl("jpg");
+String url = InternetSource.getInstance().randomStaticUrl("jpg");
 ```
 #### 随机日期
 ```
 //生成1个2020年的随机日期，日期格式为yyyy-MM-dd
-String d1 = generator.randomDate(2020, "yyyy-MM-dd");
+String d1 = DateTimeSource.getInstance().randomDate(2020, "yyyy-MM-dd");
 
 //生成1个2020年1月2日之后的随机日期，日期格式为yyyy-MM-dd
-String d2 = generator.randomFutureDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
+String d2 = DateTimeSource.getInstance().randomFutureDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
 
 //生成1个今天(基于系统时间判断)之后的随机日期，日期格式为yyyy-MM-dd
-String d3 = generator.randomFutureDate("yyyy-MM-dd");
+String d3 = DateTimeSource.getInstance().randomFutureDate("yyyy-MM-dd");
 
 //生成1个2020年1月2日之前的随机日期，日期格式为yyyy-MM-dd
-String d4 = generator.randomPastDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
+String d4 = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
 
 //生成1个今天(基于系统时间判断)之前的随机日期，日期格式为yyyy-MM-dd
-String d5 = generator.randomPastDate("yyyy-MM-dd");
+String d5 = DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd");
 ```
 
 #### 随机强密码
 ```
 //生成1个随机强密码，长度为16，无特殊字符
-String pwd1 = generator.randomStrongPassword(16, false);
+String pwd1 = PersonInfoSource.getInstance().randomStrongPassword(16, false);
 
 //生成1个随机强密码，长度为16，有特殊字符
-String pwd2 = generator.randomStrongPassword(16, true);
+String pwd2 = PersonInfoSource.getInstance().randomStrongPassword(16, true);
 ```
 
 #### 随机地址
 ```
 //随机获取省份
-String prv = generator.randomProvince();
+String prv = AreaSource.getInstance().randomProvince();
 
 //随机获取城市(以逗号为分隔符)
-String city = generator.randomCity(",");
+String city = AreaSource.getInstance().randomCity(",");
 
 //随机获取邮编
-String zipCode = generator.randomZipCode();
+String zipCode = AreaSource.getInstance().randomZipCode();
 
 //生成1个随机中国大陆详细地址
-String addr = generator.randomAddress();
+String addr = AreaSource.getInstance().randomAddress();
 ```
 
 #### 随机中国大陆车牌号
 ```
 //生成1个随机中国大陆车牌号(新能源车型)
-String n1 = generator.randomPlateNumber(true);
+String n1 = OtherSource.getInstance().randomPlateNumber(true);
 
 //生成1个随机中国大陆车牌号(非新能源车型)
-String n2 = generator.randomPlateNumber(false);
+String n2 = OtherSource.getInstance().randomPlateNumber();
 ```
 #### 随机网络昵称
 ```
 //生成1个随机网络昵称，最大长度为8个字符
-String nickName = generator.randomNickName(8);
+String nickName = PersonInfoSource.getInstance().randomNickName(8);
 ```
 #### 随机QQ号
 ```
 //生成1个随机QQ号
-String nickName = generator.randomQQAccount();
+String nickName = PersonInfoSource.getInstance().randomQQAccount();
 ```
 #### 随机学历
 ```
 //随机获取学历
-String degree = generator.randomDegree();
+String degree = EducationSource.getInstance().randomDegree();
 
 //随机获取高校名称
-String college = generator.randomCollege();
+String college = EducationSource.getInstance().randomCollege();
 ```

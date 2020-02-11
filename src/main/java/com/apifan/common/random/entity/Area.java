@@ -1,4 +1,4 @@
-package com.apifan.common.random.source;
+package com.apifan.common.random.entity;
 
 import java.io.Serializable;
 
