@@ -14,6 +14,8 @@
 - 中文人名(简体)
 - 英文人名
 - 手机号码(中国大陆)
+- 省份和城市(中国大陆)
+- 邮编(中国大陆)
 - 联系地址(中国大陆)
 - 车牌号(中国大陆，包括新能源车型)
 - 域名
@@ -22,6 +24,7 @@
 - 强密码
 - 网络昵称(登录名)
 - QQ号码
+- 学历
 
 ## 如何使用
 ### 配置仓库
@@ -156,11 +159,21 @@ String pwd1 = generator.randomStrongPassword(16, false);
 String pwd2 = generator.randomStrongPassword(16, true);
 ```
 
-#### 随机中国大陆地址
+#### 随机地址
 ```
-//生成1个随机中国大陆地址
+//随机获取省份
+String prv = generator.randomProvince();
+
+//随机获取城市(以逗号为分隔符)
+String city = generator.randomCity(",");
+
+//随机获取邮编
+String zipCode = generator.randomZipCode();
+
+//生成1个随机中国大陆详细地址
 String addr = generator.randomAddress();
 ```
+
 #### 随机中国大陆车牌号
 ```
 //生成1个随机中国大陆车牌号(新能源车型)
@@ -178,4 +191,9 @@ String nickName = generator.randomNickName(8);
 ```
 //生成1个随机QQ号
 String nickName = generator.randomQQAccount();
+```
+#### 随机学历
+```
+//随机获取学历
+String degree = generator.randomDegree();
 ```
