@@ -24,7 +24,7 @@ public class EducationSource {
     private List<String> collegeList;
 
     private EducationSource() {
-        collegeList = ResourceUtils.readLines("college.csv");
+        collegeList = ResourceUtils.readLines("college.txt");
     }
 
     /**
