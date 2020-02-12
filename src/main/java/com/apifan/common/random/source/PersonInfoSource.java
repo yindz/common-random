@@ -1,12 +1,17 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.constant.RandomConstant;
+import com.apifan.common.random.entity.Area;
+import com.apifan.common.random.entity.IdPrefix;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +23,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -45,6 +49,43 @@ public class PersonInfoSource {
             , "181,101,167", "0,155,119", "221,65,36", "214,80,118", "68,184,172"
             , "239,192,80", "91,94,166", "155,35,53", "223,207,190", "85,180,176"
             , "225,93,68", "127,205,205", "188,36,60", "195,68,122", "152,180,212");
+
+    /**
+     * 身份证加权因子
+     */
+    private static Map<Integer, Integer> weightingFactorMap = Maps.newHashMap();
+
+    static {
+        weightingFactorMap.put(1, 7);
+        weightingFactorMap.put(2, 9);
+        weightingFactorMap.put(3, 10);
+        weightingFactorMap.put(4, 5);
+        weightingFactorMap.put(5, 8);
+        weightingFactorMap.put(6, 4);
+        weightingFactorMap.put(7, 2);
+        weightingFactorMap.put(8, 1);
+        weightingFactorMap.put(9, 6);
+        weightingFactorMap.put(10, 3);
+    }
+
+    /**
+     * 身份证校验数
+     */
+    private static Map<Integer, String> checkNumMap = Maps.newHashMap();
+
+    static {
+        checkNumMap.put(0, "1");
+        checkNumMap.put(1, "0");
+        checkNumMap.put(2, "X");
+        checkNumMap.put(3, "9");
+        checkNumMap.put(4, "8");
+        checkNumMap.put(5, "7");
+        checkNumMap.put(6, "6");
+        checkNumMap.put(7, "5");
+        checkNumMap.put(8, "4");
+        checkNumMap.put(9, "3");
+        checkNumMap.put(10, "2");
+    }
 
     /**
      * 字体对象缓存
@@ -76,6 +117,16 @@ public class PersonInfoSource {
      */
     private List<String> firstNamesEN;
 
+    /**
+     * 所有身份证前缀列表
+     */
+    private List<IdPrefix> idPrefixList = Lists.newArrayList();
+
+    /**
+     * 省级行政区身份证前缀映射
+     */
+    private Map<String, List<String>> provinceIdPrefixMap = Maps.newHashMap();
+
     private static final PersonInfoSource instance = new PersonInfoSource();
 
     private PersonInfoSource() {
@@ -84,6 +135,37 @@ public class PersonInfoSource {
         maleFirstNamesCN = ResourceUtils.readLines("male-first-names-cn.txt");
         lastNamesEN = ResourceUtils.readLines("last-names-en.txt");
         firstNamesEN = ResourceUtils.readLines("first-names-en.txt");
+        //解析身份证前缀数据
+        List<String> lines = ResourceUtils.readLines("id-prefix.csv");
+        if (CollectionUtils.isNotEmpty(lines)) {
+            lines.forEach(i -> {
+                if (StringUtils.isEmpty(i)) {
+                    return;
+                }
+                List<String> row = Splitter.on(",").splitToList(i);
+                IdPrefix prefix = new IdPrefix();
+                prefix.setPrefix(row.get(0));
+                prefix.setLocation(row.get(1));
+                prefix.setParent(row.get(2));
+                idPrefixList.add(prefix);
+            });
+
+            //找出所有省份
+            Set<IdPrefix> provinceSet = new HashSet<>();
+            idPrefixList.forEach(i -> {
+                if ("0".equals(i.getParent())) {
+                    provinceSet.add(i);
+                }
+            });
+
+            //建立映射关系
+            provinceSet.forEach(p -> {
+                if (p == null) {
+                    return;
+                }
+                provinceIdPrefixMap.put(p.getLocation(), findIdPrefixByProvince(p));
+            });
+        }
     }
 
     /**
@@ -209,6 +291,58 @@ public class PersonInfoSource {
     }
 
     /**
+     * 生成随机身份证号码
+     *
+     * @param province  省级行政区名称(全称，留空则不限制)
+     * @param beginDate 出生开始日期
+     * @param endDate   出生结束日期
+     * @param gender    性别标识：0女性，1男性
+     * @return 随机身份证号码
+     */
+    public String randomIdCard(String province, LocalDate beginDate, LocalDate endDate, int gender) {
+        Preconditions.checkArgument(beginDate != null, "开始日期为空");
+        Preconditions.checkArgument(endDate != null, "结束日期为空");
+
+        //随机获取前缀
+        String prefix = "";
+        if (StringUtils.isNotEmpty(province)) {
+            List<String> prefixList = provinceIdPrefixMap.get(province);
+            if (CollectionUtils.isNotEmpty(prefixList)) {
+                prefix = prefixList.get(RandomUtils.nextInt(0, prefixList.size()));
+            }
+        }
+        if (StringUtils.isEmpty(prefix)) {
+            //若为空，则从所有前缀中随机取一个
+            IdPrefix idPrefix = idPrefixList.get(RandomUtils.nextInt(0, idPrefixList.size()));
+            prefix = idPrefix.getPrefix();
+        }
+
+        //随机日期
+        String date = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyyMMdd");
+        //随机3位顺序码
+        int seq = RandomUtils.nextInt(1, 1000);
+        if (gender == 0 && seq % 2 != 0) {
+            //女性，但顺序码为奇数，则强转为偶数
+            seq = seq - 1;
+        } else if (gender == 1 && seq % 2 == 0) {
+            //男性，但顺序码为偶数，则强转为奇数
+            seq = seq + 1;
+        }
+        //前缀+日期+顺序码
+        String src = prefix + date + String.format("%03d", seq);
+        //校验和
+        int sum = 0;
+        for (int i = 1; i <= src.length(); i++) {
+            int x = src.charAt(i - 1) - 48;
+            int factor = (i <= 10 ? weightingFactorMap.get(i) : weightingFactorMap.get(i - 10));
+            sum = sum + x * factor;
+        }
+        //校验和除以11取余数，再转换为1位校验数
+        String checkNum = checkNumMap.get(sum % 11);
+        return src + checkNum;
+    }
+
+    /**
      * 生成姓名图片文件
      *
      * @param name     姓名
@@ -291,5 +425,26 @@ public class PersonInfoSource {
     private Color getRandomColor() {
         String[] color = namePictureColorsList.get(RandomUtils.nextInt(0, namePictureColorsList.size())).split(",");
         return new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2]));
+    }
+
+    /**
+     * 按省级行政区汇总身份证前缀
+     *
+     * @param provinceNode 省级行政区节点
+     * @return 身份证前缀
+     */
+    private List<String> findIdPrefixByProvince(IdPrefix provinceNode) {
+        if (provinceNode == null || StringUtils.isEmpty(provinceNode.getPrefix())) {
+            return null;
+        }
+        List<String> resultList = Lists.newArrayList();
+        idPrefixList.forEach(i -> {
+            //前2位相同则表示属于同一个省级行政区
+            String shortPrefix = provinceNode.getPrefix().substring(0, 2);
+            if (i.getPrefix().startsWith(shortPrefix)) {
+                resultList.add(i.getPrefix());
+            }
+        });
+        return resultList;
     }
 }

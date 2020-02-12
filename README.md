@@ -1,6 +1,6 @@
 # 随机数据生成器
 ## 概述
-简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充模拟。可以集成到各种类型的java项目中使用。
+简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真、演示等场景。可以集成到各种类型的java项目中使用。
 
 ## 优点
 - 非常轻量级，容易集成，无需过多第三方依赖
@@ -13,6 +13,7 @@
 - 邮箱地址
 - 中文人名(简体)
 - 英文人名
+- 虚拟身份证号码(中国大陆)
 - 手机号码(中国大陆)
 - 省份和城市(中国大陆)
 - 邮编(中国大陆)
@@ -101,6 +102,22 @@ String font = "/home/user/font/SourceHanSansCN-Normal.ttf";
 PersonInfoSource.getInstance().generateNamePicture(name, targetPath, font);
 ```
 
+#### 随机生成符合规则的虚拟身份证号码
+```
+//生成1个随机的虚拟身份证号码，地区为广西壮族自治区，性别为男性，出生日期在1990年11月11日至1999年12月12日之间
+LocalDate beginDate = LocalDate.of(1990,11,11);
+LocalDate endDate = LocalDate.of(1999,12,12); 
+String id1 = PersonInfoSource.getInstance().randomIdCard("广西壮族自治区", beginDate, endDate, 1);
+
+//生成1个随机的虚拟身份证号码，地区为河北省，性别为女性，出生日期在2001年1月11日至2008年2月22日之间
+LocalDate beginDate2 = LocalDate.of(2001,1,11);
+LocalDate endDate2 = LocalDate.of(2008,2,22);
+String id2 = PersonInfoSource.getInstance().randomIdCard("河北省", beginDate2, endDate2, 0);
+```
+注意：
+- 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)
+- 随机生成的身份证号码符合校验规则，但有可能与真实号码相同
+
 #### 随机中国大陆手机号
 ```
 //生成1个随机中国大陆手机号
@@ -142,6 +159,11 @@ String d4 = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), 
 
 //生成1个今天(基于系统时间判断)之前的随机日期，日期格式为yyyy-MM-dd
 String d5 = DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd");
+
+//生成1个2000年1月11日至2010年2月22日范围之间的随机日期，日期格式为yyyy-MM-dd
+LocalDate beginDate = LocalDate.of(2000,1,11);
+LocalDate endDate = LocalDate.of(2010,2,22);
+String d6 = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyy-MM-dd");
 ```
 
 #### 随机强密码
@@ -194,3 +216,7 @@ String degree = EducationSource.getInstance().randomDegree();
 //随机获取高校名称
 String college = EducationSource.getInstance().randomCollege();
 ```
+
+### 注意事项
+- 数据均为随机生成，不代表真实数据
+- 通过本程序生成的随机数据适用于模拟测试、仿真、项目演示等场景，但使用者请严格遵守中国人民共和国的相关法律法规

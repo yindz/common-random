@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 /**
  * 日期时间数据源
  *
@@ -52,6 +54,23 @@ public class DateTimeSource {
         boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
         LocalDate begin = LocalDate.of(year, 1, 1);
         LocalDate date = begin.plusDays(RandomUtils.nextInt(0, isLeapYear ? 366 : 365));
+        return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 获取特定范围内的随机日期
+     *
+     * @param beginDate 范围开始(含)
+     * @param endDate   范围结束(含)
+     * @param pattern   日期格式
+     * @return 随机日期字符串
+     */
+    public String randomDate(LocalDate beginDate, LocalDate endDate, String pattern) {
+        Preconditions.checkArgument(beginDate != null && endDate != null, "日期范围不能为空");
+        Preconditions.checkArgument(beginDate.isBefore(endDate), "日期范围无效");
+        Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
+        long diff = DAYS.between(beginDate, endDate);
+        LocalDate date = beginDate.plusDays(RandomUtils.nextLong(0, diff + 1));
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
     }
 
