@@ -153,6 +153,9 @@ public class PersonInfoSource {
             //找出所有省份
             Set<IdPrefix> provinceSet = new HashSet<>();
             idPrefixList.forEach(i -> {
+                if (i == null) {
+                    return;
+                }
                 if ("0".equals(i.getParent())) {
                     provinceSet.add(i);
                 }
@@ -183,18 +186,34 @@ public class PersonInfoSource {
      * @return 随机中文人名
      */
     public String randomChineseName() {
+        return randomChineseName(-1);
+    }
+
+    /**
+     * 生成随机的中文人名
+     *
+     * @param gender 性别标识：0女性，1男性，-1随机
+     * @return 随机中文人名
+     */
+    public String randomChineseName(int gender) {
         //随机取一个常见姓氏
         StringBuilder name = new StringBuilder(lastNamesCN.get(RandomUtils.nextInt(0, lastNamesCN.size())));
         //名字1~2个字（随机）
         int length = RandomUtils.nextInt(1, 3);
-        boolean isFemale = RandomUtils.nextInt(1, 99999) % 2 == 0;
+        boolean isFemale;
+        if (gender == 0) {
+            isFemale = true;
+        } else if (gender == 1) {
+            isFemale = false;
+        } else {
+            isFemale = RandomUtils.nextInt(1, 99999) % 2 == 0;
+        }
         for (int i = 0; i < length; i++) {
             if (isFemale) {
                 name.append(femaleFirstNamesCN.get(RandomUtils.nextInt(0, femaleFirstNamesCN.size())));
             } else {
                 name.append(maleFirstNamesCN.get(RandomUtils.nextInt(0, maleFirstNamesCN.size())));
             }
-
         }
         return name.toString();
     }
