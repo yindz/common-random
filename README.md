@@ -30,12 +30,15 @@
 - 高校名称(数据取自教育部网站)
 
 ## 如何使用
-### 配置仓库
+### Java版本要求
+1.8或更高
+
+### 配置依赖
 暂时尚未进入maven中央仓库，因此请安装到本地仓库目录：
 ```
 mvn install
 ```
-### 引入依赖
+引入依赖：
 ```xml
 <dependency>
     <groupId>com.apifan.common</groupId>
@@ -80,10 +83,10 @@ String j = OtherSource.getInstance().randomChinese(4);
 String k = PersonInfoSource.getInstance().randomChineseName();
 
 //生成1个随机男性中文人名
-String k2 = PersonInfoSource.getInstance().randomChineseName(1);
+String k2 = PersonInfoSource.getInstance().randomMaleChineseName();
 
 //生成1个随机女性中文人名
-String k3 = PersonInfoSource.getInstance().randomChineseName(0);
+String k3 = PersonInfoSource.getInstance().randomFemaleChineseName();
 ```
 ##### 英文名
 ```
@@ -113,12 +116,12 @@ PersonInfoSource.getInstance().generateNamePicture(name, targetPath, font);
 //生成1个随机的虚拟身份证号码，地区为广西壮族自治区，性别为男性，出生日期在1990年11月11日至1999年12月12日之间
 LocalDate beginDate = LocalDate.of(1990,11,11);
 LocalDate endDate = LocalDate.of(1999,12,12); 
-String id1 = PersonInfoSource.getInstance().randomIdCard("广西壮族自治区", beginDate, endDate, 1);
+String id1 = PersonInfoSource.getInstance().randomMaleIdCard("广西壮族自治区", beginDate, endDate);
 
 //生成1个随机的虚拟身份证号码，地区为河北省，性别为女性，出生日期在2001年1月11日至2008年2月22日之间
 LocalDate beginDate2 = LocalDate.of(2001,1,11);
 LocalDate endDate2 = LocalDate.of(2008,2,22);
-String id2 = PersonInfoSource.getInstance().randomIdCard("河北省", beginDate2, endDate2, 0);
+String id2 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", beginDate2, endDate2);
 ```
 注意：
 - 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)

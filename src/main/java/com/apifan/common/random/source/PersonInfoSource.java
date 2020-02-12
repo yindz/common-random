@@ -181,7 +181,7 @@ public class PersonInfoSource {
     }
 
     /**
-     * 生成随机的中文人名
+     * 生成随机的中文人名(性别随机)
      *
      * @return 随机中文人名
      */
@@ -190,12 +190,30 @@ public class PersonInfoSource {
     }
 
     /**
+     * 生成随机的男性中文人名
+     *
+     * @return 随机男性中文人名
+     */
+    public String randomMaleChineseName() {
+        return randomChineseName(1);
+    }
+
+    /**
+     * 生成随机的女性中文人名
+     *
+     * @return 随机女性中文人名
+     */
+    public String randomFemaleChineseName() {
+        return randomChineseName(0);
+    }
+
+    /**
      * 生成随机的中文人名
      *
      * @param gender 性别标识：0女性，1男性，-1随机
      * @return 随机中文人名
      */
-    public String randomChineseName(int gender) {
+    private String randomChineseName(int gender) {
         //随机取一个常见姓氏
         StringBuilder name = new StringBuilder(lastNamesCN.get(RandomUtils.nextInt(0, lastNamesCN.size())));
         //名字1~2个字（随机）
@@ -310,55 +328,27 @@ public class PersonInfoSource {
     }
 
     /**
-     * 生成随机身份证号码
+     * 生成随机男性身份证号码
      *
      * @param province  省级行政区名称(全称，留空则不限制)
      * @param beginDate 出生开始日期
      * @param endDate   出生结束日期
-     * @param gender    性别标识：0女性，1男性
-     * @return 随机身份证号码
+     * @return 随机男性身份证号码
      */
-    public String randomIdCard(String province, LocalDate beginDate, LocalDate endDate, int gender) {
-        Preconditions.checkArgument(beginDate != null, "开始日期为空");
-        Preconditions.checkArgument(endDate != null, "结束日期为空");
+    public String randomMaleIdCard(String province, LocalDate beginDate, LocalDate endDate) {
+        return randomIdCard(province, beginDate, endDate, 1);
+    }
 
-        //随机获取前缀
-        String prefix = "";
-        if (StringUtils.isNotEmpty(province)) {
-            List<String> prefixList = provinceIdPrefixMap.get(province);
-            if (CollectionUtils.isNotEmpty(prefixList)) {
-                prefix = prefixList.get(RandomUtils.nextInt(0, prefixList.size()));
-            }
-        }
-        if (StringUtils.isEmpty(prefix)) {
-            //若为空，则从所有前缀中随机取一个
-            IdPrefix idPrefix = idPrefixList.get(RandomUtils.nextInt(0, idPrefixList.size()));
-            prefix = idPrefix.getPrefix();
-        }
-
-        //随机日期
-        String date = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyyMMdd");
-        //随机3位顺序码
-        int seq = RandomUtils.nextInt(1, 1000);
-        if (gender == 0 && seq % 2 != 0) {
-            //女性，但顺序码为奇数，则强转为偶数
-            seq = seq - 1;
-        } else if (gender == 1 && seq % 2 == 0) {
-            //男性，但顺序码为偶数，则强转为奇数
-            seq = seq + 1;
-        }
-        //前缀+日期+顺序码
-        String src = prefix + date + String.format("%03d", seq);
-        //校验和
-        int sum = 0;
-        for (int i = 1; i <= src.length(); i++) {
-            int x = src.charAt(i - 1) - 48;
-            int factor = (i <= 10 ? weightingFactorMap.get(i) : weightingFactorMap.get(i - 10));
-            sum = sum + x * factor;
-        }
-        //校验和除以11取余数，再转换为1位校验数
-        String checkNum = checkNumMap.get(sum % 11);
-        return src + checkNum;
+    /**
+     * 生成随机女性身份证号码
+     *
+     * @param province  省级行政区名称(全称，留空则不限制)
+     * @param beginDate 出生开始日期
+     * @param endDate   出生结束日期
+     * @return 随机女性身份证号码
+     */
+    public String randomFemaleIdCard(String province, LocalDate beginDate, LocalDate endDate) {
+        return randomIdCard(province, beginDate, endDate, 0);
     }
 
     /**
@@ -444,6 +434,58 @@ public class PersonInfoSource {
     private Color getRandomColor() {
         String[] color = namePictureColorsList.get(RandomUtils.nextInt(0, namePictureColorsList.size())).split(",");
         return new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2]));
+    }
+
+    /**
+     * 生成随机身份证号码
+     *
+     * @param province  省级行政区名称(全称，留空则不限制)
+     * @param beginDate 出生开始日期
+     * @param endDate   出生结束日期
+     * @param gender    性别标识：0女性，1男性
+     * @return 随机身份证号码
+     */
+    private String randomIdCard(String province, LocalDate beginDate, LocalDate endDate, int gender) {
+        Preconditions.checkArgument(beginDate != null, "开始日期为空");
+        Preconditions.checkArgument(endDate != null, "结束日期为空");
+
+        //随机获取前缀
+        String prefix = "";
+        if (StringUtils.isNotEmpty(province)) {
+            List<String> prefixList = provinceIdPrefixMap.get(province);
+            if (CollectionUtils.isNotEmpty(prefixList)) {
+                prefix = prefixList.get(RandomUtils.nextInt(0, prefixList.size()));
+            }
+        }
+        if (StringUtils.isEmpty(prefix)) {
+            //若为空，则从所有前缀中随机取一个
+            IdPrefix idPrefix = idPrefixList.get(RandomUtils.nextInt(0, idPrefixList.size()));
+            prefix = idPrefix.getPrefix();
+        }
+
+        //随机日期
+        String date = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyyMMdd");
+        //随机3位顺序码
+        int seq = RandomUtils.nextInt(1, 1000);
+        if (gender == 0 && seq % 2 != 0) {
+            //女性，但顺序码为奇数，则强转为偶数
+            seq = seq - 1;
+        } else if (gender == 1 && seq % 2 == 0) {
+            //男性，但顺序码为偶数，则强转为奇数
+            seq = seq + 1;
+        }
+        //前缀+日期+顺序码
+        String src = prefix + date + String.format("%03d", seq);
+        //校验和
+        int sum = 0;
+        for (int i = 1; i <= src.length(); i++) {
+            int x = src.charAt(i - 1) - 48;
+            int factor = (i <= 10 ? weightingFactorMap.get(i) : weightingFactorMap.get(i - 10));
+            sum = sum + x * factor;
+        }
+        //校验和除以11取余数，再转换为1位校验数
+        String checkNum = checkNumMap.get(sum % 11);
+        return src + checkNum;
     }
 
     /**
