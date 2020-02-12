@@ -76,8 +76,14 @@ String j = OtherSource.getInstance().randomChinese(4);
 #### 随机人名
 ##### 中文名
 ```
-//生成1个随机中文人名
+//生成1个随机中文人名(性别随机)
 String k = PersonInfoSource.getInstance().randomChineseName();
+
+//生成1个随机男性中文人名
+String k2 = PersonInfoSource.getInstance().randomChineseName(1);
+
+//生成1个随机女性中文人名
+String k3 = PersonInfoSource.getInstance().randomChineseName(0);
 ```
 ##### 英文名
 ```
