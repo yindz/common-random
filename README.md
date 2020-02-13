@@ -115,15 +115,21 @@ PersonInfoSource.getInstance().generateNamePicture(name, targetPath, font);
 
 #### 随机生成符合规则的虚拟身份证号码
 ```
-//生成1个随机的虚拟身份证号码，地区为广西壮族自治区，性别为男性，出生日期在1990年11月11日至1999年12月12日之间
+//生成1个随机的虚拟身份证号码，地区为广西壮族自治区，男性，出生日期在1990年11月11日至1999年12月12日之间
 LocalDate beginDate = LocalDate.of(1990,11,11);
 LocalDate endDate = LocalDate.of(1999,12,12); 
 String id1 = PersonInfoSource.getInstance().randomMaleIdCard("广西壮族自治区", beginDate, endDate);
 
-//生成1个随机的虚拟身份证号码，地区为河北省，性别为女性，出生日期在2001年1月11日至2008年2月22日之间
+//生成1个随机的虚拟身份证号码，地区为河北省，女性，出生日期在2001年1月11日至2008年2月22日之间
 LocalDate beginDate2 = LocalDate.of(2001,1,11);
 LocalDate endDate2 = LocalDate.of(2008,2,22);
 String id2 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", beginDate2, endDate2);
+
+//生成1个随机的虚拟身份证号码，地区为广西壮族自治区，男性，年龄为18岁
+String id3 = PersonInfoSource.getInstance().randomMaleIdCard("广西壮族自治区", 18);
+
+//生成1个随机的虚拟身份证号码，地区为河北省，女性，年龄为19岁
+String id4 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", 19);
 ```
 注意：
 - 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)
