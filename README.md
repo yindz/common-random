@@ -31,6 +31,7 @@
 - 公司名称
 - 经纬度(中国)
 - 中文短句
+- User-Agent(PC/Android/iOS)
 
 ## 如何使用
 ### Java版本要求
@@ -252,6 +253,17 @@ double lng = AreaSource.getInstance().randomLongitude();
 ```
 //随机生成1条中文短句
 String sentence = OtherSource.getInstance().randomChineseSentence();
+```
+#### 随机User-Agent
+```
+//随机生成1个PC User-Agent
+String ua1 = InternetSource.getInstance().randomPCUserAgent();
+
+//随机生成1个Android User-Agent
+String ua2 = InternetSource.getInstance().randomAndroidUserAgent();
+
+//随机生成1个iOS User-Agent
+String ua3 = InternetSource.getInstance().randomIOSUserAgent();
 ```
 
 ### 注意事项

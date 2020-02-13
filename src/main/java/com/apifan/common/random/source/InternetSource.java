@@ -17,6 +17,36 @@ import org.slf4j.LoggerFactory;
 public class InternetSource {
     private static final Logger logger = LoggerFactory.getLogger(InternetSource.class);
 
+    /**
+     * 主流安卓厂商名称
+     */
+    private static final String[] ANDROID_MANUFACTURERS = new String[]{"samsung", "sony", "huawei", "hornor", "xiaomi", "redmi", "mi", "vivo", "oppo", "oneplus", "lg", "lenovo", "motorola", "nokia", "meizu", "zte", "asus", "smartisan", "nubia", "realme"};
+
+    /**
+     * 安卓 User-Agent模板
+     */
+    private static final String ANDROID_TEMPLATE = "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; %s-%s Build/%s) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/57.0.2987.132 MQQBrowser/8.2 Mobile Safari/537.36";
+
+    /**
+     * iOS User-Agent模板
+     */
+    private static final String IOS_TEMPLATE = "Mozilla/5.0 (iPhone; CPU iPhone OS %s like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/%s";
+
+    /**
+     * 主流iOS版本号
+     */
+    private static final String[] IOS_VERSIONS = new String[]{"10_0", "10_1", "10_2", "10_3", "11_0", "11_1", "11_2", "11_3", "11_4", "12_0", "12_1", "12_2", "12_3", "12_4", "13_0", "13_1"};
+
+    /**
+     * 主流Windows版本号
+     */
+    private static final String[] WINDOWS_VERSIONS = new String[]{"6.0", "6.1", "6.2", "6.3", "10.0"};
+
+    /**
+     * PC User-Agent模板
+     */
+    private static final String PC_TEMPLATE = "Mozilla/5.0 (Windows NT %s; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%d.0.%d.%d Safari/537.36";
+
     private static final InternetSource instance = new InternetSource();
 
     private InternetSource() {
@@ -79,5 +109,41 @@ public class InternetSource {
      */
     public String randomIpv4() {
         return RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255);
+    }
+
+    /**
+     * 随机的PC User-Agent
+     *
+     * @return PC User-Agent
+     */
+    public String randomPCUserAgent() {
+        return String.format(PC_TEMPLATE,
+                WINDOWS_VERSIONS[RandomUtils.nextInt(0, WINDOWS_VERSIONS.length)],
+                RandomUtils.nextInt(60, 80),
+                RandomUtils.nextInt(2000, 4000),
+                RandomUtils.nextInt(1, 200));
+    }
+
+    /**
+     * 随机的Android User-Agent
+     *
+     * @return Android User-Agent
+     */
+    public String randomAndroidUserAgent() {
+        return String.format(ANDROID_TEMPLATE,
+                ANDROID_MANUFACTURERS[RandomUtils.nextInt(0, ANDROID_MANUFACTURERS.length)].toUpperCase(),
+                RandomStringUtils.randomAlphanumeric(6).toUpperCase(),
+                RandomStringUtils.randomAlphanumeric(6).toUpperCase());
+    }
+
+    /**
+     * 随机的iOS User-Agent
+     *
+     * @return iOS User-Agent
+     */
+    public String randomIOSUserAgent() {
+        return String.format(IOS_TEMPLATE,
+                IOS_VERSIONS[RandomUtils.nextInt(0, IOS_VERSIONS.length)],
+                RandomStringUtils.randomAlphanumeric(6).toUpperCase());
     }
 }
