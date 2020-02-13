@@ -1,19 +1,13 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.constant.RandomConstant;
-import com.google.common.base.Joiner;
+import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 互联网信息数据源
@@ -61,7 +55,7 @@ public class InternetSource {
     public String randomDomain(int maxLength) {
         String domain = RandomStringUtils.randomAlphanumeric(1, Math.min(3, maxLength)) +
                 RandomStringUtils.randomAlphanumeric(2, 17) + "." +
-                RandomConstant.domainSuffixList.get(RandomUtils.nextInt(0, RandomConstant.domainSuffixList.size()));
+                ResourceUtils.getRandomElement(RandomConstant.domainSuffixList);
         return domain.toLowerCase();
     }
 

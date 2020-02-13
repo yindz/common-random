@@ -1,16 +1,13 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.constant.RandomConstant;
-import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.IdPrefix;
 import com.apifan.common.random.util.ResourceUtils;
-import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.io.Resources;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -24,8 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -215,7 +212,8 @@ public class PersonInfoSource {
      */
     private String randomChineseName(int gender) {
         //随机取一个常见姓氏
-        StringBuilder name = new StringBuilder(lastNamesCN.get(RandomUtils.nextInt(0, lastNamesCN.size())));
+        Optional<String> lastName = Optional.ofNullable(ResourceUtils.getRandomElement(lastNamesCN));
+        StringBuilder name = new StringBuilder(lastName.orElse(""));
         //名字1~2个字（随机）
         int length = RandomUtils.nextInt(1, 3);
         boolean isFemale;
@@ -228,9 +226,9 @@ public class PersonInfoSource {
         }
         for (int i = 0; i < length; i++) {
             if (isFemale) {
-                name.append(femaleFirstNamesCN.get(RandomUtils.nextInt(0, femaleFirstNamesCN.size())));
+                name.append(ResourceUtils.getRandomElement(femaleFirstNamesCN));
             } else {
-                name.append(maleFirstNamesCN.get(RandomUtils.nextInt(0, maleFirstNamesCN.size())));
+                name.append(ResourceUtils.getRandomElement(maleFirstNamesCN));
             }
         }
         return name.toString();
@@ -242,7 +240,7 @@ public class PersonInfoSource {
      * @return 随机英文人名
      */
     public String randomEnglishName() {
-        return firstNamesEN.get(RandomUtils.nextInt(0, firstNamesEN.size())) + " " + lastNamesEN.get(RandomUtils.nextInt(0, lastNamesEN.size()));
+        return ResourceUtils.getRandomElement(firstNamesEN) + " " + ResourceUtils.getRandomElement(lastNamesEN);
     }
 
     /**
@@ -266,7 +264,8 @@ public class PersonInfoSource {
      * @return 随机中国手机号
      */
     public String randomChineseMobile() {
-        StringBuilder mobile = new StringBuilder(RandomConstant.mobilePrefixList.get(RandomUtils.nextInt(0, RandomConstant.mobilePrefixList.size())));
+        Optional<String> prefix = Optional.ofNullable(ResourceUtils.getRandomElement(RandomConstant.mobilePrefixList));
+        StringBuilder mobile = new StringBuilder(prefix.orElse(""));
         int x = mobile.length() == 3 ? 8 : 11 - mobile.length();
         for (int i = 0; i < x; i++) {
             mobile.append(RandomUtils.nextInt(0, 10));
@@ -299,7 +298,7 @@ public class PersonInfoSource {
             int b = RandomUtils.nextInt(1, oneThirdCount);
             if (b > 0) {
                 for (int i = 0; i < b; i++) {
-                    pwd.add(RandomConstant.specialCharList.get(RandomUtils.nextInt(0, RandomConstant.specialCharList.size())));
+                    pwd.add(ResourceUtils.getRandomElement(RandomConstant.specialCharList));
                 }
             }
         }
@@ -432,7 +431,7 @@ public class PersonInfoSource {
      * @return 随机颜色
      */
     private Color getRandomColor() {
-        String[] color = namePictureColorsList.get(RandomUtils.nextInt(0, namePictureColorsList.size())).split(",");
+        String[] color = ResourceUtils.getRandomElement(namePictureColorsList).split(",");
         return new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2]));
     }
 
@@ -454,13 +453,13 @@ public class PersonInfoSource {
         if (StringUtils.isNotEmpty(province)) {
             List<String> prefixList = provinceIdPrefixMap.get(province);
             if (CollectionUtils.isNotEmpty(prefixList)) {
-                prefix = prefixList.get(RandomUtils.nextInt(0, prefixList.size()));
+                prefix = ResourceUtils.getRandomElement(prefixList);
             }
         }
         if (StringUtils.isEmpty(prefix)) {
             //若为空，则从所有前缀中随机取一个
-            IdPrefix idPrefix = idPrefixList.get(RandomUtils.nextInt(0, idPrefixList.size()));
-            prefix = idPrefix.getPrefix();
+            Optional<IdPrefix> idPrefix = Optional.ofNullable(ResourceUtils.getRandomElement(idPrefixList));
+            prefix = idPrefix.isPresent() ? idPrefix.get().getPrefix() : "";
         }
 
         //随机日期

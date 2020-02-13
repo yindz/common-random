@@ -28,6 +28,7 @@
 - QQ号码
 - 学历
 - 高校名称(数据取自教育部网站)
+- 公司名称
 
 ## 如何使用
 ### Java版本要求
@@ -224,6 +225,11 @@ String degree = EducationSource.getInstance().randomDegree();
 
 //随机获取高校名称
 String college = EducationSource.getInstance().randomCollege();
+```
+#### 随机公司名称
+```
+//随机生成1个公司名称
+String companyName = OtherSource.getInstance().randomCompanyName("北京");
 ```
 
 ### 注意事项

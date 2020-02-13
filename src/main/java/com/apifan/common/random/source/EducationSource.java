@@ -2,7 +2,6 @@ package com.apifan.common.random.source;
 
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +41,7 @@ public class EducationSource {
      * @return 下一条随机高校名称
      */
     public String randomCollege() {
-        return collegeList.get(RandomUtils.nextInt(0, collegeList.size()));
+        return ResourceUtils.getRandomElement(collegeList);
     }
 
     /**
@@ -51,6 +50,6 @@ public class EducationSource {
      * @return 随机学历
      */
     public String randomDegree() {
-        return degreeList.get(RandomUtils.nextInt(0, degreeList.size()));
+        return ResourceUtils.getRandomElement(degreeList);
     }
 }

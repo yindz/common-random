@@ -1,8 +1,10 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,16 @@ public class OtherSource {
             "豫", "鄂", "湘", "粤", "桂",
             "琼", "渝", "川", "贵", "云",
             "藏", "陕", "甘", "宁", "青", "新");
+
+    /**
+     * 公司后缀
+     */
+    public static final List<String> companySuffixList = Lists.newArrayList("股份有限公司", "有限责任公司");
+
+    /**
+     * 公司行业
+     */
+    public static final List<String> companyIndustryList = Lists.newArrayList("科技", "商贸", "实业", "文化传播", "工程", "教育");
 
     private static final OtherSource instance = new OtherSource();
 
@@ -96,12 +108,12 @@ public class OtherSource {
     public String randomPlateNumber(boolean isNewEnergyVehicle) {
         int length = 5;
         List<String> plateNumbers = new ArrayList<>(length);
-        String prefix = provincePrefixList.get(RandomUtils.nextInt(0, provincePrefixList.size()));
+        String prefix = ResourceUtils.getRandomElement(provincePrefixList);
         //最多2个字母
         int alphaCnt = RandomUtils.nextInt(0, 3);
         if (alphaCnt > 0) {
             for (int i = 0; i < alphaCnt; i++) {
-                plateNumbers.add(plateNumbersList.get(RandomUtils.nextInt(0, plateNumbersList.size())));
+                plateNumbers.add(ResourceUtils.getRandomElement(plateNumbersList));
             }
         }
         //剩余部分全是数字
@@ -118,7 +130,7 @@ public class OtherSource {
             //新能源车牌前缀为D或F
             newEnergyVehicleTag = (j == 0 ? "D" : "F");
         }
-        return prefix + plateNumbersList.get(RandomUtils.nextInt(0, plateNumbersList.size()))
+        return prefix + ResourceUtils.getRandomElement(plateNumbersList)
                 + newEnergyVehicleTag + Joiner.on("").join(plateNumbers);
     }
 
@@ -129,5 +141,23 @@ public class OtherSource {
      */
     public String randomPlateNumber() {
         return randomPlateNumber(false);
+    }
+
+    /**
+     * 随机公司名称
+     *
+     * @param province 省份
+     * @return 随机公司名称
+     */
+    public String randomCompanyName(String province) {
+        int length = RandomUtils.nextInt(2, 7);
+        StringBuilder sb = new StringBuilder();
+        if(StringUtils.isNotEmpty(province)){
+            sb.append(province);
+        }
+        sb.append(randomChinese(length));
+        sb.append(ResourceUtils.getRandomElement(companyIndustryList));
+        sb.append(ResourceUtils.getRandomElement(companySuffixList));
+        return sb.toString();
     }
 }

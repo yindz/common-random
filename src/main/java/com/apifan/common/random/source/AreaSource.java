@@ -77,7 +77,7 @@ public class AreaSource {
      * @return 随机的地区信息
      */
     public Area nextArea() {
-        return areaList.get(RandomUtils.nextInt(0, areaList.size()));
+        return ResourceUtils.getRandomElement(areaList);
     }
 
     /**
@@ -117,7 +117,7 @@ public class AreaSource {
     public String randomAddress() {
         Area area = nextArea();
         String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
-        String road = roadList.get(RandomUtils.nextInt(0, roadList.size())) + directionList.get(RandomUtils.nextInt(0, directionList.size()));
+        String road = ResourceUtils.getRandomElement(roadList) + ResourceUtils.getRandomElement(directionList);
         return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号";
     }
 }
