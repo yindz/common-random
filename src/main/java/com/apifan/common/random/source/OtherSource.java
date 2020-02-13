@@ -2,6 +2,7 @@ package com.apifan.common.random.source;
 
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -158,6 +159,26 @@ public class OtherSource {
         sb.append(randomChinese(length));
         sb.append(ResourceUtils.getRandomElement(companyIndustryList));
         sb.append(ResourceUtils.getRandomElement(companySuffixList));
+        return sb.toString();
+    }
+
+    /**
+     * 随机中文句子
+     *
+     * @return 随机中文句子
+     */
+    public String randomChineseSentence() {
+        StringBuilder sb = new StringBuilder();
+        //最多2个逗号
+        int commaCount = RandomUtils.nextInt(0, 3);
+        if(commaCount > 0){
+            for (int i = 0; i < commaCount; i++) {
+                sb.append(randomChinese(RandomUtils.nextInt(2, 10)));
+                sb.append("，");
+            }
+        }
+        sb.append(randomChinese(RandomUtils.nextInt(4, 20)));
+        sb.append("。");
         return sb.toString();
     }
 }

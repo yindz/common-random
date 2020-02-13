@@ -30,6 +30,7 @@
 - 高校名称(数据取自教育部网站)
 - 公司名称
 - 经纬度(中国)
+- 中文短句
 
 ## 如何使用
 ### Java版本要求
@@ -246,6 +247,11 @@ double lat = AreaSource.getInstance().randomLatitude();
 
 //随机生成1个经度
 double lng = AreaSource.getInstance().randomLongitude();
+```
+#### 随机中文短句
+```
+//随机生成1条中文短句
+String sentence = OtherSource.getInstance().randomChineseSentence();
 ```
 
 ### 注意事项
