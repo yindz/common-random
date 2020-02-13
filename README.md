@@ -29,6 +29,7 @@
 - 学历
 - 高校名称(数据取自教育部网站)
 - 公司名称
+- 经纬度(中国)
 
 ## 如何使用
 ### Java版本要求
@@ -230,6 +231,15 @@ String college = EducationSource.getInstance().randomCollege();
 ```
 //随机生成1个公司名称
 String companyName = OtherSource.getInstance().randomCompanyName("北京");
+```
+#### 随机经纬度
+注意：仅供测试/模拟/仿真/演示，不一定精确。
+```
+//随机生成1个纬度
+double lat = AreaSource.getInstance().randomLatitude();
+
+//随机生成1个经度
+double lng = AreaSource.getInstance().randomLongitude();
 ```
 
 ### 注意事项

@@ -120,4 +120,22 @@ public class AreaSource {
         String road = ResourceUtils.getRandomElement(roadList) + ResourceUtils.getRandomElement(directionList);
         return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号";
     }
+
+    /**
+     * 随机纬度(中国)
+     *
+     * @return 随机纬度
+     */
+    public double randomLatitude(){
+        return NumberSource.getInstance().randomDouble(3.86D, 53.55D);
+    }
+
+    /**
+     * 随机经度(中国)
+     *
+     * @return 随机经度
+     */
+    public double randomLongitude(){
+        return NumberSource.getInstance().randomDouble(73.66D, 135.05D);
+    }
 }
