@@ -1,13 +1,19 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.constant.RandomConstant;
+import com.apifan.common.random.entity.IpRange;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * 互联网信息数据源
@@ -47,10 +53,33 @@ public class InternetSource {
      */
     private static final String PC_TEMPLATE = "Mozilla/5.0 (Windows NT %s; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%d.0.%d.%d Safari/537.36";
 
+    /**
+     * IP范围列表
+     */
+    private List<IpRange> ipRangeList = Lists.newArrayList();
+
     private static final InternetSource instance = new InternetSource();
 
     private InternetSource() {
-
+        try {
+            List<String> areaLines = ResourceUtils.readLines("cn-ip.csv");
+            if (CollectionUtils.isNotEmpty(areaLines)) {
+                areaLines.forEach(i -> {
+                    if (StringUtils.isEmpty(i)) {
+                        return;
+                    }
+                    List<String> row = Splitter.on(",").splitToList(i);
+                    IpRange range = new IpRange();
+                    range.setBeginIp(row.get(0));
+                    range.setBeginIpNum(ipv4ToLong(range.getBeginIp()));
+                    range.setEndIp(row.get(1));
+                    range.setEndIpNum(ipv4ToLong(range.getEndIp()));
+                    ipRangeList.add(range);
+                });
+            }
+        } catch (Exception e) {
+            logger.error("初始化数据异常", e);
+        }
     }
 
     /**
@@ -108,7 +137,12 @@ public class InternetSource {
      * @return IPv4地址
      */
     public String randomIpv4() {
-        return RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255) + "." + RandomUtils.nextInt(1, 255);
+        IpRange range = ResourceUtils.getRandomElement(ipRangeList);
+        if (range == null) {
+            return null;
+        }
+        long ipv4Num = RandomUtils.nextLong(range.getBeginIpNum(), range.getEndIpNum());
+        return longToIpv4(ipv4Num);
     }
 
     /**
@@ -145,5 +179,39 @@ public class InternetSource {
         return String.format(IOS_TEMPLATE,
                 IOS_VERSIONS[RandomUtils.nextInt(0, IOS_VERSIONS.length)],
                 RandomStringUtils.randomAlphanumeric(6).toUpperCase());
+    }
+
+    /**
+     * IPv4地址转整数
+     *
+     * @param ipv4 IPv4地址
+     * @return 整数
+     */
+    private long ipv4ToLong(String ipv4) {
+        String[] part = ipv4.split("\\.");
+        long num = 0;
+        for (int i = 0; i < part.length; i++) {
+            int power = 3 - i;
+            num += ((Integer.parseInt(part[i]) % 256 * Math.pow(256, power)));
+        }
+        return num;
+    }
+
+    /**
+     * 整数转IPv4地址
+     *
+     * @param ipv4Num 整数
+     * @return IPv4地址
+     */
+    private String longToIpv4(long ipv4Num) {
+        StringBuilder result = new StringBuilder(15);
+        for (int i = 0; i < 4; i++) {
+            result.insert(0, (ipv4Num & 0xff));
+            if (i < 3) {
+                result.insert(0, '.');
+            }
+            ipv4Num = ipv4Num >> 8;
+        }
+        return result.toString();
     }
 }

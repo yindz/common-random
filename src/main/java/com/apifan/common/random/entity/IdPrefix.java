@@ -1,7 +1,6 @@
 package com.apifan.common.random.entity;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 /**
  * 身份证前缀信息
