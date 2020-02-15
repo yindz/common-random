@@ -37,6 +37,16 @@ public class AreaSource {
      */
     private List<String> directionList = Lists.newArrayList("东", "西", "南", "北", "中");
 
+    /**
+     * 中国大陆常见小区名称
+     */
+    private List<String> communityNameList = new ArrayList<>();
+
+    /**
+     * 中国大陆常见小区名称后缀
+     */
+    private List<String> communitySuffixList = new ArrayList<>();
+
     private static final AreaSource instance = new AreaSource();
 
     private AreaSource() {
@@ -57,6 +67,8 @@ public class AreaSource {
                 });
             }
             roadList = ResourceUtils.readLines("address-road-cn.txt");
+            communityNameList = ResourceUtils.readLines("community-name.txt");
+            communitySuffixList = ResourceUtils.readLines("community-suffix.txt");
         } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
@@ -118,7 +130,11 @@ public class AreaSource {
         Area area = nextArea();
         String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
         String road = ResourceUtils.getRandomElement(roadList) + ResourceUtils.getRandomElement(directionList);
-        return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号";
+        String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
+        String building = RandomUtils.nextInt(1, 20) + "栋";
+        String unit = RandomUtils.nextInt(1, 5) + "单元";
+        String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
+        return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + building + unit + room;
     }
 
     /**
@@ -126,7 +142,7 @@ public class AreaSource {
      *
      * @return 随机纬度
      */
-    public double randomLatitude(){
+    public double randomLatitude() {
         return NumberSource.getInstance().randomDouble(3.86D, 53.55D);
     }
 
@@ -135,7 +151,7 @@ public class AreaSource {
      *
      * @return 随机经度
      */
-    public double randomLongitude(){
+    public double randomLongitude() {
         return NumberSource.getInstance().randomDouble(73.66D, 135.05D);
     }
 }
