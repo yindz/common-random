@@ -28,11 +28,6 @@ public class AreaSource {
     private List<Area> areaList = new ArrayList<>();
 
     /**
-     * 中国大陆常见道路名称
-     */
-    private List<String> roadList = new ArrayList<>();
-
-    /**
      * 道路名称中常见的方向
      */
     private List<String> directionList = Lists.newArrayList("东", "西", "南", "北", "中");
@@ -46,6 +41,16 @@ public class AreaSource {
      * 中国大陆常见小区名称后缀
      */
     private List<String> communitySuffixList = new ArrayList<>();
+
+    /**
+     * 地名常用词
+     */
+    private List<String> addressWordList = new ArrayList<>();
+
+    /**
+     * 乡镇
+     */
+    private List<String> townSuffixList = Lists.newArrayList("乡", "镇");
 
     private static final AreaSource instance = new AreaSource();
 
@@ -66,9 +71,9 @@ public class AreaSource {
                     areaList.add(area);
                 });
             }
-            roadList = ResourceUtils.readLines("address-road-cn.txt");
             communityNameList = ResourceUtils.readLines("community-name.txt");
             communitySuffixList = ResourceUtils.readLines("community-suffix.txt");
+            addressWordList = ResourceUtils.readLines("address-word-cn.txt");
         } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
@@ -129,12 +134,21 @@ public class AreaSource {
     public String randomAddress() {
         Area area = nextArea();
         String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
-        String road = ResourceUtils.getRandomElement(roadList) + ResourceUtils.getRandomElement(directionList);
-        String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
-        String building = RandomUtils.nextInt(1, 20) + "栋";
-        String unit = RandomUtils.nextInt(1, 5) + "单元";
-        String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
-        return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + building + unit + room;
+        if (prefix.endsWith("县") || prefix.endsWith("旗")) {
+            //乡村地址
+            String town = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(townSuffixList);
+            String village = ResourceUtils.getRandomString(addressWordList, 2) + "村";
+            String group = ResourceUtils.getRandomString(addressWordList, 2) + "组";
+            return prefix + town + village + group + RandomUtils.nextInt(1, 100) + "号";
+        } else {
+            //城镇地址
+            String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
+            String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
+            String building = RandomUtils.nextInt(1, 20) + "栋";
+            String unit = RandomUtils.nextInt(1, 5) + "单元";
+            String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
+            return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + building + unit + room;
+        }
     }
 
     /**

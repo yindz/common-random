@@ -46,4 +46,23 @@ public class ResourceUtils {
         int index = RandomUtils.nextInt(0, elementList.size());
         return elementList.get(index);
     }
+
+    /**
+     * 从列表中获取n个随机元素组成字符串
+     *
+     * @param elementList 列表
+     * @param n           数量
+     * @return n个随机元素组成的字符串
+     */
+    public static String getRandomString(List<String> elementList, int n) {
+        if (CollectionUtils.isEmpty(elementList) || n < 1) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            int index = RandomUtils.nextInt(0, elementList.size());
+            sb.append(elementList.get(index));
+        }
+        return sb.toString();
+    }
 }
