@@ -3,6 +3,7 @@ package com.apifan.common.random.source;
 import com.apifan.common.random.constant.RandomConstant;
 import com.apifan.common.random.entity.IpRange;
 import com.apifan.common.random.util.ResourceUtils;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -179,6 +181,22 @@ public class InternetSource {
         return String.format(IOS_TEMPLATE,
                 IOS_VERSIONS[RandomUtils.nextInt(0, IOS_VERSIONS.length)],
                 RandomStringUtils.randomAlphanumeric(6).toUpperCase());
+    }
+
+    /**
+     * 随机MAC地址
+     *
+     * @param splitter 分隔符
+     * @return 随机MAC地址
+     */
+    public String randomMacAddress(String splitter) {
+        int count = 6;
+        List<String> mac = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            int n = RandomUtils.nextInt(0, 255);
+            mac.add(String.format("%02x", n));
+        }
+        return Joiner.on(splitter).join(mac).toUpperCase();
     }
 
     /**

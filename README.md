@@ -32,6 +32,7 @@
 - 经纬度(中国)
 - 中文短句
 - User-Agent(PC/Android/iOS)
+- 网卡MAC地址
 
 ## 如何使用
 ### Java版本要求
@@ -264,6 +265,11 @@ String ua2 = InternetSource.getInstance().randomAndroidUserAgent();
 
 //随机生成1个iOS User-Agent
 String ua3 = InternetSource.getInstance().randomIOSUserAgent();
+```
+#### 随机网卡MAC地址
+```
+//随机生成1个网卡MAC地址，使用:作为分隔符
+String mac = InternetSource.getInstance().randomMacAddress(":");
 ```
 
 ### 注意事项
