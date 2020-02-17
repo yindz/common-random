@@ -354,6 +354,24 @@ public class PersonInfoSource {
     }
 
     /**
+     * 生成随机男性身份证号码(按年龄段)
+     *
+     * @param province 省级行政区名称(全称，留空则不限制)
+     * @param minAge   最小年龄(含)
+     * @param maxAge   最大年龄(含)
+     * @return 随机男性身份证号码
+     */
+    public String randomMaleIdCard(String province, int minAge, int maxAge) {
+        Preconditions.checkArgument(minAge < maxAge, "年龄段错误");
+        LocalDate today = LocalDate.now();
+        int beginYear = today.getYear() - maxAge;
+        int endYear = today.getYear() - minAge;
+        LocalDate beginDate = LocalDate.of(beginYear, 1, 1);
+        LocalDate endDate = LocalDate.of(endYear, 12, 31);
+        return randomIdCard(province, beginDate, endDate, 1);
+    }
+
+    /**
      * 生成随机女性身份证号码
      *
      * @param province  省级行政区名称(全称，留空则不限制)
@@ -362,6 +380,24 @@ public class PersonInfoSource {
      * @return 随机女性身份证号码
      */
     public String randomFemaleIdCard(String province, LocalDate beginDate, LocalDate endDate) {
+        return randomIdCard(province, beginDate, endDate, 0);
+    }
+
+    /**
+     * 生成随机女性身份证号码(按年龄段)
+     *
+     * @param province 省级行政区名称(全称，留空则不限制)
+     * @param minAge   最小年龄(含)
+     * @param maxAge   最大年龄(含)
+     * @return 随机女性身份证号码
+     */
+    public String randomFemaleIdCard(String province, int minAge, int maxAge) {
+        Preconditions.checkArgument(minAge < maxAge, "年龄段错误");
+        LocalDate today = LocalDate.now();
+        int beginYear = today.getYear() - maxAge;
+        int endYear = today.getYear() - minAge;
+        LocalDate beginDate = LocalDate.of(beginYear, 1, 1);
+        LocalDate endDate = LocalDate.of(endYear, 12, 31);
         return randomIdCard(province, beginDate, endDate, 0);
     }
 
