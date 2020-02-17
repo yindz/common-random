@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -106,7 +107,7 @@ public class DateTimeSource {
      */
     public String randomPastDate(LocalDate baseDate, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
-        LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, 99999));
+        LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, 3650));
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
     }
 
@@ -118,5 +119,45 @@ public class DateTimeSource {
      */
     public String randomPastDate(String pattern) {
         return randomPastDate(LocalDate.now(), pattern);
+    }
+
+    /**
+     * 随机时间
+     *
+     * @param year       年
+     * @param month      月
+     * @param dayOfMonth 日
+     * @return 随机时间
+     */
+    public LocalDateTime randomTime(int year, int month, int dayOfMonth) {
+        int hour = RandomUtils.nextInt(0, 24);
+        int minute = RandomUtils.nextInt(0, 60);
+        int second = RandomUtils.nextInt(0, 60);
+        int millisecond = RandomUtils.nextInt(0, 1000);
+        return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, millisecond);
+    }
+
+    /**
+     * 过去的随机时间(以当天为基准)
+     *
+     * @param maxDays 最大日期间隔
+     * @return 过去的随机时间
+     */
+    public LocalDateTime randomPastTime(int maxDays) {
+        Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
+        LocalDate past = LocalDate.now().minusDays(RandomUtils.nextLong(1, maxDays + 1));
+        return randomTime(past.getYear(), past.getMonthValue(), past.getDayOfMonth());
+    }
+
+    /**
+     * 未来的随机时间(以当天为基准)
+     *
+     * @param maxDays 最大日期间隔
+     * @return 未来的随机时间
+     */
+    public LocalDateTime randomFutureTime(int maxDays) {
+        Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
+        LocalDate past = LocalDate.now().plusDays(RandomUtils.nextLong(1, maxDays + 1));
+        return randomTime(past.getYear(), past.getMonthValue(), past.getDayOfMonth());
     }
 }

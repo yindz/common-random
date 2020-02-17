@@ -22,6 +22,7 @@
 - 域名
 - 静态URL
 - 日期(特定日期之前/特定日期之后)
+- 时间(过去/未来)
 - 强密码
 - 网络昵称(登录名)
 - IPv4地址
@@ -184,6 +185,17 @@ String d5 = DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd");
 LocalDate beginDate = LocalDate.of(2000,1,11);
 LocalDate endDate = LocalDate.of(2010,2,22);
 String d6 = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyy-MM-dd");
+```
+#### 随机时间
+```
+//生成过去7天范围内的随机时间
+LocalDateTime time1 = DateTimeSource.getInstance().randomPastTime(7);
+
+//生成未来7天范围内的随机时间
+LocalDateTime time2 = DateTimeSource.getInstance().randomFutureTime(7);
+
+//生成2020年2月14日当天范围内的随机时间
+LocalDateTime time3 = DateTimeSource.getInstance().randomTime(2020, 2, 14);
 ```
 
 #### 随机强密码
