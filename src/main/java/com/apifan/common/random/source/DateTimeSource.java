@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -146,8 +148,21 @@ public class DateTimeSource {
      */
     public LocalDateTime randomPastTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
-        LocalDate past = LocalDate.now().minusDays(RandomUtils.nextLong(1, maxDays + 1));
-        return randomTime(past.getYear(), past.getMonthValue(), past.getDayOfMonth());
+        return randomPastTime(LocalDateTime.now(), maxDays * 86400);
+    }
+
+    /**
+     * 过去的随机时间
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒，0或负值表示不限
+     * @return 过去的随机时间
+     */
+    public LocalDateTime randomPastTime(LocalDateTime base, long maxSeconds) {
+        Preconditions.checkArgument(base != null, "基准时间不能为空");
+        long second = maxSeconds > 1L ? RandomUtils.nextLong(0L, maxSeconds + 1L) : RandomUtils.nextLong();
+        long millisecond = RandomUtils.nextLong(0L, 1000L);
+        return base.minus(second, ChronoUnit.SECONDS).minus(millisecond, ChronoUnit.MILLIS);
     }
 
     /**
@@ -158,7 +173,20 @@ public class DateTimeSource {
      */
     public LocalDateTime randomFutureTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
-        LocalDate past = LocalDate.now().plusDays(RandomUtils.nextLong(1, maxDays + 1));
-        return randomTime(past.getYear(), past.getMonthValue(), past.getDayOfMonth());
+        return randomFutureTime(LocalDateTime.now(), maxDays * 86400);
+    }
+
+    /**
+     * 未来的随机时间
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒，0或负值表示不限
+     * @return 未来的随机时间
+     */
+    public LocalDateTime randomFutureTime(LocalDateTime base, long maxSeconds) {
+        Preconditions.checkArgument(base != null, "基准时间不能为空");
+        long second = maxSeconds > 1L ? RandomUtils.nextLong(0L, maxSeconds + 1L) : RandomUtils.nextLong();
+        long millisecond = RandomUtils.nextLong(0L, 1000L);
+        return base.plus(second, ChronoUnit.SECONDS).plus(millisecond, ChronoUnit.MILLIS);
     }
 }

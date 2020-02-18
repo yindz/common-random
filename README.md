@@ -196,6 +196,12 @@ LocalDateTime time2 = DateTimeSource.getInstance().randomFutureTime(7);
 
 //生成2020年2月14日当天范围内的随机时间
 LocalDateTime time3 = DateTimeSource.getInstance().randomTime(2020, 2, 14);
+
+//生成过去100秒范围内的随机时间
+LocalDateTime time4 = DateTimeSource.getInstance().randomPastTime(LocalDateTime.now(), 100);
+
+//生成未来100秒范围内的随机时间
+LocalDateTime time5 = DateTimeSource.getInstance().randomFutureTime(LocalDateTime.now(), 100);
 ```
 
 #### 随机强密码
