@@ -130,6 +130,7 @@ public class DateTimeSource {
      * @return 随机时间
      */
     public LocalDateTime randomTime(int year, int month, int dayOfMonth) {
+        Preconditions.checkArgument(month >= 1 && month <= 12, "月份错误");
         int hour = RandomUtils.nextInt(0, 24);
         int minute = RandomUtils.nextInt(0, 60);
         int second = RandomUtils.nextInt(0, 60);
