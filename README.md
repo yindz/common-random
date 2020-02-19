@@ -14,6 +14,7 @@
 - 中文人名(简体)
 - 英文人名
 - 虚拟身份证号码(中国大陆)
+- 虚拟信用卡号码
 - 手机号码(中国大陆)
 - 省份和城市(中国大陆)
 - 邮编(中国大陆)
@@ -138,6 +139,23 @@ String id4 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", 19);
 注意：
 - 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)
 - 随机生成的身份证号码符合校验规则，但有可能与真实号码相同
+
+#### 随机虚拟信用卡号码
+```
+//生成1个随机VISA信用卡号码
+String cc1 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Visa);
+
+//生成1个随机MasterCard信用卡号码
+String cc2 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.MasterCard);
+
+//生成1个随机American Express信用卡号码
+String cc3 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Amex);
+
+//生成1个随机银联信用卡号码
+String cc4 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.UnionPay);
+```
+注意：
+- 随机生成的虚拟信用卡号码只是前缀和位数符合规则，并不能通过校验，也无法用于支付，仅供模拟测试/仿真/项目演示等用途
 
 #### 随机中国大陆手机号
 ```
@@ -292,4 +310,4 @@ String mac = InternetSource.getInstance().randomMacAddress(":");
 
 ### 注意事项
 - 数据均为随机生成，不代表真实数据
-- 通过本程序生成的随机数据适用于模拟测试、仿真、项目演示等场景，但可能与真实数据雷同，因此使用者请严格遵守相关法律法规
+- 通过本程序生成的随机数据适用于模拟测试、仿真、项目演示等场景，但可能与真实数据雷同（纯属巧合），因此使用者请严格遵守相关法律法规

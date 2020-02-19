@@ -1,5 +1,6 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.constant.CreditCardType;
 import com.apifan.common.random.constant.RandomConstant;
 import com.apifan.common.random.entity.IdPrefix;
 import com.apifan.common.random.util.ResourceUtils;
@@ -414,6 +415,26 @@ public class PersonInfoSource {
         LocalDate beginDate = LocalDate.of(year, 1, 1);
         LocalDate endDate = LocalDate.of(year, 12, 31);
         return randomIdCard(province, beginDate, endDate, 0);
+    }
+
+    /**
+     * 随机信用卡号码
+     *
+     * @param type 信用卡类型
+     * @return 随机信用卡号码
+     */
+    public String randomCreditCardNo(CreditCardType type) {
+        if (CreditCardType.Visa.equals(type)) {
+            return "4" + RandomStringUtils.randomNumeric(15);
+        } else if (CreditCardType.MasterCard.equals(type)) {
+            return "5" + RandomStringUtils.randomNumeric(15);
+        } else if (CreditCardType.Amex.equals(type)) {
+            return "3" + RandomStringUtils.randomNumeric(15);
+        } else if (CreditCardType.UnionPay.equals(type)) {
+            return "62" + RandomStringUtils.randomNumeric(14);
+        } else {
+            throw new RuntimeException("未知的信用卡类型");
+        }
     }
 
     /**
