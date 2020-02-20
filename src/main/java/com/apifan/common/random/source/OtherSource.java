@@ -49,10 +49,39 @@ public class OtherSource {
      */
     public static final List<String> companyIndustryList = Lists.newArrayList("科技", "商贸", "实业", "文化传播", "工程", "教育");
 
+    /**
+     * 中文名词
+     */
+    public static List<String> chineseNounsList = Lists.newArrayList();
+
+    /**
+     * 中文动词
+     */
+    public static List<String> chineseVerbsList = Lists.newArrayList();
+
+    /**
+     * 中文副词
+     */
+    public static List<String> chineseAdverbsList = Lists.newArrayList();
+
+    /**
+     * 中文代词
+     */
+    public static List<String> chinesePronounsList = Lists.newArrayList();
+
+    /**
+     * 中文连词
+     */
+    public static List<String> chineseConjunctionsList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
-
+        chineseNounsList = ResourceUtils.readLines("common-chinese-nouns.txt");
+        chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
+        chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
+        chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
+        chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
     }
 
     /**
@@ -153,7 +182,7 @@ public class OtherSource {
     public String randomCompanyName(String province) {
         int length = RandomUtils.nextInt(2, 7);
         StringBuilder sb = new StringBuilder();
-        if(StringUtils.isNotEmpty(province)){
+        if (StringUtils.isNotEmpty(province)) {
             sb.append(province);
         }
         sb.append(randomChinese(length));
@@ -169,15 +198,31 @@ public class OtherSource {
      */
     public String randomChineseSentence() {
         StringBuilder sb = new StringBuilder();
-        //最多2个逗号
-        int commaCount = RandomUtils.nextInt(0, 3);
-        if(commaCount > 0){
-            for (int i = 0; i < commaCount; i++) {
-                sb.append(randomChinese(RandomUtils.nextInt(2, 10)));
-                sb.append("，");
+        sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
+        sb.append(ResourceUtils.getRandomElement(chineseNounsList));
+        sb.append(ResourceUtils.getRandomElement(chineseAdverbsList));
+        sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
+        sb.append(ResourceUtils.getRandomElement(chineseNounsList));
+        int r = RandomUtils.nextInt(1, 11);
+        if (r % 2 == 0) {
+            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
+        }
+        r = RandomUtils.nextInt(1, 11);
+        if (r % 2 == 0) {
+            sb.append("，");
+            sb.append(ResourceUtils.getRandomElement(chineseConjunctionsList));
+            r = RandomUtils.nextInt(1, 11);
+            if (r % 3 == 0) {
+                sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
+            }
+            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
+            sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
+            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
+            r = RandomUtils.nextInt(1, 11);
+            if (r % 3 == 0) {
+                sb.append(ResourceUtils.getRandomElement(chineseNounsList));
             }
         }
-        sb.append(randomChinese(RandomUtils.nextInt(4, 20)));
         sb.append("。");
         return sb.toString();
     }
