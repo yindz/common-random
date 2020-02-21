@@ -14,7 +14,7 @@ public class RandomConstant {
     /**
      * 常用特殊字符
      */
-    public static final List<String> specialCharList = Lists.newArrayList("!", ".", "_", "@", "#", "$", "%", "^", "&", ",", "(", ")", "`", "[", "]");
+    public static final List<String> specialCharList = Lists.newArrayList("!", ".", "_", "@", "#", "$", "%", "^", "&", ",", "(", ")", "`", "[", "]", "*");
 
     /**
      * 手机号前缀
