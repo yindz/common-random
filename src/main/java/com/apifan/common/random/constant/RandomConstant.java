@@ -24,6 +24,6 @@ public class RandomConstant {
     /**
      * 域名后缀
      */
-    public static final List<String> domainSuffixList = Lists.newArrayList("com", "org", "net", "cn", "io", "im", "info", "mobi", "biz", "pro");
+    public static final List<String> domainSuffixList = Lists.newArrayList("com", "org", "net", "cn", "io", "im", "info", "mobi", "biz", "pro", "us", "me", "top", "tv", "cc");
 
 }
