@@ -269,12 +269,12 @@ String nickName = PersonInfoSource.getInstance().randomQQAccount();
 //随机获取学历
 String degree = EducationSource.getInstance().randomDegree();
 
-//随机获取高校名称
+//随机获取本科高校名称
 String college = EducationSource.getInstance().randomCollege();
 ```
 #### 随机公司名称
 ```
-//随机生成1个公司名称
+//随机生成1个公司名称，地区前缀为北京
 String companyName = OtherSource.getInstance().randomCompanyName("北京");
 ```
 #### 随机经纬度
