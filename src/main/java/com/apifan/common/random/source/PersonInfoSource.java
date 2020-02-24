@@ -429,9 +429,11 @@ public class PersonInfoSource {
         } else if (CreditCardType.MasterCard.equals(type)) {
             return "5" + RandomStringUtils.randomNumeric(15);
         } else if (CreditCardType.Amex.equals(type)) {
-            return "3" + RandomStringUtils.randomNumeric(15);
+            return "37" + RandomStringUtils.randomNumeric(14);
         } else if (CreditCardType.UnionPay.equals(type)) {
             return "62" + RandomStringUtils.randomNumeric(14);
+        } else if (CreditCardType.JCB.equals(type)) {
+            return "35" + RandomStringUtils.randomNumeric(14);
         } else {
             throw new RuntimeException("未知的信用卡类型");
         }

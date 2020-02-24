@@ -25,5 +25,10 @@ public enum CreditCardType {
     /**
      * 中国银联
      */
-    UnionPay
+    UnionPay,
+
+    /**
+     * JCB
+     */
+    JCB
 }

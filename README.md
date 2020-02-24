@@ -153,6 +153,9 @@ String cc3 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Am
 
 //生成1个随机银联信用卡号码
 String cc4 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.UnionPay);
+
+//生成1个随机JCB信用卡号码
+String cc5 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.JCB);
 ```
 注意：
 - 随机生成的虚拟信用卡号码只是前缀和位数符合规则，并不能通过校验，也无法用于支付，仅供模拟测试/仿真/项目演示等用途
