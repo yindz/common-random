@@ -259,8 +259,11 @@ String n2 = OtherSource.getInstance().randomPlateNumber();
 ```
 #### 随机网络昵称
 ```
-//生成1个随机网络昵称，最大长度为8个字符
+//生成1个随机英文网络昵称，最大长度为8个字符
 String nickName = PersonInfoSource.getInstance().randomNickName(8);
+
+//生成1个随机汉字网络昵称，最大长度为8个汉字
+String nickName2 = PersonInfoSource.getInstance().randomChineseNickName(8);
 ```
 #### 随机QQ号
 ```

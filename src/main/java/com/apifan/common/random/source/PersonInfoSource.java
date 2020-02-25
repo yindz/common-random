@@ -245,18 +245,40 @@ public class PersonInfoSource {
     }
 
     /**
-     * 随机昵称
+     * 随机昵称(英文)
      *
      * @param maxLength 最大长度
      * @return 随机的昵称
      */
     public String randomNickName(int maxLength) {
-        Preconditions.checkArgument(maxLength > 5, "长度必须大于5");
+        if(maxLength < 4){
+            maxLength = 4;
+        }
         //必须以字母开头
         StringBuilder sb = new StringBuilder(RandomStringUtils.randomAlphabetic(1));
         int actualLength = RandomUtils.nextInt(4, maxLength + 1);
         sb.append(RandomStringUtils.randomAlphanumeric(actualLength - 1));
         return sb.toString();
+    }
+
+    /**
+     * 随机昵称(中文)
+     *
+     * @param maxLength 最大长度
+     * @return 随机的昵称
+     */
+    public String randomChineseNickName(int maxLength) {
+        if(maxLength < 4){
+            maxLength = 4;
+        }
+        int x = RandomUtils.nextInt(1, 11);
+        if (x % 2 == 0) {
+            //女性名称常用字
+            return ResourceUtils.getRandomString(femaleFirstNamesCN, RandomUtils.nextInt(2, maxLength + 1));
+        } else {
+            //男性名称常用字
+            return ResourceUtils.getRandomString(maleFirstNamesCN, RandomUtils.nextInt(2, maxLength + 1));
+        }
     }
 
     /**
