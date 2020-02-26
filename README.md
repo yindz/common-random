@@ -167,8 +167,11 @@ String m = PersonInfoSource.getInstance().randomChineseMobile();
 ```
 #### 随机邮箱地址
 ```
-//生成1个随机邮箱地址，邮箱用户名最大长度为10
-String n = InternetSource.getInstance().randomEmail(10);
+//生成1个随机邮箱地址，后缀随机，邮箱用户名最大长度为10
+String n1 = InternetSource.getInstance().randomEmail(10);
+
+//生成1个随机邮箱地址，后缀为163.com，邮箱用户名最大长度为10
+String n2 = InternetSource.getInstance().randomEmail(10, "163.com");
 ```
 #### 随机域名
 ```

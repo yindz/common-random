@@ -100,10 +100,24 @@ public class InternetSource {
      * @return 随机邮箱地址
      */
     public String randomEmail(int maxLength) {
+        return randomEmail(maxLength, null);
+    }
+
+    /**
+     * 生成随机的邮箱地址(指定后缀)
+     *
+     * @param maxLength 邮箱用户名最大长度
+     * @param suffix    后缀
+     * @return 随机邮箱地址
+     */
+    public String randomEmail(int maxLength, String suffix) {
+        if (StringUtils.isEmpty(suffix)) {
+            suffix = randomDomain(Math.min(3, maxLength));
+        }
         //字母开头
         String email = RandomStringUtils.randomAlphabetic(1) +
                 RandomStringUtils.randomAlphanumeric(1, Math.min(3, maxLength - 1)) +
-                "@" + randomDomain(Math.min(3, maxLength));
+                "@" + suffix;
         return email.toLowerCase();
     }
 
