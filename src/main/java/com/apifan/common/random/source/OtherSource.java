@@ -2,7 +2,6 @@ package com.apifan.common.random.source;
 
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -225,5 +224,14 @@ public class OtherSource {
         }
         sb.append("。");
         return sb.toString();
+    }
+
+    /**
+     * 随机RGB颜色值
+     *
+     * @return 随机RGB颜色值
+     */
+    public int[] randomRgbColor() {
+        return new int[]{RandomUtils.nextInt(0, 256), RandomUtils.nextInt(0, 256), RandomUtils.nextInt(0, 256)};
     }
 }
