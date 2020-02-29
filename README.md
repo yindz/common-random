@@ -181,8 +181,11 @@ String dm = InternetSource.getInstance().randomDomain(16);
 ```
 #### 随机IPv4地址
 ```
-//生成1个随机IPv4地址
-String dm = InternetSource.getInstance().randomIpv4();
+//生成1个随机公网IPv4地址
+String pub = InternetSource.getInstance().randomPublicIpv4();
+
+//生成1个随机私有(内网)IPv4地址
+String prv = InternetSource.getInstance().randomPrivateIpv4();
 ```
 #### 随机静态URL
 ```
