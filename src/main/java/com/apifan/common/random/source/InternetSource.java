@@ -148,17 +148,33 @@ public class InternetSource {
     }
 
     /**
-     * 随机的IPv4地址
+     * 随机的公网IPv4地址
      *
-     * @return IPv4地址
+     * @return 公网IPv4地址
      */
-    public String randomIpv4() {
+    public String randomPublicIpv4() {
         IpRange range = ResourceUtils.getRandomElement(ipRangeList);
         if (range == null) {
             return null;
         }
         long ipv4Num = RandomUtils.nextLong(range.getBeginIpNum(), range.getEndIpNum());
         return longToIpv4(ipv4Num);
+    }
+
+    /**
+     * 随机的私有IPv4地址(内网地址)
+     *
+     * @return 私有IPv4地址(内网地址)
+     */
+    public String randomPrivateIpv4() {
+        int x = RandomUtils.nextInt(1, 101);
+        if (x % 2 == 0) {
+            return "10." + RandomUtils.nextInt(0, 256) + "." + RandomUtils.nextInt(0, 256) + "." + RandomUtils.nextInt(0, 256);
+        } else if (x % 3 == 0) {
+            return "172." + RandomUtils.nextInt(16, 32) + "." + RandomUtils.nextInt(0, 256) + "." + RandomUtils.nextInt(0, 256);
+        } else {
+            return "192.168." + RandomUtils.nextInt(0, 256) + "." + RandomUtils.nextInt(0, 256);
+        }
     }
 
     /**
