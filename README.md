@@ -36,6 +36,7 @@
 - User-Agent(PC/Android/iOS)
 - 网卡MAC地址
 - RGB颜色值
+- HEX颜色值
 
 ## 如何使用
 ### Java版本要求
@@ -320,10 +321,13 @@ String ua3 = InternetSource.getInstance().randomIOSUserAgent();
 //随机生成1个网卡MAC地址，使用:作为分隔符
 String mac = InternetSource.getInstance().randomMacAddress(":");
 ```
-#### 随机RGB颜色值
+#### 随机颜色值
 ```
 //随机生成1个RGB颜色值
 int[] rgb = OtherSource.getInstance().randomRgbColor();
+
+//随机生成1个16进制(HEX)颜色值
+String hex = OtherSource.getInstance().randomHexColor();
 ```
 
 ### 注意事项
