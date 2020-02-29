@@ -234,4 +234,14 @@ public class OtherSource {
     public int[] randomRgbColor() {
         return new int[]{RandomUtils.nextInt(0, 256), RandomUtils.nextInt(0, 256), RandomUtils.nextInt(0, 256)};
     }
+
+    /**
+     * 随机HEX颜色值
+     *
+     * @return 随机HEX颜色值
+     */
+    public String randomHexColor() {
+        int[] color = randomRgbColor();
+        return String.format("#%02x%02x%02x", color[0], color[1], color[2]).toUpperCase();
+    }
 }
