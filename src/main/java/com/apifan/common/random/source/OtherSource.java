@@ -46,7 +46,8 @@ public class OtherSource {
     /**
      * 公司行业
      */
-    public static final List<String> companyIndustryList = Lists.newArrayList("科技", "商贸", "实业", "文化传播", "工程", "教育");
+    public static final List<String> companyIndustryList = Lists.newArrayList("科技", "信息", "商贸", "贸易",
+            "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资");
 
     /**
      * 中文名词
