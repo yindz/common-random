@@ -33,7 +33,7 @@ public class InternetSource {
     /**
      * 安卓 User-Agent模板
      */
-    private static final String ANDROID_TEMPLATE = "Mozilla/5.0 (Linux; U; Android %d.0.0; zh-cn; %s-%s Build/%s) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/57.0.2987.132 MQQBrowser/8.2 Mobile Safari/537.36";
+    private static final String ANDROID_TEMPLATE = "Mozilla/5.0 (Linux; U; Android %d.0.0; zh-cn; %s-%s Build/%s) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/74.0.3729.157 Mobile Safari/537.36";
 
     /**
      * iOS User-Agent模板
