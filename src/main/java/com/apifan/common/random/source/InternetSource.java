@@ -28,7 +28,7 @@ public class InternetSource {
     /**
      * 主流安卓厂商名称
      */
-    private static final String[] ANDROID_MANUFACTURERS = new String[]{"samsung", "sony", "huawei", "hornor", "xiaomi", "redmi", "mi", "vivo", "oppo", "oneplus", "lg", "lenovo", "motorola", "nokia", "meizu", "zte", "asus", "smartisan", "nubia", "realme"};
+    private static final String[] ANDROID_MANUFACTURERS = new String[]{"samsung", "sony", "huawei", "hornor", "xiaomi", "redmi", "mi", "vivo", "oppo", "oneplus", "lg", "lenovo", "motorola", "nokia", "meizu", "zte", "asus", "smartisan", "nubia", "realme", "iqoo"};
 
     /**
      * 安卓 User-Agent模板
