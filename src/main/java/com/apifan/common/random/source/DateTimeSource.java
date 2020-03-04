@@ -104,17 +104,29 @@ public class DateTimeSource {
      * 随机以往日期
      *
      * @param baseDate 基础日期
+     * @param maxDays  最大日期间隔(天)
      * @param pattern  日期格式
      * @return 随机以往日期字符串
      */
-    public String randomPastDate(LocalDate baseDate, String pattern) {
+    public String randomPastDate(LocalDate baseDate, long maxDays, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
-        LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, 3650));
+        LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, maxDays + 1));
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
     }
 
     /**
-     * 随机以往日期
+     * 随机以往日期(1年内)
+     *
+     * @param baseDate 基础日期
+     * @param pattern  日期格式
+     * @return 随机以往日期字符串
+     */
+    public String randomPastDate(LocalDate baseDate, String pattern) {
+        return randomPastDate(baseDate, 365, pattern);
+    }
+
+    /**
+     * 随机以往日期(1年内)
      *
      * @param pattern 日期格式
      * @return 随机以往日期字符串
