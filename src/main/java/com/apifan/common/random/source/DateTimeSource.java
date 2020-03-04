@@ -110,6 +110,7 @@ public class DateTimeSource {
      */
     public String randomPastDate(LocalDate baseDate, long maxDays, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
+        Preconditions.checkArgument(maxDays > 1, "最大日期间隔无效");
         LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, maxDays + 1));
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
     }
