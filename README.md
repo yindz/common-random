@@ -204,11 +204,14 @@ String d2 = DateTimeSource.getInstance().randomFutureDate(LocalDate.of(2020,1,2)
 //生成1个今天(基于系统时间判断)之后的随机日期，日期格式为yyyy-MM-dd
 String d3 = DateTimeSource.getInstance().randomFutureDate("yyyy-MM-dd");
 
-//生成1个2020年1月2日之前的随机日期，日期格式为yyyy-MM-dd
+//生成1个2020年1月2日之前1年内的随机日期，日期格式为yyyy-MM-dd
 String d4 = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
 
-//生成1个今天(基于系统时间判断)之前的随机日期，日期格式为yyyy-MM-dd
+//生成1个今天(基于系统时间判断)之前1年内的随机日期，日期格式为yyyy-MM-dd
 String d5 = DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd");
+
+//生成1个2020年1月2日之前10年内的随机日期，日期格式为yyyy-MM-dd
+String dd = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), 3650, "yyyy-MM-dd");
 
 //生成1个2000年1月11日至2010年2月22日范围之间的随机日期，日期格式为yyyy-MM-dd
 LocalDate beginDate = LocalDate.of(2000,1,11);
