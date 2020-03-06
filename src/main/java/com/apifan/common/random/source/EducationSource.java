@@ -18,7 +18,7 @@ public class EducationSource {
     /**
      * 教育程度
      */
-    private static final List<String> degreeList = Lists.newArrayList("小学", "初中", "中专/职校", "高中", "专科", "本科", "硕士", "博士");
+    private static final List<String> degreeList = Lists.newArrayList("小学", "初中", "中专/职业高中", "高中", "大学专科", "大学本科", "硕士", "博士");
     private static final EducationSource instance = new EducationSource();
     private List<String> collegeList;
 
