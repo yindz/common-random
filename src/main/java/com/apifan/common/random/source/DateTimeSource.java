@@ -6,11 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -201,5 +202,33 @@ public class DateTimeSource {
         long second = maxSeconds > 1L ? RandomUtils.nextLong(0L, maxSeconds + 1L) : RandomUtils.nextLong();
         long millisecond = RandomUtils.nextLong(0L, 1000L);
         return base.plus(second, ChronoUnit.SECONDS).plus(millisecond, ChronoUnit.MILLIS);
+    }
+
+    /**
+     * 随机时间戳(毫秒)
+     *
+     * @param begin 开始时间(含)
+     * @param end   结束时间(不含)
+     * @return 随机时间戳(毫秒)
+     */
+    public long randomTimestamp(LocalDateTime begin, LocalDateTime end) {
+        Preconditions.checkArgument(begin != null && end != null, "开始时间和结束时间不能为空");
+        Preconditions.checkArgument(begin.isBefore(end), "开始时间必须早于结束时间");
+        Duration duration = Duration.between(begin, end);
+        long millis = duration.toMillis();
+        return begin.toInstant(ZoneOffset.of("+8")).toEpochMilli() + RandomUtils.nextLong(0, millis);
+    }
+
+    /**
+     * 获取某一天内的随机时间戳(毫秒)
+     *
+     * @param date 日期
+     * @return 随机时间戳(毫秒)
+     */
+    public long randomTimestamp(LocalDate date) {
+        Preconditions.checkArgument(date != null, "日期不能为空");
+        LocalDateTime begin = date.atStartOfDay();
+        LocalDateTime end = date.plusDays(1).atStartOfDay();
+        return randomTimestamp(begin, end);
     }
 }
