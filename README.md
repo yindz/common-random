@@ -27,6 +27,7 @@
 - 强密码
 - 网络昵称(登录名)
 - IPv4地址
+- 端口号
 - QQ号码
 - 学历
 - 高校名称(数据取自教育部网站)
@@ -187,6 +188,11 @@ String pub = InternetSource.getInstance().randomPublicIpv4();
 
 //生成1个随机私有(内网)IPv4地址
 String prv = InternetSource.getInstance().randomPrivateIpv4();
+```
+#### 随机端口号
+```
+//生成1个随机端口号
+int port = InternetSource.getInstance().randomPort();
 ```
 #### 随机静态URL
 ```
