@@ -231,6 +231,15 @@ public class InternetSource {
     }
 
     /**
+     * 随机端口号
+     *
+     * @return 随机端口号
+     */
+    public int randomPort() {
+        return RandomUtils.nextInt(1025, 65535);
+    }
+
+    /**
      * IPv4地址转整数
      *
      * @param ipv4 IPv4地址
