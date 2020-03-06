@@ -24,6 +24,7 @@
 - 静态URL
 - 日期(特定日期之前/特定日期之后)
 - 时间(过去/未来)
+- 时间戳
 - 强密码
 - 网络昵称(登录名)
 - IPv4地址
@@ -241,7 +242,19 @@ LocalDateTime time4 = DateTimeSource.getInstance().randomPastTime(LocalDateTime.
 //生成未来100秒范围内的随机时间
 LocalDateTime time5 = DateTimeSource.getInstance().randomFutureTime(LocalDateTime.now(), 100);
 ```
+#### 随机时间戳
+```
+//生成1个当天范围内的随机时间戳
+long ts1 = DateTimeSource.getInstance().randomTimestamp(LocalDate.now());
 
+//生成1个2020年3月6日范围内的随机时间戳
+long ts2 = DateTimeSource.getInstance().randomTimestamp(LocalDate.of(2020, 3, 6));
+
+//生成1个介于2020年3月6日12:00:00至2020年3月6日12:30:00之间的随机时间戳
+LocalDateTime begin = LocalDateTime.of(2020, 3, 6, 12, 0, 0);
+LocalDateTime end = LocalDateTime.of(2020, 3, 6, 12, 30, 0);
+long ts3 = DateTimeSource.getInstance().randomTimestamp(begin, end);
+```
 #### 随机强密码
 ```
 //生成1个随机强密码，长度为16，无特殊字符
