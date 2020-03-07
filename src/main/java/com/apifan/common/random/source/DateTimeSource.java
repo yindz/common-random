@@ -222,6 +222,19 @@ public class DateTimeSource {
     }
 
     /**
+     * 获取未来的随机时间戳(毫秒)
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒
+     * @return 未来的随机时间戳(毫秒)
+     */
+    public long randomFutureTimestamp(LocalDateTime base, long maxSeconds) {
+        Preconditions.checkArgument(base != null, "基准时间不能为空");
+        Preconditions.checkArgument(maxSeconds > 1, "秒数必须大于1");
+        return base.toInstant(ZONE_OFFSET).toEpochMilli() + RandomUtils.nextLong(1, maxSeconds * 1000 + 1);
+    }
+
+    /**
      * 获取某一天内的随机时间戳(毫秒)
      *
      * @param date 日期
