@@ -30,6 +30,8 @@ public class DateTimeSource {
      */
     private static Map<String, DateTimeFormatter> dateTimeFormatterMap = new ConcurrentHashMap<>();
 
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+8");
+
     private static final DateTimeSource instance = new DateTimeSource();
 
     private DateTimeSource() {
@@ -216,7 +218,7 @@ public class DateTimeSource {
         Preconditions.checkArgument(begin.isBefore(end), "开始时间必须早于结束时间");
         Duration duration = Duration.between(begin, end);
         long millis = duration.toMillis();
-        return begin.toInstant(ZoneOffset.of("+8")).toEpochMilli() + RandomUtils.nextLong(0, millis);
+        return begin.toInstant(ZONE_OFFSET).toEpochMilli() + RandomUtils.nextLong(0, millis);
     }
 
     /**
