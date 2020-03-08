@@ -256,8 +256,12 @@ LocalDateTime end = LocalDateTime.of(2020, 3, 6, 12, 30, 0);
 long ts3 = DateTimeSource.getInstance().randomTimestamp(begin, end);
 
 //生成1个2020年3月6日12:00:00之后180秒内的随机时间戳
-LocalDateTime base = LocalDateTime.of(2020, 3, 6, 12, 0, 0);
-long ts4 = DateTimeSource.getInstance().randomFutureTimestamp(base, 180);
+LocalDateTime base1 = LocalDateTime.of(2020, 3, 6, 12, 0, 0);
+long ts4 = DateTimeSource.getInstance().randomFutureTimestamp(base1, 180);
+
+//生成1个2020年3月7日13:00:00之前120秒内的随机时间戳
+LocalDateTime base2 = LocalDateTime.of(2020, 3, 7, 13, 0, 0);
+long ts5 = DateTimeSource.getInstance().randomPastTimestamp(base2, 120);
 ```
 #### 随机强密码
 ```
