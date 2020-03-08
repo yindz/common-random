@@ -229,9 +229,18 @@ public class DateTimeSource {
      * @return 未来的随机时间戳(毫秒)
      */
     public long randomFutureTimestamp(LocalDateTime base, long maxSeconds) {
-        Preconditions.checkArgument(base != null, "基准时间不能为空");
-        Preconditions.checkArgument(maxSeconds > 1, "秒数必须大于1");
-        return base.toInstant(ZONE_OFFSET).toEpochMilli() + RandomUtils.nextLong(1, maxSeconds * 1000 + 1);
+        return randomTimestamp(base, maxSeconds);
+    }
+
+    /**
+     * 获取过去的随机时间戳(毫秒)
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒
+     * @return 过去的随机时间戳(毫秒)
+     */
+    public long randomPastTimestamp(LocalDateTime base, long maxSeconds) {
+        return randomTimestamp(base, maxSeconds > 0 ? -1 * maxSeconds : maxSeconds);
     }
 
     /**
@@ -245,5 +254,12 @@ public class DateTimeSource {
         LocalDateTime begin = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
         return randomTimestamp(begin, end);
+    }
+
+    private long randomTimestamp(LocalDateTime base, long maxSeconds) {
+        Preconditions.checkArgument(base != null, "基准时间不能为空");
+        Preconditions.checkArgument(Math.abs(maxSeconds) > 1, "相差秒数必须大于1");
+        long diff = maxSeconds > 0 ? RandomUtils.nextLong(1, maxSeconds * 1000 + 1) : -1 * (RandomUtils.nextLong(1, Math.abs(maxSeconds) * 1000 + 1));
+        return base.toInstant(ZONE_OFFSET).toEpochMilli() + diff;
     }
 }
