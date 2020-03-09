@@ -227,11 +227,12 @@ public class InternetSource {
             int n = RandomUtils.nextInt(0, 255);
             mac.add(String.format("%02x", n));
         }
-        return Joiner.on(splitter).join(mac).toUpperCase();
+        return Joiner.on(StringUtils.isNotEmpty(splitter) ? splitter : "-").join(mac).toUpperCase();
     }
 
     /**
      * 随机端口号
+     * 注意: 不会生成1024及以下的端口号
      *
      * @return 随机端口号
      */

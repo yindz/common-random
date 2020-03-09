@@ -256,6 +256,13 @@ public class DateTimeSource {
         return randomTimestamp(begin, end);
     }
 
+    /**
+     * 随机时间戳
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒
+     * @return 随机时间戳
+     */
     private long randomTimestamp(LocalDateTime base, long maxSeconds) {
         Preconditions.checkArgument(base != null, "基准时间不能为空");
         Preconditions.checkArgument(Math.abs(maxSeconds) > 1, "相差秒数必须大于1");
