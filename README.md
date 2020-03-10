@@ -277,7 +277,7 @@ String pwd2 = PersonInfoSource.getInstance().randomStrongPassword(16, true);
 //随机获取省份
 String prv = AreaSource.getInstance().randomProvince();
 
-//随机获取城市(以逗号为分隔符)
+//随机获取城市(省份+城市，以逗号为分隔符)
 String city = AreaSource.getInstance().randomCity(",");
 
 //随机获取邮编
