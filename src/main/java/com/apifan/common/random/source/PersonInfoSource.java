@@ -251,7 +251,7 @@ public class PersonInfoSource {
      * @return 随机的昵称
      */
     public String randomNickName(int maxLength) {
-        if(maxLength < 4){
+        if (maxLength < 4) {
             maxLength = 4;
         }
         //必须以字母开头
@@ -268,7 +268,7 @@ public class PersonInfoSource {
      * @return 随机的昵称
      */
     public String randomChineseNickName(int maxLength) {
-        if(maxLength < 4){
+        if (maxLength < 4) {
             maxLength = 4;
         }
         int x = RandomUtils.nextInt(1, 11);
@@ -505,6 +505,15 @@ public class PersonInfoSource {
      */
     public void generateNamePicture(String name, String savePath) throws IOException {
         generateNamePicture(name, savePath, null);
+    }
+
+    /**
+     * 随机性别
+     *
+     * @return 性别标识：0女性，1男性
+     */
+    public int randomGender() {
+        return RandomUtils.nextInt(0, 2);
     }
 
     /**
