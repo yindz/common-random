@@ -143,7 +143,12 @@ public class InternetSource {
     public String randomStaticUrl(String suffix) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(suffix), "后缀为空");
         String domain = randomDomain(16);
-        return "http://" + domain.toLowerCase() + "/" + RandomUtils.nextLong(1L, 10000000000001L) + "/"
+        String prefix = "http://";
+        int x = RandomUtils.nextInt(0, 101);
+        if(x % 3 == 0){
+            prefix = "https://";
+        }
+        return prefix + domain.toLowerCase() + "/" + RandomUtils.nextLong(1L, 10000000000001L) + "/"
                 + RandomStringUtils.randomAlphanumeric(8, 33) + "." + suffix;
     }
 
