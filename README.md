@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-![](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.0/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真、演示等场景。可以集成到各种类型的java项目中使用。
