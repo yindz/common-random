@@ -34,6 +34,8 @@
 - 端口号
 - QQ号码
 - 学历
+- 小学名称、年级、班级
+- 中学名称、年级、班级
 - 高校名称(数据取自教育部网站)
 - 公司名称
 - 经纬度(中国)
@@ -307,13 +309,28 @@ String nickName2 = PersonInfoSource.getInstance().randomChineseNickName(8);
 //生成1个随机QQ号
 String nickName = PersonInfoSource.getInstance().randomQQAccount();
 ```
-#### 随机学历
+#### 随机教育背景信息
 ```
 //随机获取学历
 String degree = EducationSource.getInstance().randomDegree();
 
 //随机获取本科高校名称
 String college = EducationSource.getInstance().randomCollege();
+
+//随机获取小学名称
+String primarySchoolName = EducationSource.getInstance().randomPrimarySchoolName();
+
+//随机获取小学年级
+String primarySchoolGrade = EducationSource.getInstance().randomPrimarySchoolGrade();
+
+//随机获取中学名称
+String highSchoolName = EducationSource.getInstance().randomHighSchoolName();
+
+//随机获取中学年级
+String highSchoolGrade = EducationSource.getInstance().randomHighSchoolGrade();
+
+//随机班级名称
+String className = EducationSource.getInstance().randomClassName();
 ```
 #### 随机公司名称
 ```
