@@ -44,6 +44,7 @@
 - 网卡MAC地址
 - RGB颜色值
 - HEX颜色值
+- 股票名称+股票代码
 
 ## 如何使用
 ### Java版本要求
@@ -374,6 +375,12 @@ int[] rgb = OtherSource.getInstance().randomRgbColor();
 
 //随机生成1个16进制(HEX)颜色值
 String hex = OtherSource.getInstance().randomHexColor();
+```
+#### 股票名称+股票代码
+```
+String[] stock = OtherSource.getInstance().randomStock();
+String stockName = stock[0];
+String stockCode = stock[1];
 ```
 
 ### 注意事项
