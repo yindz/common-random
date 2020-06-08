@@ -74,6 +74,11 @@ public class OtherSource {
      */
     public static List<String> chineseConjunctionsList = Lists.newArrayList();
 
+    /**
+     * 股票代码
+     */
+    public static List<String> stocksList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -82,6 +87,7 @@ public class OtherSource {
         chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
         chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
+        stocksList = ResourceUtils.readLines("stock.txt");
     }
 
     /**
@@ -244,5 +250,15 @@ public class OtherSource {
     public String randomHexColor() {
         int[] color = randomRgbColor();
         return String.format("#%02x%02x%02x", color[0], color[1], color[2]).toUpperCase();
+    }
+
+    /**
+     * 随机股票
+     *
+     * @return 股票名称+股票代码
+     */
+    public String[] randomStock() {
+        String stock = ResourceUtils.getRandomString(stocksList, 1);
+        return StringUtils.isNotEmpty(stock) ? stock.split(",") : null;
     }
 }
