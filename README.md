@@ -45,6 +45,7 @@
 - RGB颜色值
 - HEX颜色值
 - 股票名称+股票代码
+- 开放式基金名称+基金代码
 
 ## 如何使用
 ### Java版本要求
@@ -56,7 +57,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -381,6 +382,12 @@ String hex = OtherSource.getInstance().randomHexColor();
 String[] stock = OtherSource.getInstance().randomStock();
 String stockName = stock[0];
 String stockCode = stock[1];
+```
+#### 开放式基金名称+基金代码
+```
+String[] fund = OtherSource.getInstance().randomFund();
+String fundName = fund[0];
+String fundCode = fund[1];
 ```
 
 ### 注意事项
