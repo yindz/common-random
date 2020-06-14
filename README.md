@@ -30,9 +30,11 @@
 - 时间戳
 - 强密码
 - 网络昵称(登录名)
+- 拼音网络昵称(登录名)
 - IPv4地址
 - 端口号
 - QQ号码
+- 非主流QQ网名
 - 学历
 - 小学名称、年级、班级
 - 中学名称、年级、班级
@@ -305,11 +307,17 @@ String nickName = PersonInfoSource.getInstance().randomNickName(8);
 
 //生成1个随机汉字网络昵称，最大长度为8个汉字
 String nickName2 = PersonInfoSource.getInstance().randomChineseNickName(8);
+
+//基于随机汉字网络昵称生成1个拼音网络昵称，最大长度为4个汉字
+String nickName3 = PersonInfoSource.getInstance().randomPinyinNickName(4);
 ```
-#### 随机QQ号
+#### 随机QQ信息
 ```
 //生成1个随机QQ号
-String nickName = PersonInfoSource.getInstance().randomQQAccount();
+String qq = PersonInfoSource.getInstance().randomQQAccount();
+
+//生成1个随机非主流QQ网名
+String nickName = PersonInfoSource.getInstance().randomQQNickName();
 ```
 #### 随机教育背景信息
 ```
