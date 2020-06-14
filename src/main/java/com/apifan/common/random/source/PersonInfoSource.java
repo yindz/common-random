@@ -4,6 +4,7 @@ import com.apifan.common.random.constant.CreditCardType;
 import com.apifan.common.random.constant.RandomConstant;
 import com.apifan.common.random.entity.IdPrefix;
 import com.apifan.common.random.util.ResourceUtils;
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.*;
@@ -121,6 +123,11 @@ public class PersonInfoSource {
     private List<IdPrefix> idPrefixList = Lists.newArrayList();
 
     /**
+     * 常见QQ非主流昵称
+     */
+    private List<String> qqNames;
+
+    /**
      * 省级行政区身份证前缀映射
      */
     private Map<String, List<String>> provinceIdPrefixMap = Maps.newHashMap();
@@ -133,6 +140,7 @@ public class PersonInfoSource {
         maleFirstNamesCN = ResourceUtils.readLines("male-first-names-cn.txt");
         lastNamesEN = ResourceUtils.readLines("last-names-en.txt");
         firstNamesEN = ResourceUtils.readLines("first-names-en.txt");
+        qqNames = ResourceUtils.readLines("qq-name.txt");
         //解析身份证前缀数据
         List<String> lines = ResourceUtils.readLines("id-prefix.csv");
         if (CollectionUtils.isNotEmpty(lines)) {
@@ -282,6 +290,17 @@ public class PersonInfoSource {
     }
 
     /**
+     * 随机拼音昵称
+     *
+     * @param maxLength 最大长度
+     * @return 随机拼音昵称
+     */
+    public String randomPinyinNickName(int maxLength) {
+        String nickName = randomChineseNickName(maxLength);
+        return Pinyin.toPinyin(nickName, "").toLowerCase();
+    }
+
+    /**
      * 生成随机的中国手机号
      *
      * @return 随机中国手机号
@@ -347,6 +366,16 @@ public class PersonInfoSource {
     public String randomQQAccount() {
         //目前QQ号码最短5位，最长11位
         return String.valueOf(RandomUtils.nextLong(10000L, 100000000000L));
+    }
+
+    /**
+     * 生成随机的非主流QQ网名
+     *
+     * @return 随机的非主流QQ网名
+     */
+    public String randomQQNickName() {
+        String name = ResourceUtils.getRandomString(qqNames, 1);
+        return new String(Base64.getDecoder().decode(name), StandardCharsets.UTF_8);
     }
 
     /**

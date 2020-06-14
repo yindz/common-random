@@ -30,7 +30,7 @@ public class OtherSource {
     /**
      * 省份前缀
      */
-    public static final List<String> provincePrefixList = Lists.newArrayList(
+    private static final List<String> provincePrefixList = Lists.newArrayList(
             "京", "津", "冀", "晋", "蒙",
             "辽", "吉", "黑", "沪", "苏",
             "浙", "皖", "闽", "赣", "鲁",
@@ -41,43 +41,48 @@ public class OtherSource {
     /**
      * 公司后缀
      */
-    public static final List<String> companySuffixList = Lists.newArrayList("股份有限公司", "有限责任公司");
+    private static final List<String> companySuffixList = Lists.newArrayList("股份有限公司", "有限责任公司");
 
     /**
      * 公司行业
      */
-    public static final List<String> companyIndustryList = Lists.newArrayList("科技", "信息", "商贸", "贸易",
+    private static final List<String> companyIndustryList = Lists.newArrayList("科技", "信息", "商贸", "贸易",
             "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资");
 
     /**
      * 中文名词
      */
-    public static List<String> chineseNounsList = Lists.newArrayList();
+    private static List<String> chineseNounsList = Lists.newArrayList();
 
     /**
      * 中文动词
      */
-    public static List<String> chineseVerbsList = Lists.newArrayList();
+    private static List<String> chineseVerbsList = Lists.newArrayList();
 
     /**
      * 中文副词
      */
-    public static List<String> chineseAdverbsList = Lists.newArrayList();
+    private static List<String> chineseAdverbsList = Lists.newArrayList();
 
     /**
      * 中文代词
      */
-    public static List<String> chinesePronounsList = Lists.newArrayList();
+    private static List<String> chinesePronounsList = Lists.newArrayList();
 
     /**
      * 中文连词
      */
-    public static List<String> chineseConjunctionsList = Lists.newArrayList();
+    private static List<String> chineseConjunctionsList = Lists.newArrayList();
 
     /**
      * 股票代码
      */
-    public static List<String> stocksList = Lists.newArrayList();
+    private static List<String> stocksList = Lists.newArrayList();
+
+    /**
+     * 开放式基金
+     */
+    private static List<String> fundsList = Lists.newArrayList();
 
     private static final OtherSource instance = new OtherSource();
 
@@ -88,6 +93,7 @@ public class OtherSource {
         chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
         stocksList = ResourceUtils.readLines("stock.txt");
+        fundsList = ResourceUtils.readLines("fund.txt");
     }
 
     /**
@@ -260,5 +266,15 @@ public class OtherSource {
     public String[] randomStock() {
         String stock = ResourceUtils.getRandomString(stocksList, 1);
         return StringUtils.isNotEmpty(stock) ? stock.split(",") : null;
+    }
+
+    /**
+     * 随机基金
+     *
+     * @return 基金名称+基金代码
+     */
+    public String[] randomFund() {
+        String fund = ResourceUtils.getRandomString(fundsList, 1);
+        return StringUtils.isNotEmpty(fund) ? fund.split(",") : null;
     }
 }
