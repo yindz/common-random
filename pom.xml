@@ -22,7 +22,7 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-collections.version>4.1</commons-collections.version>
         <guava.version>24.1.1-jre</guava.version>
-        <jackson-databind.version>2.9.10.4</jackson-databind.version>
+        <jackson-databind.version>2.10.0.pr1</jackson-databind.version>
         <tinypinyin.version>2.0.3.RELEASE</tinypinyin.version>
         <slf4j-api.version>1.7.29</slf4j-api.version>
         <slf4j-simple.version>1.7.29</slf4j-simple.version>
