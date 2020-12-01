@@ -48,6 +48,7 @@
 - HEX颜色值
 - 股票名称+股票代码
 - 开放式基金名称+基金代码
+- 六大足球联赛球队名称(英超、西甲、德甲、意甲、法甲、荷甲)
 
 ## 如何使用
 ### Java版本要求
@@ -59,7 +60,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
@@ -396,6 +397,26 @@ String stockCode = stock[1];
 String[] fund = OtherSource.getInstance().randomFund();
 String fundName = fund[0];
 String fundCode = fund[1];
+```
+#### 足球联赛球队名称
+```
+//英超
+SportSource.getInstance().randomFootballTeam(CompetitionType.PREMIER_LEAGUE);
+
+//西甲
+SportSource.getInstance().randomFootballTeam(CompetitionType.LA_LIGA);
+
+//德甲
+SportSource.getInstance().randomFootballTeam(CompetitionType.BUNDESLIGA);
+
+//意甲
+SportSource.getInstance().randomFootballTeam(CompetitionType.SERIE_A);
+
+//法甲
+SportSource.getInstance().randomFootballTeam(CompetitionType.LIGUE_1);
+
+//荷甲
+SportSource.getInstance().randomFootballTeam(CompetitionType.EREDIVISIE);
 ```
 
 ### 注意事项
