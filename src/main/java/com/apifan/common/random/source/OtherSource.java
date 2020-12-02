@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,6 +77,11 @@ public class OtherSource {
     private static List<String> chineseConjunctionsList = Lists.newArrayList();
 
     /**
+     * 中文助词
+     */
+    private static List<String> chineseParticlesList = Lists.newArrayList();
+
+    /**
      * 股票代码
      */
     private static List<String> stocksList = Lists.newArrayList();
@@ -87,11 +94,25 @@ public class OtherSource {
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
-        chineseNounsList = ResourceUtils.readLines("common-chinese-nouns.txt");
+        List<String> encodedNouns = ResourceUtils.readLines("common-chinese-nouns.txt");
+        encodedNouns.forEach(e->{
+            if (StringUtils.isBlank(e)) {
+                return;
+            }
+            chineseNounsList.add(new String(Base64.getDecoder().decode(e), StandardCharsets.UTF_8));
+        });
         chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
         chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
-        chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
+        List<String> encodedVerbs = ResourceUtils.readLines("common-chinese-verbs.txt");
+        encodedVerbs.forEach(v->{
+            if (StringUtils.isBlank(v)) {
+                return;
+            }
+            chineseVerbsList.add(new String(Base64.getDecoder().decode(v), StandardCharsets.UTF_8));
+        });
+        //chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
+        chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
         stocksList = ResourceUtils.readLines("stock.txt");
         fundsList = ResourceUtils.readLines("fund.txt");
     }
@@ -210,19 +231,31 @@ public class OtherSource {
      */
     public String randomChineseSentence() {
         StringBuilder sb = new StringBuilder();
-        sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
+        int r = RandomUtils.nextInt(1, 11);
+        if (r % 2 == 0) {
+            sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
+        }
         sb.append(ResourceUtils.getRandomElement(chineseNounsList));
         sb.append(ResourceUtils.getRandomElement(chineseAdverbsList));
         sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
         sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-        int r = RandomUtils.nextInt(1, 11);
+        r = RandomUtils.nextInt(1, 11);
         if (r % 2 == 0) {
             sb.append(ResourceUtils.getRandomElement(chineseNounsList));
         }
-        r = RandomUtils.nextInt(1, 11);
+        r = RandomUtils.nextInt(1, 101);
         if (r % 2 == 0) {
-            sb.append("，");
-            sb.append(ResourceUtils.getRandomElement(chineseConjunctionsList));
+            r = RandomUtils.nextInt(1, 11);
+            if (r % 2 == 0) {
+                sb.append("，");
+            } else {
+                sb.append(ResourceUtils.getRandomElement(chineseParticlesList));
+                sb.append("？");
+            }
+            r = RandomUtils.nextInt(1, 11);
+            if (r % 2 == 0) {
+                sb.append(ResourceUtils.getRandomElement(chineseConjunctionsList));
+            }
             r = RandomUtils.nextInt(1, 11);
             if (r % 3 == 0) {
                 sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
@@ -230,10 +263,6 @@ public class OtherSource {
             sb.append(ResourceUtils.getRandomElement(chineseNounsList));
             sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
             sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-            r = RandomUtils.nextInt(1, 11);
-            if (r % 3 == 0) {
-                sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-            }
         }
         sb.append("。");
         return sb.toString();
