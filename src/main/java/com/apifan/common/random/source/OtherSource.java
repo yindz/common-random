@@ -52,6 +52,11 @@ public class OtherSource {
             "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资");
 
     /**
+     * 部门名称
+     */
+    private static List<String> departmentList = Lists.newArrayList();
+
+    /**
      * 中文名词
      */
     private static List<String> chineseNounsList = Lists.newArrayList();
@@ -95,7 +100,7 @@ public class OtherSource {
 
     private OtherSource() {
         List<String> encodedNouns = ResourceUtils.readLines("common-chinese-nouns.txt");
-        encodedNouns.forEach(e->{
+        encodedNouns.forEach(e -> {
             if (StringUtils.isBlank(e)) {
                 return;
             }
@@ -104,17 +109,17 @@ public class OtherSource {
         chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
         chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
         List<String> encodedVerbs = ResourceUtils.readLines("common-chinese-verbs.txt");
-        encodedVerbs.forEach(v->{
+        encodedVerbs.forEach(v -> {
             if (StringUtils.isBlank(v)) {
                 return;
             }
             chineseVerbsList.add(new String(Base64.getDecoder().decode(v), StandardCharsets.UTF_8));
         });
-        //chineseVerbsList = ResourceUtils.readLines("common-chinese-verbs.txt");
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
         chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
         stocksList = ResourceUtils.readLines("stock.txt");
         fundsList = ResourceUtils.readLines("fund.txt");
+        departmentList = ResourceUtils.readLines("common-department.txt");
     }
 
     /**
@@ -222,6 +227,15 @@ public class OtherSource {
         sb.append(ResourceUtils.getRandomElement(companyIndustryList));
         sb.append(ResourceUtils.getRandomElement(companySuffixList));
         return sb.toString();
+    }
+
+    /**
+     * 随机公司部门名称
+     *
+     * @return 随机公司部门名称
+     */
+    public String randomCompanyDepartment() {
+        return ResourceUtils.getRandomElement(departmentList);
     }
 
     /**
