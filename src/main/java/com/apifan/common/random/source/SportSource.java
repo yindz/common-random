@@ -47,6 +47,16 @@ public class SportSource {
      */
     private static List<String> FOOTBALL_EREDIVISIE = Lists.newArrayList();
 
+    /**
+     * 篮球-NBA
+     */
+    private static List<String> BASKETBALL_NBA = Lists.newArrayList();
+
+    /**
+     * 篮球-CBA
+     */
+    private static List<String> BASKETBALL_CBA = Lists.newArrayList();
+
     private static final SportSource instance = new SportSource();
 
     private SportSource() {
@@ -56,6 +66,8 @@ public class SportSource {
         FOOTBALL_SERIE_A = ResourceUtils.readLines("football-serie-a.txt");
         FOOTBALL_LIGUE_1 = ResourceUtils.readLines("football-ligue-1.txt");
         FOOTBALL_EREDIVISIE = ResourceUtils.readLines("football-eredivisie.txt");
+        BASKETBALL_NBA = ResourceUtils.readLines("basketball-nba.txt");
+        BASKETBALL_CBA = ResourceUtils.readLines("basketball-cba.txt");
     }
 
     /**
@@ -89,6 +101,23 @@ public class SportSource {
             return ResourceUtils.getRandomElement(FOOTBALL_EREDIVISIE);
         } else {
             throw new RuntimeException("未知的足球联赛类型");
+        }
+    }
+
+    /**
+     * 获取随机的篮球联赛球队名称
+     *
+     * @param competition 体育竞技赛事类型
+     * @return 随机的篮球联赛球队名称
+     */
+    public String randomBasketballTeam(CompetitionType competition) {
+        Preconditions.checkArgument(competition != null, "必须传入篮球联赛类型");
+        if (CompetitionType.NBA.equals(competition)) {
+            return ResourceUtils.getRandomElement(BASKETBALL_NBA);
+        } else if (CompetitionType.CBA.equals(competition)) {
+            return ResourceUtils.getRandomElement(BASKETBALL_CBA);
+        } else {
+            throw new RuntimeException("未知的篮球联赛类型");
         }
     }
 }
