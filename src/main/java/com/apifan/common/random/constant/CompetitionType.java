@@ -6,12 +6,17 @@ package com.apifan.common.random.constant;
  * @author yin
  */
 public enum CompetitionType {
+    //足球
     PREMIER_LEAGUE("英超"),
     LA_LIGA("西甲"),
     BUNDESLIGA("德甲"),
     SERIE_A("意甲"),
     LIGUE_1("法甲"),
-    EREDIVISIE("荷甲");
+    EREDIVISIE("荷甲"),
+
+    //篮球
+    NBA("NBA"),
+    CBA("CBA");
 
     private String name;
 
