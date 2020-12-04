@@ -33,13 +33,16 @@
 - 拼音网络昵称(登录名)
 - IPv4地址
 - 端口号
+- App名称
+- App Bundle ID
+- App版本号
 - QQ号码
 - 非主流QQ网名
 - 学历
 - 小学名称、年级、班级
 - 中学名称、年级、班级
 - 高校名称(数据取自教育部网站)
-- 公司名称
+- 公司及部门名称
 - 经纬度(中国)
 - 中文短句
 - User-Agent(PC/Android/iOS)
@@ -49,6 +52,7 @@
 - 股票名称+股票代码
 - 开放式基金名称+基金代码
 - 六大足球联赛球队名称(英超、西甲、德甲、意甲、法甲、荷甲)
+- 篮球联赛球队名称(CBA、NBA)
 
 ## 如何使用
 ### Java版本要求
@@ -201,6 +205,17 @@ String prv = InternetSource.getInstance().randomPrivateIpv4();
 //生成1个随机端口号
 int port = InternetSource.getInstance().randomPort();
 ```
+#### 随机App信息
+```
+//生成1个随机App名称
+String appName = InternetSource.getInstance().randomAppName();
+
+//生成1个随机App Bundle ID
+String appBundleID = InternetSource.getInstance().randomAppBundleId();
+
+//生成1个随机App版本号
+String appVersionCode = InternetSource.getInstance().randomAppVersionCode();
+```
 #### 随机静态URL
 ```
 //生成1个随机静态URL，后缀为jpg
@@ -343,10 +358,13 @@ String highSchoolGrade = EducationSource.getInstance().randomHighSchoolGrade();
 //随机班级名称
 String className = EducationSource.getInstance().randomClassName();
 ```
-#### 随机公司名称
+#### 随机公司及部门名称
 ```
 //随机生成1个公司名称，地区前缀为北京
 String companyName = OtherSource.getInstance().randomCompanyName("北京");
+
+//随机生成1个公司部门名称
+String department = OtherSource.getInstance().randomCompanyDepartment();
 ```
 #### 随机经纬度
 注意：仅供测试/模拟/仿真/演示，不一定精确。
@@ -417,6 +435,14 @@ SportSource.getInstance().randomFootballTeam(CompetitionType.LIGUE_1);
 
 //荷甲
 SportSource.getInstance().randomFootballTeam(CompetitionType.EREDIVISIE);
+```
+#### 篮球联赛球队名称
+```
+//CBA
+SportSource.getInstance().randomBasketballTeam(CompetitionType.CBA);
+
+//NBA
+SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 ```
 
 ### 注意事项
