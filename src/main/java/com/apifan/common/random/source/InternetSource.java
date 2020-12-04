@@ -11,6 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +146,7 @@ public class InternetSource {
         String domain = randomDomain(16);
         String prefix = "http://";
         int x = RandomUtils.nextInt(0, 101);
-        if(x % 3 == 0){
+        if (x % 3 == 0) {
             prefix = "https://";
         }
         return prefix + domain.toLowerCase() + "/" + RandomUtils.nextLong(1L, 10000000000001L) + "/"
@@ -243,6 +244,36 @@ public class InternetSource {
      */
     public int randomPort() {
         return RandomUtils.nextInt(1025, 65535);
+    }
+
+    /**
+     * 随机App Bundle ID
+     *
+     * @return 随机App Bundle ID
+     */
+    public String randomAppBundleId() {
+        String bundleId = ResourceUtils.getRandomElement(RandomConstant.domainSuffixList)
+                + "." + RandomStringUtils.randomAlphabetic(2, 21) + "." + RandomStringUtils.randomAlphabetic(2, 21);
+        return bundleId.toLowerCase();
+    }
+
+    /**
+     * 随机App版本号
+     *
+     * @return 随机App版本号
+     */
+    public String randomAppVersionCode() {
+        return RandomUtils.nextInt(1, 11) + "." + RandomUtils.nextInt(0, 100) + "." + RandomUtils.nextInt(0, 1000);
+    }
+
+    /**
+     * 随机App名称
+     *
+     * @return 随机App名称
+     */
+    @SuppressWarnings("deprecation")
+    public String randomAppName() {
+        return WordUtils.capitalize(RandomStringUtils.randomAlphabetic(4, 11).toLowerCase());
     }
 
     /**
