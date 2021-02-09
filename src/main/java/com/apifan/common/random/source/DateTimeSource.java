@@ -6,13 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -254,6 +253,17 @@ public class DateTimeSource {
         LocalDateTime begin = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
         return randomTimestamp(begin, end);
+    }
+
+    /**
+     * 获取一个随机的时区名称
+     *
+     * @return 随机的时区名称
+     */
+    public String randomTimezoneName() {
+        Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+        Object[] array = zoneIds.toArray();
+        return Objects.toString(array[RandomUtils.nextInt(0, array.length)]);
     }
 
     /**

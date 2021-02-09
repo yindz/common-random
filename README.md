@@ -28,6 +28,7 @@
 - 日期(特定日期之前/特定日期之后)
 - 时间(过去/未来)
 - 时间戳
+- 时区名称
 - 强密码
 - 网络昵称(登录名)
 - 拼音网络昵称(登录名)
@@ -285,6 +286,12 @@ long ts4 = DateTimeSource.getInstance().randomFutureTimestamp(base1, 180);
 LocalDateTime base2 = LocalDateTime.of(2020, 3, 7, 13, 0, 0);
 long ts5 = DateTimeSource.getInstance().randomPastTimestamp(base2, 120);
 ```
+#### 随机时区名称
+```
+//生成1个随机时区名称
+String timezone = DateTimeSource.getInstance().randomTimezoneName();
+```
+
 #### 随机强密码
 ```
 //生成1个随机强密码，长度为16，无特殊字符
@@ -455,7 +462,7 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 - 新三板
 - 科创版
 - 港股
-- 时区
+- 时区(√)
 - 固话号码
 - IPv6地址
 - 热门手机型号 
