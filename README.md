@@ -320,7 +320,7 @@ String addr = AreaSource.getInstance().randomAddress();
 
 #### 随机固话
 ```
-//随机固话区号
+//随机固话区号(省级行政区名称不需要包含后缀)
 String phoneCode = AreaSource.getInstance().randomPhoneCode("湖南");
 
 //随机固话号码(使用-作为分隔符，默认的分隔符是空格)
@@ -474,6 +474,6 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 - 科创版
 - 港股
 - 时区(√)
-- 固话号码
+- 固话号码(√)
 - IPv6地址
 - 热门手机型号 
