@@ -10,9 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 地区数据源
@@ -52,6 +50,11 @@ public class AreaSource {
      */
     private List<String> townSuffixList = Lists.newArrayList("乡", "镇");
 
+    /**
+     * 区号
+     */
+    private Map<String, List<String>> phoneCodeMap = new HashMap<>();
+
     private static final AreaSource instance = new AreaSource();
 
     private AreaSource() {
@@ -74,6 +77,14 @@ public class AreaSource {
             communityNameList = ResourceUtils.readLines("community-name.txt");
             communitySuffixList = ResourceUtils.readLines("community-suffix.txt");
             addressWordList = ResourceUtils.readLines("address-word-cn.txt");
+            List<Map<String, Object>> phoneCodeMapList = ResourceUtils.readAsMapList("phone-code.json");
+            if (CollectionUtils.isNotEmpty(phoneCodeMapList)) {
+                phoneCodeMapList.forEach(p -> {
+                    String areaName = Objects.toString(p.get("area"));
+                    List<String> codeList = (List<String>) p.get("code");
+                    phoneCodeMap.put(areaName, codeList);
+                });
+            }
         } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
@@ -167,5 +178,42 @@ public class AreaSource {
      */
     public double randomLongitude() {
         return NumberSource.getInstance().randomDouble(73.66D, 135.05D);
+    }
+
+    /**
+     * 随机固话区号
+     *
+     * @param province 省份
+     * @return 随机固话区号
+     */
+    public String randomPhoneCode(String province) {
+        if (StringUtils.isBlank(province)) {
+            return null;
+        }
+        province = province.replace("省", "").replace("市", "").replace("自治区", "");
+        if (!phoneCodeMap.containsKey(province)) {
+            throw new IllegalArgumentException("暂不存在省份名称 " + province + " 对应的区号数据!");
+        }
+        List<String> codeList = phoneCodeMap.get(province);
+        return CollectionUtils.isNotEmpty(codeList) ? codeList.get(RandomUtils.nextInt(0, codeList.size())) : null;
+    }
+
+    /**
+     * 随机固话号码
+     *
+     * @param province  省份
+     * @param delimiter 区号和号码之间的分隔符
+     * @return 随机固话号码
+     */
+    public String randomPhoneNumber(String province, String delimiter) {
+        String prefix = randomPhoneCode(province);
+        if (StringUtils.isBlank(province)) {
+            return null;
+        }
+        if (delimiter == null) {
+            //默认分隔符
+            delimiter = " ";
+        }
+        return prefix + delimiter + RandomUtils.nextLong(10000000L, 99999999L);
     }
 }

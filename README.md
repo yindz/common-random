@@ -20,6 +20,8 @@
 - 虚拟信用卡号码(Visa/Mastercard/JCB/银联/AmericanExpress)
 - 手机号码(中国大陆)
 - 省份和城市(中国大陆)
+- 固话区号(中国大陆)
+- 固话号码(中国大陆)
 - 邮编(中国大陆)
 - 联系地址(中国大陆)
 - 车牌号(中国大陆，包括新能源车型)
@@ -314,6 +316,15 @@ String zipCode = AreaSource.getInstance().randomZipCode();
 
 //生成1个随机中国大陆详细地址
 String addr = AreaSource.getInstance().randomAddress();
+```
+
+#### 随机固话
+```
+//随机固话区号
+String phoneCode = AreaSource.getInstance().randomPhoneCode("湖南");
+
+//随机固话号码(使用-作为分隔符，默认的分隔符是空格)
+String phoneNumber = AreaSource.getInstance().randomPhoneNumber("广东", "-");
 ```
 
 #### 随机中国大陆车牌号

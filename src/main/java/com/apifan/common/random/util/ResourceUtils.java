@@ -1,14 +1,19 @@
 package com.apifan.common.random.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Resources;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 资源工具
@@ -16,6 +21,7 @@ import java.util.List;
  * @author yin
  */
 public class ResourceUtils {
+    private static final Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
 
     /**
      * 逐行读取资源文件
@@ -30,6 +36,39 @@ public class ResourceUtils {
         } catch (IOException e) {
             throw new RuntimeException("读取资源文件失败");
         }
+    }
+
+    /**
+     * 一次性读取资源文件内容
+     *
+     * @param fileName 资源文件名
+     * @return 资源文件内容
+     */
+    public static String readString(String fileName) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(fileName), "资源文件名为空");
+        try {
+            return Resources.asCharSource(Resources.getResource(fileName), Charsets.UTF_8).read();
+        } catch (IOException e) {
+            throw new RuntimeException("读取资源文件失败");
+        }
+    }
+
+    /**
+     * 解析json字符串资源文件为map列表
+     *
+     * @param fileName 资源文件名
+     * @return map列表
+     */
+    public static List<Map<String, Object>> readAsMapList(String fileName) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(fileName), "资源文件名为空");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class);
+            return objectMapper.readValue(readString(fileName), collectionType);
+        } catch (IOException e) {
+            logger.error("解析json出现异常", e);
+        }
+        return null;
     }
 
     /**
