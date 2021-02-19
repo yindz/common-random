@@ -475,5 +475,5 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 - 港股
 - 时区(√)
 - 固话号码(√)
-- IPv6地址
-- 热门手机型号 
+- IPv6地址(√)
+- 热门手机型号(√)

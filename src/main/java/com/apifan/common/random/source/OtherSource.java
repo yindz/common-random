@@ -96,6 +96,11 @@ public class OtherSource {
      */
     private static List<String> fundsList = Lists.newArrayList();
 
+    /**
+     * 热门手机型号
+     */
+    private static List<String> mobileModelsList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -120,6 +125,7 @@ public class OtherSource {
         stocksList = ResourceUtils.readLines("stock.txt");
         fundsList = ResourceUtils.readLines("fund.txt");
         departmentList = ResourceUtils.readLines("common-department.txt");
+        mobileModelsList = ResourceUtils.readLines("mobile-models.txt");
     }
 
     /**
@@ -319,5 +325,14 @@ public class OtherSource {
     public String[] randomFund() {
         String fund = ResourceUtils.getRandomString(fundsList, 1);
         return StringUtils.isNotEmpty(fund) ? fund.split(",") : null;
+    }
+
+    /**
+     * 随机手机型号
+     *
+     * @return 随机手机型号
+     */
+    public String randomMobileModel() {
+        return new String(Base64.getDecoder().decode(ResourceUtils.getRandomElement(mobileModelsList)), StandardCharsets.UTF_8);
     }
 }
