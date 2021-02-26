@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -12,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -103,5 +106,35 @@ public class ResourceUtils {
             sb.append(elementList.get(index));
         }
         return sb.toString();
+    }
+
+    /**
+     * 执行 Base64 解码
+     *
+     * @param text 待解码的 Base64 字符串
+     * @return 解码后原始内容
+     */
+    public static String base64Decode(String text) {
+        return new String(Base64.getDecoder().decode(text), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 逐行执行 Base64 解码
+     *
+     * @param lines 待解码的 Base64 字符串列表
+     * @return 解码后原始内容列表
+     */
+    public static List<String> base64DecodeLines(List<String> lines) {
+        if (CollectionUtils.isEmpty(lines)) {
+            return Lists.newArrayList();
+        }
+        List<String> decoded = Lists.newArrayList();
+        lines.forEach(v -> {
+            if (StringUtils.isBlank(v)) {
+                return;
+            }
+            decoded.add(base64Decode(v));
+        });
+        return decoded;
     }
 }
