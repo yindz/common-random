@@ -22,7 +22,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.*;
@@ -375,7 +374,7 @@ public class PersonInfoSource {
      */
     public String randomQQNickName() {
         String name = ResourceUtils.getRandomString(qqNames, 1);
-        return new String(Base64.getDecoder().decode(name), StandardCharsets.UTF_8);
+        return ResourceUtils.base64Decode(name);
     }
 
     /**
