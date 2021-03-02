@@ -1,7 +1,9 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.entity.Area;
+import com.apifan.common.random.entity.CountryOrRegionCode;
 import com.apifan.common.random.util.ResourceUtils;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
@@ -10,9 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 地区数据源
@@ -21,6 +23,8 @@ import java.util.Objects;
  */
 public class AreaSource {
     private static final Logger logger = LoggerFactory.getLogger(AreaSource.class);
+
+    private static final Pattern ALPHA_1 = Pattern.compile("[a-zA-Z]");
 
     /**
      * 地区列表
@@ -52,6 +56,16 @@ public class AreaSource {
      */
     private List<String> townSuffixList = Lists.newArrayList("乡", "镇");
 
+    /**
+     * 区号
+     */
+    private Map<String, List<String>> phoneCodeMap = new HashMap<>();
+
+    /**
+     * 国家或地区编码信息列表
+     */
+    private List<CountryOrRegionCode> countryOrRegionCodeList = new ArrayList<>();
+
     private static final AreaSource instance = new AreaSource();
 
     private AreaSource() {
@@ -74,6 +88,31 @@ public class AreaSource {
             communityNameList = ResourceUtils.readLines("community-name.txt");
             communitySuffixList = ResourceUtils.readLines("community-suffix.txt");
             addressWordList = ResourceUtils.readLines("address-word-cn.txt");
+            List<Map<String, Object>> phoneCodeMapList = ResourceUtils.readAsMapList("phone-code.json");
+            if (CollectionUtils.isNotEmpty(phoneCodeMapList)) {
+                phoneCodeMapList.forEach(p -> {
+                    String areaName = Objects.toString(p.get("area"));
+                    List<String> codeList = (List<String>) p.get("code");
+                    phoneCodeMap.put(areaName, codeList);
+                });
+            }
+            List<String> countryOrRegionCodes = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("iso-3166-1.txt"));
+            countryOrRegionCodes.forEach(c -> {
+                if (StringUtils.isBlank(c)) {
+                    return;
+                }
+                String[] tmp = c.split(",");
+                if (tmp.length != 5) {
+                    return;
+                }
+                CountryOrRegionCode regionCode = new CountryOrRegionCode();
+                regionCode.setNameEN(tmp[0]);
+                regionCode.setAlpha2(tmp[1]);
+                regionCode.setAlpha3(tmp[2]);
+                regionCode.setNumber(tmp[3]);
+                regionCode.setNameCN(tmp[4]);
+                countryOrRegionCodeList.add(regionCode);
+            });
         } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
@@ -167,5 +206,74 @@ public class AreaSource {
      */
     public double randomLongitude() {
         return NumberSource.getInstance().randomDouble(73.66D, 135.05D);
+    }
+
+    /**
+     * 随机固话区号
+     *
+     * @param province 省份
+     * @return 随机固话区号
+     */
+    public String randomPhoneCode(String province) {
+        if (StringUtils.isBlank(province)) {
+            return null;
+        }
+        province = province.replace("省", "").replace("市", "").replace("自治区", "");
+        if (!phoneCodeMap.containsKey(province)) {
+            throw new IllegalArgumentException("暂不存在省份名称 " + province + " 对应的区号数据!");
+        }
+        List<String> codeList = phoneCodeMap.get(province);
+        return CollectionUtils.isNotEmpty(codeList) ? codeList.get(RandomUtils.nextInt(0, codeList.size())) : null;
+    }
+
+    /**
+     * 随机固话号码
+     *
+     * @param province  省份
+     * @param delimiter 区号和号码之间的分隔符
+     * @return 随机固话号码
+     */
+    public String randomPhoneNumber(String province, String delimiter) {
+        String prefix = randomPhoneCode(province);
+        if (StringUtils.isBlank(province)) {
+            return null;
+        }
+        if (delimiter == null) {
+            //默认分隔符
+            delimiter = " ";
+        }
+        return prefix + delimiter + RandomUtils.nextLong(10000000L, 99999999L);
+    }
+
+    /**
+     * 随机国家或地区编码信息
+     *
+     * @param startsWith 首字母(不区分大小写)
+     * @return 随机的国家或地区编码信息
+     */
+    public CountryOrRegionCode randomCountryOrRegionCode(String startsWith) {
+        Preconditions.checkArgument(ALPHA_1.matcher(startsWith).matches(), "startsWith 必须为单个字母");
+        List<CountryOrRegionCode> filteredList = countryOrRegionCodeList.stream()
+                .filter(i -> i.getAlpha2().startsWith(startsWith.toUpperCase()) || i.getAlpha3().startsWith(startsWith.toUpperCase())).collect(Collectors.toList());
+        return randomCountryOrRegionCode(filteredList);
+    }
+
+    /**
+     * 随机国家或地区编码信息(不限首字母)
+     *
+     * @return 随机的国家或地区编码信息
+     */
+    public CountryOrRegionCode randomCountryOrRegionCode() {
+        return randomCountryOrRegionCode(countryOrRegionCodeList);
+    }
+
+    /**
+     * 返回随机的国家或地区编码信息
+     *
+     * @param list 原始列表
+     * @return 随机的国家或地区编码信息
+     */
+    private CountryOrRegionCode randomCountryOrRegionCode(List<CountryOrRegionCode> list) {
+        return CollectionUtils.isNotEmpty(list) ? list.get(RandomUtils.nextInt(0, list.size() - 1)) : null;
     }
 }

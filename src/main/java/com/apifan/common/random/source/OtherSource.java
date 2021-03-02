@@ -9,9 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -87,39 +85,21 @@ public class OtherSource {
     private static List<String> chineseParticlesList = Lists.newArrayList();
 
     /**
-     * 股票代码
+     * 热门手机型号
      */
-    private static List<String> stocksList = Lists.newArrayList();
-
-    /**
-     * 开放式基金
-     */
-    private static List<String> fundsList = Lists.newArrayList();
+    private static List<String> mobileModelsList = Lists.newArrayList();
 
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
-        List<String> encodedNouns = ResourceUtils.readLines("common-chinese-nouns.txt");
-        encodedNouns.forEach(e -> {
-            if (StringUtils.isBlank(e)) {
-                return;
-            }
-            chineseNounsList.add(new String(Base64.getDecoder().decode(e), StandardCharsets.UTF_8));
-        });
+        chineseNounsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-nouns.txt"));
         chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
         chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
-        List<String> encodedVerbs = ResourceUtils.readLines("common-chinese-verbs.txt");
-        encodedVerbs.forEach(v -> {
-            if (StringUtils.isBlank(v)) {
-                return;
-            }
-            chineseVerbsList.add(new String(Base64.getDecoder().decode(v), StandardCharsets.UTF_8));
-        });
+        chineseVerbsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-verbs.txt"));
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
         chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
-        stocksList = ResourceUtils.readLines("stock.txt");
-        fundsList = ResourceUtils.readLines("fund.txt");
         departmentList = ResourceUtils.readLines("common-department.txt");
+        mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("mobile-models.txt"));
     }
 
     /**
@@ -302,22 +282,29 @@ public class OtherSource {
     }
 
     /**
-     * 随机股票
+     * 随机股票(沪A+深A+创业板+科创版, 兼容处理)
      *
      * @return 股票名称+股票代码
      */
     public String[] randomStock() {
-        String stock = ResourceUtils.getRandomString(stocksList, 1);
-        return StringUtils.isNotEmpty(stock) ? stock.split(",") : null;
+        return FinancialSource.getInstance().randomStock();
     }
 
     /**
-     * 随机基金
+     * 随机基金(兼容处理)
      *
      * @return 基金名称+基金代码
      */
     public String[] randomFund() {
-        String fund = ResourceUtils.getRandomString(fundsList, 1);
-        return StringUtils.isNotEmpty(fund) ? fund.split(",") : null;
+        return FinancialSource.getInstance().randomFund();
+    }
+
+    /**
+     * 随机手机型号
+     *
+     * @return 随机手机型号
+     */
+    public String randomMobileModel() {
+        return ResourceUtils.getRandomElement(mobileModelsList);
     }
 }

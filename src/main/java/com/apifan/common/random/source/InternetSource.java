@@ -277,6 +277,19 @@ public class InternetSource {
     }
 
     /**
+     * 随机IPv6地址
+     *
+     * @return 随机IPv6地址
+     */
+    public String randomIpV6() {
+        List<String> numbers = Lists.newArrayList();
+        for (int i = 0; i < 8; i++) {
+            numbers.add(Integer.toHexString(RandomUtils.nextInt(0, 65535)));
+        }
+        return Joiner.on(":").join(numbers);
+    }
+
+    /**
      * IPv4地址转整数
      *
      * @param ipv4 IPv4地址
