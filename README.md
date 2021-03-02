@@ -148,7 +148,7 @@ String l = PersonInfoSource.getInstance().randomEnglishName();
 ##### 生成姓名头像
 - 该功能可以根据用户姓名快速生成各类网站、app的用户头像
 - 背景颜色随机，数据源取自最近十几年来广受欢迎的颜色，详情参见: [Colors of the Year](https://www.w3schools.com/colors/colors_trends.asp)
-- 支持使用自定义字体，但是需要使用者自行保证字体版权合法以避免纠纷
+- 支持使用自定义TTF字体，但是需要使用者自行保证字体版权合法以避免纠纷
 - 该功能不支持在Android运行环境中使用(因为缺少awt)
 ```
 //姓名
