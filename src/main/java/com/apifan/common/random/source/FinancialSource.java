@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -53,11 +54,15 @@ public class FinancialSource {
     private static final FinancialSource instance = new FinancialSource();
 
     private FinancialSource() {
-        stockShSzList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("stock-shsz.txt"));
-        stockHkList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("stock-hk.txt"));
-        stockXsbList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("stock-xsb.txt"));
-        fundsList = ResourceUtils.readLines("fund.txt");
-        currencyList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("currency.txt"));
+        try {
+            currencyList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("currency.zip"));
+            stockXsbList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("stock-xsb.zip"));
+            stockShSzList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("stock-shsz.zip"));
+            stockHkList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("stock-hk.zip"));
+            fundsList = ResourceUtils.readLines("fund.zip");
+        } catch (IOException e) {
+            logger.error("读取资源文件时出现异常", e);
+        }
     }
 
     /**

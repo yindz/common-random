@@ -70,7 +70,7 @@ public class AreaSource {
 
     private AreaSource() {
         try {
-            List<String> areaLines = ResourceUtils.readLines("area.csv");
+            List<String> areaLines = ResourceUtils.readZipText("area.zip");
             if (CollectionUtils.isNotEmpty(areaLines)) {
                 areaLines.forEach(i -> {
                     if (StringUtils.isEmpty(i)) {
@@ -85,9 +85,9 @@ public class AreaSource {
                     areaList.add(area);
                 });
             }
-            communityNameList = ResourceUtils.readLines("community-name.txt");
-            communitySuffixList = ResourceUtils.readLines("community-suffix.txt");
-            addressWordList = ResourceUtils.readLines("address-word-cn.txt");
+            communityNameList = ResourceUtils.readZipText("community-name.zip");
+            communitySuffixList = ResourceUtils.readZipText("community-suffix.zip");
+            addressWordList = ResourceUtils.readZipText("address-word-cn.zip");
             List<Map<String, Object>> phoneCodeMapList = ResourceUtils.readAsMapList("phone-code.json");
             if (CollectionUtils.isNotEmpty(phoneCodeMapList)) {
                 phoneCodeMapList.forEach(p -> {
@@ -96,7 +96,7 @@ public class AreaSource {
                     phoneCodeMap.put(areaName, codeList);
                 });
             }
-            List<String> countryOrRegionCodes = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("iso-3166-1.txt"));
+            List<String> countryOrRegionCodes = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("iso-3166-1.zip"));
             countryOrRegionCodes.forEach(c -> {
                 if (StringUtils.isBlank(c)) {
                     return;

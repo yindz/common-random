@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -60,14 +61,18 @@ public class SportSource {
     private static final SportSource instance = new SportSource();
 
     private SportSource() {
-        FOOTBALL_PREMIER_LEAGUE = ResourceUtils.readLines("football-premier-league.txt");
-        FOOTBALL_LA_LIGA = ResourceUtils.readLines("football-la-liga.txt");
-        FOOTBALL_BUNDESLIGA = ResourceUtils.readLines("football-bundesliga.txt");
-        FOOTBALL_SERIE_A = ResourceUtils.readLines("football-serie-a.txt");
-        FOOTBALL_LIGUE_1 = ResourceUtils.readLines("football-ligue-1.txt");
-        FOOTBALL_EREDIVISIE = ResourceUtils.readLines("football-eredivisie.txt");
-        BASKETBALL_NBA = ResourceUtils.readLines("basketball-nba.txt");
-        BASKETBALL_CBA = ResourceUtils.readLines("basketball-cba.txt");
+        try {
+            FOOTBALL_PREMIER_LEAGUE = ResourceUtils.readZipText("football-premier-league.zip");
+            FOOTBALL_LA_LIGA = ResourceUtils.readZipText("football-la-liga.zip");
+            FOOTBALL_BUNDESLIGA = ResourceUtils.readZipText("football-bundesliga.zip");
+            FOOTBALL_SERIE_A = ResourceUtils.readZipText("football-serie-a.zip");
+            FOOTBALL_LIGUE_1 = ResourceUtils.readZipText("football-ligue-1.zip");
+            FOOTBALL_EREDIVISIE = ResourceUtils.readZipText("football-eredivisie.zip");
+            BASKETBALL_NBA = ResourceUtils.readZipText("basketball-nba.zip");
+            BASKETBALL_CBA = ResourceUtils.readZipText("basketball-cba.zip");
+        } catch (IOException e) {
+            logger.error("读取资源文件时出现异常", e);
+        }
     }
 
     /**

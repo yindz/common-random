@@ -134,14 +134,24 @@ public class PersonInfoSource {
     private static final PersonInfoSource instance = new PersonInfoSource();
 
     private PersonInfoSource() {
-        lastNamesCN = ResourceUtils.readLines("last-names-cn.txt");
-        femaleFirstNamesCN = ResourceUtils.readLines("female-first-names-cn.txt");
-        maleFirstNamesCN = ResourceUtils.readLines("male-first-names-cn.txt");
-        lastNamesEN = ResourceUtils.readLines("last-names-en.txt");
-        firstNamesEN = ResourceUtils.readLines("first-names-en.txt");
-        qqNames = ResourceUtils.readLines("qq-name.txt");
+        try {
+            femaleFirstNamesCN = ResourceUtils.readZipText("female-first-names-cn.zip");
+            maleFirstNamesCN = ResourceUtils.readZipText("male-first-names-cn.zip");
+            lastNamesCN = ResourceUtils.readZipText("last-names-cn.zip");
+            firstNamesEN = ResourceUtils.readZipText("first-names-en.zip");
+            lastNamesEN = ResourceUtils.readZipText("last-names-en.zip");
+            qqNames = ResourceUtils.readZipText("qq-name.zip");
+        } catch (IOException e) {
+            logger.error("读取资源文件时出现异常", e);
+        }
+
         //解析身份证前缀数据
-        List<String> lines = ResourceUtils.readLines("id-prefix.csv");
+        List<String> lines = null;
+        try {
+            lines = ResourceUtils.readZipText("id-prefix.zip");
+        } catch (IOException e) {
+            logger.error("读取身份证规则资源文件时出现异常", e);
+        }
         if (CollectionUtils.isNotEmpty(lines)) {
             lines.forEach(i -> {
                 if (StringUtils.isEmpty(i)) {

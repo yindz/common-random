@@ -7,16 +7,20 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * 资源工具
@@ -136,5 +140,34 @@ public class ResourceUtils {
             decoded.add(base64Decode(v));
         });
         return decoded;
+    }
+
+    /**
+     * 读取zip
+     *
+     * @param zip zip路径
+     * @return
+     * @throws IOException
+     */
+    public static List<String> readZipText(String zip) throws IOException {
+        String tmpOutFile = System.getProperty("java.io.tmpdir") + File.separator + UUID.randomUUID() + ".txt";
+        File outFile = new File(tmpOutFile);
+
+        byte[] content = Resources.asByteSource(Resources.getResource(zip)).read();
+        try (ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(content))) {
+            byte[] buffer = new byte[2048];
+            ZipEntry entry = zipStream.getNextEntry();
+            if (entry != null) {
+                try (FileOutputStream fos = new FileOutputStream(outFile); BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {
+                    int len;
+                    while ((len = zipStream.read(buffer)) > 0) {
+                        bos.write(buffer, 0, len);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("解压缩时发生异常", e);
+        }
+        return FileUtils.readLines(outFile, StandardCharsets.UTF_8);
     }
 }

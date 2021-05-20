@@ -65,7 +65,7 @@ public class InternetSource {
 
     private InternetSource() {
         try {
-            List<String> areaLines = ResourceUtils.readLines("cn-ip.csv");
+            List<String> areaLines = ResourceUtils.readZipText("cn-ip.zip");
             if (CollectionUtils.isNotEmpty(areaLines)) {
                 areaLines.forEach(i -> {
                     if (StringUtils.isEmpty(i)) {

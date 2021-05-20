@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,14 +93,18 @@ public class OtherSource {
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
-        chineseNounsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-nouns.txt"));
-        chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
-        chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
-        chineseVerbsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-verbs.txt"));
-        chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
-        chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
-        departmentList = ResourceUtils.readLines("common-department.txt");
-        mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("mobile-models.txt"));
+        try {
+            chineseNounsList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("common-chinese-nouns.zip"));
+            chineseVerbsList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("common-chinese-verbs.zip"));
+            chineseAdverbsList = ResourceUtils.readZipText("common-chinese-adverbs.zip");
+            chineseConjunctionsList = ResourceUtils.readZipText("common-chinese-conjunctions.zip");
+            chinesePronounsList = ResourceUtils.readZipText("common-chinese-pronouns.zip");
+            chineseParticlesList = ResourceUtils.readZipText("common-chinese-particles.zip");
+            departmentList = ResourceUtils.readZipText("common-department.zip");
+            mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readZipText("mobile-models.zip"));
+        } catch (IOException e) {
+            logger.error("读取资源文件时出现异常", e);
+        }
     }
 
     /**

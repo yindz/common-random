@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,7 +28,11 @@ public class EducationSource {
     private static final List<String> numberList = Lists.newArrayList("一", "二", "三", "四", "五", "六", "七", "八", "九", "十");
 
     private EducationSource() {
-        collegeList = ResourceUtils.readLines("college.txt");
+        try {
+            collegeList = ResourceUtils.readZipText("college.zip");
+        } catch (IOException e) {
+            logger.error("读取资源文件时出现异常", e);
+        }
     }
 
     /**
