@@ -532,3 +532,7 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 ```
 OtherSource.getInstance().randomMobileModel();
 ```
+
+## 感谢 JetBrains 免费的开源授权
+<a href="https://www.jetbrains.com/?from=common-random" target="_blank">
+<img src="https://i.loli.net/2021/06/22/Kpd28P9GwhUlrck.png" height="200"/></a>
