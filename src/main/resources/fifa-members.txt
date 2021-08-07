@@ -1,0 +1,214 @@
+阿富汗,Afghanistan,AFG,AFC,亚洲足联
+澳大利亚,Australia,AUS,AFC,亚洲足联
+巴林,Bahrain,BHR,AFC,亚洲足联
+孟加拉国,Bangladesh,BAN,AFC,亚洲足联
+不丹,Bhutan,BHU,AFC,亚洲足联
+文莱,Brunei Darussalam,BRU,AFC,亚洲足联
+柬埔寨,Cambodian,CAM,AFC,亚洲足联
+中国,China PR,CHN,AFC,亚洲足联
+中国台北,Chinese Taipei,TPE,AFC,亚洲足联
+关岛,Guam,GUM,AFC,亚洲足联
+中国香港,Hong Kong,HKG,AFC,亚洲足联
+印度,India,IND,AFC,亚洲足联
+印尼,Indonesia,IDN,AFC,亚洲足联
+伊朗,Iran,IRN,AFC,亚洲足联
+伊拉克,Iraq,IRQ,AFC,亚洲足联
+日本,Japan,JPN,AFC,亚洲足联
+约旦,Jordan,JOR,AFC,亚洲足联
+朝鲜,Korea DPR,PRK,AFC,亚洲足联
+韩国,Korea Republic,KOR,AFC,亚洲足联
+科威特,Kuwait,KUW,AFC,亚洲足联
+吉尔吉斯斯坦,Kyrgyzstan,KGZ,AFC,亚洲足联
+老挝,Laos,LAO,AFC,亚洲足联
+黎巴嫩,Lebanon,LIB,AFC,亚洲足联
+中国澳门,Macau,MAC,AFC,亚洲足联
+马来西亚,Malaysia,MAS,AFC,亚洲足联
+马尔代夫,Maldives,MDV,AFC,亚洲足联
+蒙古,Mongolia,MGL,AFC,亚洲足联
+缅甸,Myanmar,MYA,AFC,亚洲足联
+尼泊尔,Nepal,NEP,AFC,亚洲足联
+北马里亚纳群岛,Northern Mariana Islands,NMI,AFC,亚洲足联
+阿曼,Oman,OMA,AFC,亚洲足联
+巴基斯坦,Pakistan,PAK,AFC,亚洲足联
+巴勒斯坦,Palestine,PAL,AFC,亚洲足联
+菲律宾,Philippines,PHI,AFC,亚洲足联
+卡塔尔,Qatar,QAT,AFC,亚洲足联
+沙特阿拉伯,Saudi Arabia,KSA,AFC,亚洲足联
+新加坡,Singapore,SIN,AFC,亚洲足联
+斯里兰卡,Sri Lanka,SRI,AFC,亚洲足联
+叙利亚,Syria,SYR,AFC,亚洲足联
+塔吉克斯坦,Tajikistan,TJK,AFC,亚洲足联
+泰国,Thailand,THA,AFC,亚洲足联
+东帝汶,Timor-Leste,TLS,AFC,亚洲足联
+土库曼斯坦,Turkmenistan,TKM,AFC,亚洲足联
+阿联酋,United Arab Emirates,UAE,AFC,亚洲足联
+乌兹别克斯坦,Uzbekistan,UZB,AFC,亚洲足联
+越南,Vietnam,VIE,AFC,亚洲足联
+也门,Yemen,YEM,AFC,亚洲足联
+阿尔及利亚,Algeria,ALG,CAF,非洲足联
+安哥拉,Angola,ANG,CAF,非洲足联
+贝宁,Benin,BEN,CAF,非洲足联
+博茨瓦纳,Botswana,BOT,CAF,非洲足联
+布基纳法索,Burkina Faso,BFA,CAF,非洲足联
+布隆迪,Burundi,BDI,CAF,非洲足联
+喀麦隆,Cameroon,CMR,CAF,非洲足联
+佛得角,Cape Verde Islands,CPV,CAF,非洲足联
+中非,Central African Republic,CTA,CAF,非洲足联
+乍得,Chad,CHA,CAF,非洲足联
+科摩罗,Comoros,COM,CAF,非洲足联
+刚果共和国,Congo,CGO,CAF,非洲足联
+刚果民主共和国,Congo DR / RD Congo,COD,CAF,非洲足联
+科特迪瓦,C?te d'Ivoire,CIV,CAF,非洲足联
+吉布提,Djibouti,DJI,CAF,非洲足联
+埃及,Egypt,EGY,CAF,非洲足联
+赤道几内亚,Equatorial Guinea,EQG,CAF,非洲足联
+厄立特里亚,Eritrea,ERI,CAF,非洲足联
+埃塞俄比亚,Ethiopia,ETH,CAF,非洲足联
+加蓬,Gabon,GAB,CAF,非洲足联
+冈比亚,Gambia,GAM,CAF,非洲足联
+加纳,Ghana,GHA,CAF,非洲足联
+几内亚,Guinea,GUI,CAF,非洲足联
+几内亚比绍,Guinea-Bissau,GNB,CAF,非洲足联
+肯尼亚,Kenya,KEN,CAF,非洲足联
+莱索托,Lesotho,LES,CAF,非洲足联
+利比里亚,Liberia,LBR,CAF,非洲足联
+利比亚,Libya,LBY,CAF,非洲足联
+马达加斯加,Madagascar,MAD,CAF,非洲足联
+马拉维,Malawi,MWI,CAF,非洲足联
+马里,Mali,MLI,CAF,非洲足联
+毛里塔尼亚,Mauritania,MTN,CAF,非洲足联
+毛里求斯,Mauritius,MRI,CAF,非洲足联
+摩洛哥,Morocco,MAR,CAF,非洲足联
+莫桑比克,Mozambique,MOZ,CAF,非洲足联
+纳米比亚,Namibia,NAM,CAF,非洲足联
+尼日尔,Niger,NIG,CAF,非洲足联
+尼日利亚,Nigeria,NGA,CAF,非洲足联
+留尼汪,Reunion Island,REU,CAF,非洲足联
+卢旺达,Rwanda,RWA,CAF,非洲足联
+圣多美和普林西比,S?o Tomé e Príncipe,STP,CAF,非洲足联
+塞内加尔,Senegal,SEN,CAF,非洲足联
+塞舌尔,Seychelles,SEY,CAF,非洲足联
+塞拉利昂,Sierra Leone,SLE,CAF,非洲足联
+索马里,Somalia,SOM,CAF,非洲足联
+南非,South Africa,RSA,CAF,非洲足联
+南苏丹,South Sudan,RSA,CAF,非洲足联
+苏丹,Sudan,SUD,CAF,非洲足联
+斯威士兰,Swaziland,SWZ,CAF,非洲足联
+坦桑尼亚,Tanzania,TAN,CAF,非洲足联
+多哥,Togo,TOG,CAF,非洲足联
+突尼斯,Tunisia,TUN,CAF,非洲足联
+乌干达,Uganda,UGA,CAF,非洲足联
+赞比亚,Zambia,ZAM,CAF,非洲足联
+桑给巴尔,Zanzibar,ZAN,CAF,非洲足联
+津巴布韦,Zimbabwe,ZIM,CAF,非洲足联
+安圭拉,Anguilla,AIA,CONCACAF,中北美及加勒比海地区足联
+安提瓜和巴布达,Antigua and Barbuda,ATG,CONCACAF,中北美及加勒比海地区足联
+阿鲁巴,Aruba,ARU,CONCACAF,中北美及加勒比海地区足联
+巴哈马,Bahamas,BAH,CONCACAF,中北美及加勒比海地区足联
+巴巴多斯,Barbados,BRB,CONCACAF,中北美及加勒比海地区足联
+伯利兹,Belize,BLZ,CONCACAF,中北美及加勒比海地区足联
+百慕大,Bermuda,BER,CONCACAF,中北美及加勒比海地区足联
+英属维尔京群岛,British Virgin Islands,VGB,CONCACAF,中北美及加勒比海地区足联
+加拿大,Canada,CAN,CONCACAF,中北美及加勒比海地区足联
+开曼群岛,Cayman Islands,CAY,CONCACAF,中北美及加勒比海地区足联
+哥斯达黎加,Costa Rica,CRC,CONCACAF,中北美及加勒比海地区足联
+古巴,Cuba,CUB,CONCACAF,中北美及加勒比海地区足联
+库拉索,Cura?ao,CUW,CONCACAF,中北美及加勒比海地区足联
+多米尼克,Dominica,DMA,CONCACAF,中北美及加勒比海地区足联
+多米尼加,Dominican Republic,DOM,CONCACAF,中北美及加勒比海地区足联
+萨尔瓦多,El Salvador,SLV,CONCACAF,中北美及加勒比海地区足联
+格林纳达,Grenada,GRN,CONCACAF,中北美及加勒比海地区足联
+危地马拉,Guatemala,GUA,CONCACAF,中北美及加勒比海地区足联
+圭亚那,Guyana,GUY,CONCACAF,中北美及加勒比海地区足联
+海地,Haiti,HAI,CONCACAF,中北美及加勒比海地区足联
+洪都拉斯,Honduras,HON,CONCACAF,中北美及加勒比海地区足联
+牙买加,Jamaica,JAM,CONCACAF,中北美及加勒比海地区足联
+墨西哥,Mexico,MEX,CONCACAF,中北美及加勒比海地区足联
+蒙特塞拉特,Montserrat,MSR,CONCACAF,中北美及加勒比海地区足联
+尼加拉瓜,Nicaragua,NCA,CONCACAF,中北美及加勒比海地区足联
+巴拿马,Panama,PAN,CONCACAF,中北美及加勒比海地区足联
+波多黎各,Puerto Rico,PUR,CONCACAF,中北美及加勒比海地区足联
+圣基茨和尼维斯,St. Kitts and Nevis,SKN,CONCACAF,中北美及加勒比海地区足联
+圣卢西亚,St. Lucia,LCA,CONCACAF,中北美及加勒比海地区足联
+圣文森特和格林纳丁斯,St. Vincent and the Grenadines,VIN,CONCACAF,中北美及加勒比海地区足联
+苏里南,Suriname,SUR,CONCACAF,中北美及加勒比海地区足联
+特立尼达和多巴哥,Trinidad and Tobago,TRI,CONCACAF,中北美及加勒比海地区足联
+特克斯和凯科斯群岛,Turks and Caicos Islands,TCA,CONCACAF,中北美及加勒比海地区足联
+美属维尔京群岛,US Virgin Islands,VIR,CONCACAF,中北美及加勒比海地区足联
+美国,USA,USA,CONCACAF,中北美及加勒比海地区足联
+阿根廷,Argentine,ARG,CONMEBOL,南美洲足联
+玻利维亚,Bolivia,BOL,CONMEBOL,南美洲足联
+巴西,Brazil,BRA,CONMEBOL,南美洲足联
+智利,Chile,CHI,CONMEBOL,南美洲足联
+哥伦比亚,Colombia,COL,CONMEBOL,南美洲足联
+厄瓜多尔,Ecuador,ECU,CONMEBOL,南美洲足联
+巴拉圭,Paraguay,PAR,CONMEBOL,南美洲足联
+秘鲁,Peru,PER,CONMEBOL,南美洲足联
+乌拉圭,Uruguay,URU,CONMEBOL,南美洲足联
+委内瑞拉,Venezuela,VEN,CONMEBOL,南美洲足联
+美属萨摩亚,American Samoa,ASA,OFC,大洋洲足联
+库克群岛,Cook Islands,COK,OFC,大洋洲足联
+斐济,Fiji,FIJ,OFC,大洋洲足联
+新喀里多尼亚,New Caledonia,NCL,OFC,大洋洲足联
+新西兰,New Zealand,NZL,OFC,大洋洲足联
+巴布亚新几内亚,Papua New Guinea,PNG,OFC,大洋洲足联
+萨摩亚,Samoa,SAM,OFC,大洋洲足联
+所罗门群岛,Solomon Islands,SOL,OFC,大洋洲足联
+法属波利尼西亚,Tahiti,TAH,OFC,大洋洲足联
+汤加,Tonga,TGA,OFC,大洋洲足联
+瓦努阿图,Vanuatu,VAN,OFC,大洋洲足联
+阿尔巴尼亚,Albania,ALB,UEFA,欧洲足联
+安道尔,Andorra,AND,UEFA,欧洲足联
+亚美尼亚,Armenia,ARM,UEFA,欧洲足联
+奥地利,Austria,AUT,UEFA,欧洲足联
+阿塞拜疆,Azerbaijan,AZE,UEFA,欧洲足联
+白俄罗斯,Belarus,BLR,UEFA,欧洲足联
+比利时,Belgium,BEL,UEFA,欧洲足联
+波黑,Bosnia and Herzegovina,BIH,UEFA,欧洲足联
+保加利亚,Bulgaria,BUL,UEFA,欧洲足联
+克罗地亚,Croatia,CRO,UEFA,欧洲足联
+塞浦路斯,Cyprus,CYP,UEFA,欧洲足联
+捷克,Czech Republic,CZE,UEFA,欧洲足联
+丹麦,Denmark,DEN,UEFA,欧洲足联
+英格兰,England,ENG,UEFA,欧洲足联
+爱沙尼亚,Estonia,EST,UEFA,欧洲足联
+法罗群岛,Faroe Islands,FRO,UEFA,欧洲足联
+芬兰,Finland,FIN,UEFA,欧洲足联
+法国,France,FRA,UEFA,欧洲足联
+北马其顿,FYR Macedonia,MKD,UEFA,欧洲足联
+格鲁吉亚,Georgia,GEO,UEFA,欧洲足联
+德国,Germany,GER,UEFA,欧洲足联
+直布罗陀,Gibraltar,GIB,UEFA,欧洲足联
+希腊,Greece,GRE,UEFA,欧洲足联
+匈牙利,Hungary,HUN,UEFA,欧洲足联
+冰岛,Iceland,ISL,UEFA,欧洲足联
+以色列,Israel,ISR,UEFA,欧洲足联
+意大利,Italy,ITA,UEFA,欧洲足联
+哈萨克斯坦,Kazakhstan,KAZ,UEFA,欧洲足联
+科索沃,Kosovo,KVX,UEFA,欧洲足联
+拉脱维亚,Latvia,LVA,UEFA,欧洲足联
+列支敦士登,Liechtenstein,LIE,UEFA,欧洲足联
+立陶宛,Lithuania,LTU,UEFA,欧洲足联
+卢森堡,Luxembourg,LUX,UEFA,欧洲足联
+马耳他,Malta,MLT,UEFA,欧洲足联
+摩尔多瓦,Moldova,MDA,UEFA,欧洲足联
+黑山,Montenegro,MNE,UEFA,欧洲足联
+荷兰,Netherlands,NED,UEFA,欧洲足联
+北爱尔兰,Northern Ireland,NIR,UEFA,欧洲足联
+挪威,Norway,NOR,UEFA,欧洲足联
+波兰,Poland,POL,UEFA,欧洲足联
+葡萄牙,Portugal,POR,UEFA,欧洲足联
+爱尔兰,Republic of Ireland,IRL,UEFA,欧洲足联
+罗马尼亚,Romania,ROU,UEFA,欧洲足联
+俄罗斯,Russia,RUS,UEFA,欧洲足联
+圣马力诺,San Marino,SMR,UEFA,欧洲足联
+苏格兰,Scotland,SCO,UEFA,欧洲足联
+塞尔维亚,Serbia,SRB,UEFA,欧洲足联
+斯洛伐克,Slovakia,SVK,UEFA,欧洲足联
+斯洛文尼亚,Slovenia,SVN,UEFA,欧洲足联
+西班牙,Spain,ESP,UEFA,欧洲足联
+瑞典,Sweden,SWE,UEFA,欧洲足联
+瑞士,Switzerland,SUI,UEFA,欧洲足联
+土耳其,Turkey,TUR,UEFA,欧洲足联
+乌克兰,Ukraine,UKR,UEFA,欧洲足联
+威尔士,Wales,WAL,UEFA,欧洲足联

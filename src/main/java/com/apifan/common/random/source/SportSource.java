@@ -1,13 +1,19 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.constant.CompetitionType;
+import com.apifan.common.random.constant.FootballConfederation;
+import com.apifan.common.random.entity.FootballTeam;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 体育竞技数据源
@@ -57,6 +63,11 @@ public class SportSource {
      */
     private static List<String> BASKETBALL_CBA = Lists.newArrayList();
 
+    /**
+     * FIFA成员列表
+     */
+    private static final List<FootballTeam> FIFA_MEMBER_LIST = Lists.newArrayList();
+
     private static final SportSource instance = new SportSource();
 
     private SportSource() {
@@ -68,6 +79,24 @@ public class SportSource {
         FOOTBALL_EREDIVISIE = ResourceUtils.readLines("football-eredivisie.txt");
         BASKETBALL_NBA = ResourceUtils.readLines("basketball-nba.txt");
         BASKETBALL_CBA = ResourceUtils.readLines("basketball-cba.txt");
+        List<String> fifaMemberInfoList = ResourceUtils.readLines("fifa-members.txt");
+        if (CollectionUtils.isNotEmpty(fifaMemberInfoList)) {
+            fifaMemberInfoList.forEach(e -> {
+                if (StringUtils.isBlank(e)) {
+                    return;
+                }
+                String[] tmp = e.split(",");
+                if (tmp.length == 5) {
+                    FootballTeam fm = new FootballTeam();
+                    fm.setName(tmp[0]);
+                    fm.setNameEn(tmp[1]);
+                    fm.setCode(tmp[2]);
+                    fm.setConfederation(tmp[3]);
+                    fm.setConfederationName(tmp[4]);
+                    FIFA_MEMBER_LIST.add(fm);
+                }
+            });
+        }
     }
 
     /**
@@ -119,5 +148,25 @@ public class SportSource {
         } else {
             throw new RuntimeException("未知的篮球联赛类型");
         }
+    }
+
+    /**
+     * 获取随机的国家及地区的足球代表队信息
+     *
+     * @param confederation 所属足球联合会
+     * @return 随机的国家及地区的足球代表队信息
+     */
+    public FootballTeam randomFootballTeam(FootballConfederation confederation) {
+        Preconditions.checkNotNull(confederation, "请传入相应的足球联合会参数");
+        return ResourceUtils.getRandomElement(FIFA_MEMBER_LIST.stream().filter(i -> Objects.equals(confederation.getName(), i.getConfederationName())).collect(Collectors.toList()));
+    }
+
+    /**
+     * 获取随机的国家及地区的足球代表队信息(不限足球联合会)
+     *
+     * @return 随机的国家及地区的足球代表队信息
+     */
+    public FootballTeam randomFootballTeam() {
+        return ResourceUtils.getRandomElement(FIFA_MEMBER_LIST);
     }
 }
