@@ -531,13 +531,13 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 #### 国家及地区的足球代表队
 ```
 //(亚洲足联范围内)随机足球队名称
-SportSource.getInstance().randomFifaMember(FootballConfederation.AFC);
+SportSource.getInstance().randomFootballTeam(FootballConfederation.AFC);
 
 //(欧洲足联范围内)随机足球队名称
-SportSource.getInstance().randomFifaMember(FootballConfederation.UEFA);
+SportSource.getInstance().randomFootballTeam(FootballConfederation.UEFA);
 
 //随机足球队名称(不限足球联合会)
-SportSource.getInstance().randomFifaMember();
+SportSource.getInstance().randomFootballTeam();
 ```
 访问 [Wikipedia网页](https://en.wikipedia.org/wiki/Category:FIFA_confederations) 可以查看完整的足球联合会列表信息。
 
