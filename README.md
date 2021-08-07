@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.6/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.7/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -74,6 +74,7 @@
 ### 体育
 - [随机六大足球联赛球队名称](#足球联赛球队名称)
 - [随机篮球联赛球队名称](#篮球联赛球队名称)
+- [随机国家及地区的足球代表队名称](#国家及地区的足球代表队)
 
 ### 其它
 - [随机数字](#随机数字)
@@ -95,7 +96,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
 </dependency>
 ```
 
@@ -527,6 +528,18 @@ SportSource.getInstance().randomBasketballTeam(CompetitionType.CBA);
 //NBA
 SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
 ```
+#### 国家及地区的足球代表队
+```
+//(亚洲足联范围内)随机足球队名称
+SportSource.getInstance().randomFifaMember(FootballConfederation.AFC);
+
+//(欧洲足联范围内)随机足球队名称
+SportSource.getInstance().randomFifaMember(FootballConfederation.UEFA);
+
+//随机足球队名称(不限足球联合会)
+SportSource.getInstance().randomFifaMember();
+```
+访问 [Wikipedia网页](https://en.wikipedia.org/wiki/Category:FIFA_confederations) 可以查看完整的足球联合会列表信息。
 
 #### 热门手机型号
 ```
