@@ -1,8 +1,11 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.entity.EconomicCategory;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -89,6 +92,31 @@ public class OtherSource {
      */
     private static List<String> mobileModelsList = Lists.newArrayList();
 
+    /**
+     * 民族名称
+     */
+    private static List<String> ethnicNamesList = Lists.newArrayList();
+
+    /**
+     * 废话模板
+     */
+    private static List<String> nonsenseList = Lists.newArrayList();
+
+    /**
+     * 震惊类前缀
+     */
+    private static List<String> astonishingPrefixList = Lists.newArrayList();
+
+    /**
+     * 标题党模板
+     */
+    private static List<String> sensationalTitlesList = Lists.newArrayList();
+
+    /**
+     * 国民经济行业分类列表
+     */
+    private static final List<EconomicCategory> economicCategoryList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -99,7 +127,26 @@ public class OtherSource {
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
         chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
         departmentList = ResourceUtils.readLines("common-department.txt");
+        List<String> economicCategoryLines = ResourceUtils.readLines("national-economic-category.txt");
+        if (CollectionUtils.isNotEmpty(economicCategoryLines)) {
+            economicCategoryLines.forEach(e -> {
+                if (StringUtils.isBlank(e)) {
+                    return;
+                }
+                String[] tmp = e.split(",");
+                if (tmp.length == 2) {
+                    EconomicCategory ec = new EconomicCategory();
+                    ec.setCode(tmp[0]);
+                    ec.setName(tmp[1]);
+                    economicCategoryList.add(ec);
+                }
+            });
+        }
         mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("mobile-models.txt"));
+        ethnicNamesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("ethnic-cn.txt"));
+        nonsenseList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("nonsense.txt"));
+        sensationalTitlesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("sensational-titles.txt"));
+        astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
     }
 
     /**
@@ -260,6 +307,52 @@ public class OtherSource {
         }
         sb.append("。");
         return sb.toString();
+    }
+
+    /**
+     * 随机国民经济行业分类信息
+     *
+     * @return 国民经济行业分类信息
+     */
+    public EconomicCategory randomEconomicCategory() {
+        return ResourceUtils.getRandomElement(economicCategoryList);
+    }
+
+    /**
+     * 随机民族名称
+     *
+     * @return 民族名称
+     */
+    public String randomEthnicName() {
+        return ResourceUtils.getRandomElement(ethnicNamesList);
+    }
+
+    /**
+     * 随机营销号文案
+     *
+     * @param subject  主语
+     * @param behavior 行为
+     * @return 营销号文案(废话)
+     */
+    public String randomNonsense(String subject, String behavior) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
+        String tpl = ResourceUtils.getRandomElement(nonsenseList);
+        return tpl.replaceAll("A", subject).replaceAll("B", behavior);
+    }
+
+    /**
+     * 随机营销号文案标题
+     *
+     * @param subject  主语
+     * @param behavior 行为
+     * @return 营销号文案标题
+     */
+    public String randomNonsenseTitle(String subject, String behavior) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
+        String tpl = ResourceUtils.getRandomElement(sensationalTitlesList);
+        return ResourceUtils.getRandomElement(astonishingPrefixList) + "！" + tpl.replaceAll("A", subject).replaceAll("B", behavior);
     }
 
     /**
