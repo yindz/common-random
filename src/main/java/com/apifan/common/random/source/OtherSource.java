@@ -1,8 +1,12 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.entity.EconomicCategory;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -50,6 +54,28 @@ public class OtherSource {
             "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资");
 
     /**
+     * ISBN前缀编码
+     */
+    private static final String ISBN_PREFIX = "978";
+
+    /**
+     * ISBN对应的国家或地区编码
+     */
+    private static final String ISBN_COUNTRY_OR_REGION_CODE = "7";
+
+    /**
+     * 常见的出版社编号范围
+     */
+    private static final List<Integer[]> publisherCodeList = Lists.newArrayList(
+            new Integer[]{5000, 5128},
+            new Integer[]{5300, 5480},
+            new Integer[]{5600, 5644},
+            new Integer[]{80000, 80258},
+            new Integer[]{80500, 80756},
+            new Integer[]{81002, 81140}
+    );
+
+    /**
      * 部门名称
      */
     private static List<String> departmentList = Lists.newArrayList();
@@ -89,6 +115,31 @@ public class OtherSource {
      */
     private static List<String> mobileModelsList = Lists.newArrayList();
 
+    /**
+     * 民族名称
+     */
+    private static List<String> ethnicNamesList = Lists.newArrayList();
+
+    /**
+     * 废话模板
+     */
+    private static List<String> nonsenseList = Lists.newArrayList();
+
+    /**
+     * 震惊类前缀
+     */
+    private static List<String> astonishingPrefixList = Lists.newArrayList();
+
+    /**
+     * 标题党模板
+     */
+    private static List<String> sensationalTitlesList = Lists.newArrayList();
+
+    /**
+     * 国民经济行业分类列表
+     */
+    private static final List<EconomicCategory> economicCategoryList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -99,7 +150,26 @@ public class OtherSource {
         chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
         chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
         departmentList = ResourceUtils.readLines("common-department.txt");
+        List<String> economicCategoryLines = ResourceUtils.readLines("national-economic-category.txt");
+        if (CollectionUtils.isNotEmpty(economicCategoryLines)) {
+            economicCategoryLines.forEach(e -> {
+                if (StringUtils.isBlank(e)) {
+                    return;
+                }
+                String[] tmp = e.split(",");
+                if (tmp.length == 2) {
+                    EconomicCategory ec = new EconomicCategory();
+                    ec.setCode(tmp[0]);
+                    ec.setName(tmp[1]);
+                    economicCategoryList.add(ec);
+                }
+            });
+        }
         mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("mobile-models.txt"));
+        ethnicNamesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("ethnic-cn.txt"));
+        nonsenseList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("nonsense.txt"));
+        sensationalTitlesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("sensational-titles.txt"));
+        astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
     }
 
     /**
@@ -263,6 +333,93 @@ public class OtherSource {
     }
 
     /**
+     * 随机国民经济行业分类信息
+     *
+     * @return 国民经济行业分类信息
+     */
+    public EconomicCategory randomEconomicCategory() {
+        return ResourceUtils.getRandomElement(economicCategoryList);
+    }
+
+    /**
+     * 随机民族名称
+     *
+     * @return 民族名称
+     */
+    public String randomEthnicName() {
+        return ResourceUtils.getRandomElement(ethnicNamesList);
+    }
+
+    /**
+     * 随机营销号文案
+     *
+     * @param subject  主语
+     * @param behavior 行为
+     * @return 营销号文案(废话)
+     */
+    public String randomNonsense(String subject, String behavior) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
+        String tpl = ResourceUtils.getRandomElement(nonsenseList);
+        return tpl.replaceAll("A", subject).replaceAll("B", behavior);
+    }
+
+    /**
+     * 随机营销号文案标题
+     *
+     * @param subject  主语
+     * @param behavior 行为
+     * @return 营销号文案标题
+     */
+    public String randomNonsenseTitle(String subject, String behavior) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
+        String tpl = ResourceUtils.getRandomElement(sensationalTitlesList);
+        return ResourceUtils.getRandomElement(astonishingPrefixList) + "！" + tpl.replaceAll("A", subject).replaceAll("B", behavior);
+    }
+
+    /**
+     * 随机生成ISBN编号
+     *
+     * @param withDelimiter 是否包含分隔符-
+     * @return ISBN编号
+     */
+    public String randomISBN(boolean withDelimiter) {
+        //随机获得1个出版商编码范围
+        Integer[] publisherCode = ResourceUtils.getRandomElement(publisherCodeList);
+        //生成指定范围内的随机出版商编码
+        String publisher = String.valueOf(RandomUtils.nextInt(publisherCode[0], publisherCode[1] + 1));
+        //随机出版物序号(出版商编码+出版物序号总位数为8)
+        String seq = RandomStringUtils.randomNumeric(8 - publisher.length());
+
+        List<String> parts = Lists.newArrayList(ISBN_PREFIX, ISBN_COUNTRY_OR_REGION_CODE, publisher, seq);
+        //计算校验位
+        parts.add(getCheckDigit(Joiner.on("").join(parts)));
+        return Joiner.on(withDelimiter ? "-" : "").join(parts);
+    }
+
+    /**
+     * 随机生成国际商品编码
+     *
+     * @return 国际商品编码
+     */
+    public String randomEAN() {
+        //前缀：一般为690~692之间的一个数字
+        String prefix = String.valueOf(RandomUtils.nextInt(690, 692));
+
+        //随机制造商编码
+        String manufacturer = RandomStringUtils.randomNumeric(4);
+
+        //随机商品编码
+        String productCode = RandomStringUtils.randomNumeric(5);
+
+        List<String> parts = Lists.newArrayList(prefix, manufacturer, productCode);
+        //计算校验位
+        parts.add(getCheckDigit(Joiner.on("").join(parts)));
+        return Joiner.on("").join(parts);
+    }
+
+    /**
      * 随机RGB颜色值
      *
      * @return 随机RGB颜色值
@@ -306,5 +463,31 @@ public class OtherSource {
      */
     public String randomMobileModel() {
         return ResourceUtils.getRandomElement(mobileModelsList);
+    }
+
+    /**
+     * 计算校验码
+     *
+     * @param toCheck 待计算的数字字符串
+     * @return 校验码
+     */
+    private static String getCheckDigit(String toCheck) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(toCheck), "待计算的数字字符串为空");
+        int total = 0;
+        for (int i = 1; i <= toCheck.length(); i++) {
+            //偶数位因子：3，奇数位因子：1
+            int factor = (i % 2 == 0) ? 3 : 1;
+            //依次取出每位数
+            int x = Integer.parseInt(String.valueOf(toCheck.charAt(i - 1)));
+            //每位数*因子
+            int chk = x * factor;
+            //求和
+            total += chk;
+        }
+        //总和除以10取余数
+        int mod = total % 10;
+        //余数=0时校验码为0，余数大于0时校验码为10-余数
+        int digit = (mod == 0) ? 0 : 10 - mod;
+        return String.valueOf(digit);
     }
 }
