@@ -392,30 +392,31 @@ public class OtherSource {
         //随机出版物序号(出版商编码+出版物序号总位数为8)
         String seq = RandomStringUtils.randomNumeric(8 - publisher.length());
 
-        //各个部分
         List<String> parts = Lists.newArrayList(ISBN_PREFIX, ISBN_COUNTRY_OR_REGION_CODE, publisher, seq);
-
         //计算校验位
-        String toCheck = Joiner.on("").join(parts);
-        int total = 0;
-        for (int i = 1; i <= toCheck.length(); i++) {
-            //偶数位因子：3，奇数位因子：1
-            int factor = (i % 2 == 0) ? 3 : 1;
-            //依次取出每位数
-            int x = Integer.parseInt(String.valueOf(toCheck.charAt(i - 1)));
-            //每位数*因子
-            int chk = x * factor;
-            //求和
-            total += chk;
-        }
-        //总和除以10取余数
-        int mod = total % 10;
-        //余数=0时校验位为0，余数大于0时校验位为10-余数
-        int last = (mod == 0) ? 0 : 10 - mod;
-        parts.add(String.valueOf(last));
-
-        //分隔符
+        parts.add(getCheckDigit(Joiner.on("").join(parts)));
         return Joiner.on(withDelimiter ? "-" : "").join(parts);
+    }
+
+    /**
+     * 随机生成国际商品编码
+     *
+     * @return 国际商品编码
+     */
+    public String randomEAN() {
+        //前缀：一般为690~692之间的一个数字
+        String prefix = String.valueOf(RandomUtils.nextInt(690, 692));
+
+        //随机制造商编码
+        String manufacturer = RandomStringUtils.randomNumeric(4);
+
+        //随机商品编码
+        String productCode = RandomStringUtils.randomNumeric(5);
+
+        List<String> parts = Lists.newArrayList(prefix, manufacturer, productCode);
+        //计算校验位
+        parts.add(getCheckDigit(Joiner.on("").join(parts)));
+        return Joiner.on("").join(parts);
     }
 
     /**
@@ -462,5 +463,31 @@ public class OtherSource {
      */
     public String randomMobileModel() {
         return ResourceUtils.getRandomElement(mobileModelsList);
+    }
+
+    /**
+     * 计算校验码
+     *
+     * @param toCheck 待计算的数字字符串
+     * @return 校验码
+     */
+    private static String getCheckDigit(String toCheck) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(toCheck), "待计算的数字字符串为空");
+        int total = 0;
+        for (int i = 1; i <= toCheck.length(); i++) {
+            //偶数位因子：3，奇数位因子：1
+            int factor = (i % 2 == 0) ? 3 : 1;
+            //依次取出每位数
+            int x = Integer.parseInt(String.valueOf(toCheck.charAt(i - 1)));
+            //每位数*因子
+            int chk = x * factor;
+            //求和
+            total += chk;
+        }
+        //总和除以10取余数
+        int mod = total % 10;
+        //余数=0时校验码为0，余数大于0时校验码为10-余数
+        int digit = (mod == 0) ? 0 : 10 - mod;
+        return String.valueOf(digit);
     }
 }
