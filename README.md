@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.7/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.8/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -58,6 +58,7 @@
 - [虚拟信用卡号码](#随机虚拟信用卡号码)
 - [虚拟姓名图片文件](#生成姓名头像)
 - [虚拟非主流QQ网名](#随机qq信息)
+- [随机民族名称](#随机民族名称)
 
 ### 教育
 - [随机学历](#随机教育背景信息)
@@ -85,6 +86,10 @@
 - [随机HEX颜色值](#随机颜色值)
 - [随机中文短句](#随机中文短句)
 - [虚拟企业及部门名称](#随机公司及部门名称)
+- [随机营销号文案](#随机营销号)
+- [随机ISBN](#随机EAN)
+- [随机EAN商品编码](#随机EAN)
+- [随机行业分类](#随机行业分类)
 
 ## 如何使用
 ### Java版本要求
@@ -96,7 +101,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 </dependency>
 ```
 
@@ -406,6 +411,12 @@ String qq = PersonInfoSource.getInstance().randomQQAccount();
 //生成1个随机非主流QQ网名
 String nickName = PersonInfoSource.getInstance().randomQQNickName();
 ```
+
+#### 随机民族名称
+```
+String ethnicName = OtherSource.getInstance().randomEthnicName();
+```
+
 #### 随机教育背景信息
 ```
 //随机获取学历
@@ -443,6 +454,39 @@ String department = OtherSource.getInstance().randomCompanyDepartment();
 //随机生成1条中文短句
 String sentence = OtherSource.getInstance().randomChineseSentence();
 ```
+
+#### 随机营销号
+```
+String title = OtherSource.getInstance().randomNonsenseTitle("星期一", "下雨");
+```
+<img src="https://g3g4x5.com/upload/20210828105927.png" height="180"/>
+
+```
+String content = OtherSource.getInstance().randomNonsense("星期一", "下雨");
+```
+<img src="https://g3g4x5.com/upload/20210828102212.png" height="180"/>
+
+#### 随机行业分类
+```
+OtherSource.getInstance().randomEconomicCategory();
+```
+说明：行业分类编码和名称来自国家统计局发布的公开数据
+
+#### 随机EAN
+```
+//随机ISBN，返回结果需要分隔符-，格式例如：978-7-XXXX-XXXX-X
+String isbn1 = OtherSource.getInstance().randomISBN(true);
+
+//随机ISBN，返回结果不需要分隔符，格式例如：9787XXXXXXXXX
+String isbn2 = OtherSource.getInstance().randomISBN(false);
+
+//随机国际商品编码，格式例如：691XXXXXXXXXX
+String ean = OtherSource.getInstance().randomEAN();
+```
+说明：
+- 本程序随机生成的EAN编码长度为13位
+- 本程序随机生成的EAN编码符合标准校验规则，仅供模拟测试/仿真/项目演示等用途，并不表示现实中真实存在该编码对应的商品（如有雷同纯属巧合）
+
 #### 随机useragent
 ```
 //随机生成1个PC User-Agent
