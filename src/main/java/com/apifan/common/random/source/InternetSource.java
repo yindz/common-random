@@ -97,7 +97,7 @@ public class InternetSource {
     /**
      * 生成随机的邮箱地址
      *
-     * @param maxLength 邮箱用户名最大长度
+     * @param maxLength 邮箱用户名最大长度(最小长度为2)
      * @return 随机邮箱地址
      */
     public String randomEmail(int maxLength) {
@@ -107,17 +107,16 @@ public class InternetSource {
     /**
      * 生成随机的邮箱地址(指定后缀)
      *
-     * @param maxLength 邮箱用户名最大长度
+     * @param maxLength 邮箱用户名最大长度(最小长度为2)
      * @param suffix    后缀
      * @return 随机邮箱地址
      */
     public String randomEmail(int maxLength, String suffix) {
-        if (StringUtils.isEmpty(suffix)) {
-            suffix = randomDomain(Math.min(3, maxLength));
+        Preconditions.checkArgument(maxLength >= 2, "邮箱用户名最大长度不能小于2");
+        if (StringUtils.isBlank(suffix)) {
+            suffix = randomDomain(RandomUtils.nextInt(2, maxLength + 1));
         }
-        //字母开头
-        String email = RandomStringUtils.randomAlphabetic(1) +
-                RandomStringUtils.randomAlphanumeric(1, Math.min(3, maxLength - 1)) +
+        String email = RandomStringUtils.randomAlphanumeric(2, maxLength + 1) +
                 "@" + suffix;
         return email.toLowerCase();
     }
@@ -125,12 +124,12 @@ public class InternetSource {
     /**
      * 生成随机的域名
      *
-     * @param maxLength 域名最大长度
+     * @param maxLength 域名最大长度(最小长度为2)
      * @return 随机域名
      */
     public String randomDomain(int maxLength) {
-        String domain = RandomStringUtils.randomAlphanumeric(1, Math.min(3, maxLength)) +
-                RandomStringUtils.randomAlphanumeric(2, 17) + "." +
+        Preconditions.checkArgument(maxLength >= 2, "域名最大长度不能小于2");
+        String domain = RandomStringUtils.randomAlphanumeric(2, maxLength + 1) + "." +
                 ResourceUtils.getRandomElement(RandomConstant.domainSuffixList);
         return domain.toLowerCase();
     }

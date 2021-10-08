@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.8/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.9/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -15,6 +15,12 @@
 - 程序中使用了小部分真实数据（包括但不限于：行政区划名称、邮编、区号、高校名称、股票代码及名称等）作为基础数据源，全部来自于各个合法运营的网站上的可公开访问的网页；其中涉及的著作权或商标的所有权属于各自合法的拥有者。
 - 禁止利用本程序实施任何具有恶意、违反相关法律法规政策或损害他人合法权益的行为。
 - 本程序基于MIT协议开源，请使用者在遵守MIT协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
+
+## 版本历史
+### v1.0.9
+- 修复随机邮箱地址的bug
+- 新增随机四字成语
+- 新增随机唐诗
 
 ## 支持的随机数据类型
 
@@ -80,6 +86,8 @@
 ### 其它
 - [随机数字](#随机数字)
 - [随机汉字](#随机汉字)
+- [随机成语](#随机成语)
+- [随机唐诗](#随机唐诗)
 - [虚拟车牌号](#随机中国大陆车牌号)
 - [随机热门手机型号](#热门手机型号)
 - [随机RGB颜色值](#随机颜色值)
@@ -101,7 +109,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 </dependency>
 ```
 
@@ -133,6 +141,14 @@ String i = OtherSource.getInstance().randomChinese();
 
 //生成4个随机汉字
 String j = OtherSource.getInstance().randomChinese(4);
+```
+#### 随机成语
+```
+String idiom = OtherSource.getInstance().randomChineseIdiom();
+```
+#### 随机唐诗
+```
+Poem p = OtherSource.getInstance().randomTangPoem();
 ```
 #### 随机人名
 ##### 中文名

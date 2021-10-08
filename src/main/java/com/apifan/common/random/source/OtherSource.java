@@ -1,7 +1,11 @@
 package com.apifan.common.random.source;
 
 import com.apifan.common.random.entity.EconomicCategory;
+import com.apifan.common.random.entity.Poem;
 import com.apifan.common.random.util.ResourceUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -51,7 +55,7 @@ public class OtherSource {
      * 公司行业
      */
     private static final List<String> companyIndustryList = Lists.newArrayList("科技", "信息", "商贸", "贸易",
-            "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资");
+            "实业", "文化传播", "文化创意", "工程", "教育", "发展", "咨询", "设计", "置业", "投资", "传媒", "服务");
 
     /**
      * ISBN前缀编码
@@ -140,6 +144,16 @@ public class OtherSource {
      */
     private static final List<EconomicCategory> economicCategoryList = Lists.newArrayList();
 
+    /**
+     * 唐诗
+     */
+    private static List<Poem> tangPoemsList = Lists.newArrayList();
+
+    /**
+     * 四字成语
+     */
+    private static List<String> chineseIdiomsList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -170,6 +184,15 @@ public class OtherSource {
         nonsenseList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("nonsense.txt"));
         sensationalTitlesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("sensational-titles.txt"));
         astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
+        chineseIdiomsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("chinese-idioms.txt"));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        CollectionType poemType = objectMapper.getTypeFactory().constructCollectionType(List.class, Poem.class);
+        try {
+            tangPoemsList = objectMapper.readValue(ResourceUtils.readString("tang-poems.json"), poemType);
+        } catch (JsonProcessingException e) {
+            logger.error("初始化数据异常", e);
+        }
     }
 
     /**
@@ -463,6 +486,24 @@ public class OtherSource {
      */
     public String randomMobileModel() {
         return ResourceUtils.getRandomElement(mobileModelsList);
+    }
+
+    /**
+     * 随机一首唐诗
+     *
+     * @return 唐诗
+     */
+    public Poem randomTangPoem() {
+        return ResourceUtils.getRandomElement(tangPoemsList);
+    }
+
+    /**
+     * 随机四字成语
+     *
+     * @return 四字成语
+     */
+    public String randomChineseIdiom() {
+        return ResourceUtils.getRandomElement(chineseIdiomsList);
     }
 
     /**
