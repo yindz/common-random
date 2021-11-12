@@ -40,6 +40,32 @@ public class DataUtils {
     }
 
     /**
+     * 生成SQL
+     *
+     * @param fieldList 数据字段定义
+     * @param tableName 表名
+     * @param total     数量
+     * @return SQL
+     */
+    public static String generateSql(List<DataField> fieldList, String tableName, int total) {
+        fieldList = skipInvalidFields(fieldList);
+        List<String> columnsList = new ArrayList<>();
+        fieldList.forEach(f -> columnsList.add(f.getField()));
+        List<String> dataList = new ArrayList<>();
+        for (int i = 0; i < total; i++) {
+            List<String> paramsList = new ArrayList<>();
+            fieldList.forEach(f -> {
+                Object value = f.getValueSupplier().get();
+                String valueStr = String.valueOf(value);
+                boolean wrap = value instanceof String;
+                paramsList.add(wrap ? StringUtils.wrap(valueStr, "\"") : valueStr);
+            });
+            dataList.add("select " + Joiner.on(",").join(paramsList) + " from dual");
+        }
+        return "insert into " + tableName + "(" + Joiner.on(",").join(columnsList) + ")\n" + Joiner.on("\nunion all\n").join(dataList);
+    }
+
+    /**
      * 过滤无效的数据字段定义
      *
      * @param fieldList 数据字段定义
