@@ -66,6 +66,26 @@ public class DataUtils {
     }
 
     /**
+     * 生成CSV
+     *
+     * @param fieldList 数据字段定义
+     * @param total     数量
+     * @return CSV
+     */
+    public static String generateCsv(List<DataField> fieldList, int total) {
+        fieldList = skipInvalidFields(fieldList);
+        List<String> columnsList = new ArrayList<>();
+        fieldList.forEach(f -> columnsList.add(StringUtils.wrap(f.getField(), "\"")));
+        List<String> dataList = new ArrayList<>();
+        for (int i = 0; i < total; i++) {
+            List<String> paramsList = new ArrayList<>();
+            fieldList.forEach(f -> paramsList.add(StringUtils.wrap(String.valueOf(f.getValueSupplier().get()), "\"")));
+            dataList.add(Joiner.on(",").join(paramsList));
+        }
+        return Joiner.on(",").join(columnsList) + "\n" + Joiner.on("\n").join(dataList);
+    }
+
+    /**
      * 过滤无效的数据字段定义
      *
      * @param fieldList 数据字段定义
