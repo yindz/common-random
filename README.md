@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.9/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.10/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -17,6 +17,9 @@
 - 本程序基于MIT协议开源，请使用者在遵守MIT协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
 
 ## 版本历史
+### v1.0.10
+- 新增数据工具类，支持生成JSON/SQL/CSV等格式的字符串
+
 ### v1.0.9
 - 修复随机邮箱地址的bug
 - 新增随机四字成语
@@ -98,6 +101,7 @@
 - [随机ISBN](#随机EAN)
 - [随机EAN商品编码](#随机EAN)
 - [随机行业分类](#随机行业分类)
+- [数据生成工具](#数据生成工具)
 
 ## 如何使用
 ### Java版本要求
@@ -109,7 +113,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
 </dependency>
 ```
 
@@ -604,6 +608,33 @@ SportSource.getInstance().randomFootballTeam();
 #### 热门手机型号
 ```
 OtherSource.getInstance().randomMobileModel();
+```
+
+## 数据生成工具
+此工具类支持自定义生成符合业务需求的随机数据，示例如下：
+```
+//准备字段定义
+//字段name：随机姓名
+DataField df1 = new DataField("name", () -> PersonInfoSource.getInstance().randomChineseName());
+//字段birthDate：随机日期
+DataField df2 = new DataField("birthDate", () -> DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd"));
+//字段salary：随机数字
+DataField df3 = new DataField("salary", () -> NumberSource.getInstance().randomInt(5000, 18000));
+List<DataField> fieldList = Lists.newArrayList(df1, df2, df3);
+
+//设置数量
+int total = 10;
+
+//生成JSON
+String json = DataUtils.generateJson(fieldList, total); 
+
+//生成CSV 
+String csv = DataUtils.generateCsv(fieldList, total); 
+
+//生成SQL之前先要指定表名
+String tableName = "user";
+//生成SQL插入语句
+String sql = DataUtils.generateJson(fieldList, tableName, total);     
 ```
 
 ## 感谢 JetBrains 免费的开源授权
