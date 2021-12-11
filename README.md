@@ -1,6 +1,6 @@
 ![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.10/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.11/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -17,6 +17,10 @@
 - 本程序基于MIT协议开源，请使用者在遵守MIT协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
 
 ## 版本历史
+### v1.0.11
+- 新增北交所（北京证券交易所，Beijing Stock Exchange）股票代码及名称
+- 更新新三板股票代码及名称（原新三板精选层上市公司已平移至北交所）
+
 ### v1.0.10
 - 新增数据工具类，支持生成JSON/SQL/CSV等格式的字符串
 
@@ -113,7 +117,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
 </dependency>
 ```
 
@@ -547,6 +551,11 @@ String hkStockCode = hkStock[1];
 String[] xsbStock = FinancialSource.getInstance().randomXsbStock();
 String xsbStockName = xsbStock[0];
 String xsbStockCode = xsbStock[1];
+
+//随机股票信息(北交所)
+String[] bseStock = FinancialSource.getInstance().randomBseStock();
+String bseStockName = bseStock[0];
+String bseStockCode = bseStock[1];
 ```
 #### 开放式基金名称和基金代码
 ```
@@ -636,6 +645,10 @@ String tableName = "user";
 //生成SQL插入语句
 String sql = DataUtils.generateJson(fieldList, tableName, total);     
 ```
+
+## 新版计划
+- 北交所上市公司名单(来自新三板精选层，所以需要从新三板名单中移除)
+- 数据生成工具支持生成对象
 
 ## 感谢 JetBrains 免费的开源授权
 <a href="https://www.jetbrains.com/?from=common-random" target="_blank">
