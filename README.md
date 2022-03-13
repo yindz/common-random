@@ -1,4 +1,4 @@
-![http://www.opensource.org/licenses/mit-license.php](https://img.shields.io/badge/license-MIT-blue)
+![https://opensource.org/licenses/Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.11/jar)
 # 随机数据生成器
