@@ -4,6 +4,7 @@ import com.apifan.common.random.entity.DataField;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -83,6 +84,40 @@ public class DataUtils {
             dataList.add(Joiner.on(",").join(paramsList));
         }
         return Joiner.on(",").join(columnsList) + "\n" + Joiner.on("\n").join(dataList);
+    }
+
+    /**
+     * 生成对象
+     *
+     * @param fieldList 数据字段定义
+     * @param clazz     对象类型
+     * @param <T>       泛型
+     * @return
+     * @throws Exception
+     */
+    public static <T> T generateObject(List<DataField> fieldList, Class<T> clazz) throws Exception {
+        Preconditions.checkArgument(clazz != null, "对象类型为空");
+        return objectMapper.readValue(generateJson(fieldList), clazz);
+    }
+
+    /**
+     * 生成对象列表
+     *
+     * @param fieldList 数据字段定义
+     * @param clazz     对象类型
+     * @param total     条数
+     * @param <T>       泛型
+     * @return
+     * @throws Exception
+     */
+    public static <T> List<T> generateObjectList(List<DataField> fieldList, Class<T> clazz, int total) throws Exception {
+        Preconditions.checkArgument(clazz != null, "对象类型为空");
+        Preconditions.checkArgument(total > 0, "数量必须大于0");
+        List<T> resultList = new ArrayList<>(total);
+        for (int i = 0; i < total; i++) {
+            resultList.add(generateObject(fieldList, clazz));
+        }
+        return resultList;
     }
 
     /**
