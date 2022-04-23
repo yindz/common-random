@@ -1,6 +1,6 @@
 ![https://opensource.org/licenses/Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.11/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.13/jar)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -17,6 +17,11 @@
 - 本程序基于MIT协议开源，请使用者在遵守MIT协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
 
 ## 版本历史
+### v1.0.13
+- 日期时间数据源支持返回 java.util.Date 类型以方便使用
+- 新增支持随机大学专业名称
+- 升级依赖
+
 ### v1.0.12
 - 数据工具类支持直接生成对象
 - 更换为 Apache License Version 2.0
