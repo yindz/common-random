@@ -26,8 +26,11 @@ public class EducationSource {
     private List<String> collegeList;
     private static final List<String> numberList = Lists.newArrayList("一", "二", "三", "四", "五", "六", "七", "八", "九", "十");
 
+    private List<String> majorList;
+
     private EducationSource() {
         collegeList = ResourceUtils.readLines("college.txt");
+        majorList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("college-major.txt"));
     }
 
     /**
@@ -108,6 +111,15 @@ public class EducationSource {
      */
     public String randomClassName() {
         return RandomUtils.nextInt(1, 11) + "班";
+    }
+
+    /**
+     * 获取随机大学专业名称
+     *
+     * @return 大学专业名称
+     */
+    public String randomMajorName() {
+        return ResourceUtils.getRandomElement(majorList);
     }
 
     private String getGradeName(int grade) {
