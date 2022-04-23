@@ -86,7 +86,7 @@
 - [随机学历](#随机教育背景信息)
 - [虚拟小学名称、年级、班级](#随机教育背景信息)
 - [虚拟中学名称、年级、班级](#随机教育背景信息)
-- [随机高校名称](#随机教育背景信息)
+- [随机高校及专业名称](#随机教育背景信息)
 
 ### 金融
 - [随机股票名称+股票代码](#股票名称和股票代码)
@@ -457,6 +457,9 @@ String degree = EducationSource.getInstance().randomDegree();
 
 //随机获取本科高校名称
 String college = EducationSource.getInstance().randomCollege();
+
+//随机高校专业名称
+String majorName = EducationSource.getInstance().randomMajorName();
 
 //随机获取小学名称
 String primarySchoolName = EducationSource.getInstance().randomPrimarySchoolName();
