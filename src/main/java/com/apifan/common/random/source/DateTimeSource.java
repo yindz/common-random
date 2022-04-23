@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -55,11 +56,45 @@ public class DateTimeSource {
      */
     public String randomDate(int year, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
+        LocalDate date = randomLocalDate(year);
+        return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 随机日期
+     *
+     * @param year 年份
+     * @return 随机日期
+     */
+    public Date randomDate(int year) {
+        return localDateToDate(randomLocalDate(year));
+    }
+
+    /**
+     * 随机的LocalDate日期
+     *
+     * @param year 年份
+     * @return 随机的LocalDate日期
+     */
+    public LocalDate randomLocalDate(int year) {
         Preconditions.checkArgument(year >= 1970 && year <= 9999, "年份无效");
         boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
         LocalDate begin = LocalDate.of(year, 1, 1);
-        LocalDate date = begin.plusDays(RandomUtils.nextInt(0, isLeapYear ? 366 : 365));
-        return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+        return begin.plusDays(RandomUtils.nextInt(0, isLeapYear ? 366 : 365));
+    }
+
+    /**
+     * 获取特定范围内的随机日期
+     *
+     * @param beginDate 范围开始(含)
+     * @param endDate   范围结束(含)
+     * @return 随机日期字符串
+     */
+    public LocalDate randomLocalDate(LocalDate beginDate, LocalDate endDate) {
+        Preconditions.checkArgument(beginDate != null && endDate != null, "日期范围不能为空");
+        Preconditions.checkArgument(beginDate.isBefore(endDate), "日期范围无效");
+        long diff = DAYS.between(beginDate, endDate);
+        return beginDate.plusDays(RandomUtils.nextLong(0, diff + 1));
     }
 
     /**
@@ -71,12 +106,20 @@ public class DateTimeSource {
      * @return 随机日期字符串
      */
     public String randomDate(LocalDate beginDate, LocalDate endDate, String pattern) {
-        Preconditions.checkArgument(beginDate != null && endDate != null, "日期范围不能为空");
-        Preconditions.checkArgument(beginDate.isBefore(endDate), "日期范围无效");
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
-        long diff = DAYS.between(beginDate, endDate);
-        LocalDate date = beginDate.plusDays(RandomUtils.nextLong(0, diff + 1));
+        LocalDate date = randomLocalDate(beginDate, endDate);
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 获取特定范围内的随机日期
+     *
+     * @param beginDate 范围开始(含)
+     * @param endDate   范围结束(含)
+     * @return 随机日期
+     */
+    public Date randomDate(LocalDate beginDate, LocalDate endDate) {
+        return localDateToDate(randomLocalDate(beginDate, endDate));
     }
 
     /**
@@ -88,8 +131,28 @@ public class DateTimeSource {
      */
     public String randomFutureDate(LocalDate baseDate, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
-        LocalDate date = baseDate.plusDays(RandomUtils.nextLong(1, 99999));
+        LocalDate date = randomFutureLocalDate(baseDate);
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 随机未来日期
+     *
+     * @param baseDate 基础日期
+     * @return 随机未来日期
+     */
+    public LocalDate randomFutureLocalDate(LocalDate baseDate) {
+        return baseDate.plusDays(RandomUtils.nextLong(1, 99999));
+    }
+
+    /**
+     * 随机未来日期
+     *
+     * @param baseDate 基础日期
+     * @return 随机未来日期
+     */
+    public Date randomFutureDate(LocalDate baseDate) {
+        return localDateToDate(randomFutureLocalDate(baseDate));
     }
 
     /**
@@ -103,6 +166,15 @@ public class DateTimeSource {
     }
 
     /**
+     * 随机未来日期(以当天为基准)
+     *
+     * @return 随机未来日期字符串
+     */
+    public Date randomFutureDate() {
+        return localDateToDate(randomFutureLocalDate(LocalDate.now()));
+    }
+
+    /**
      * 随机以往日期
      *
      * @param baseDate 基础日期
@@ -112,9 +184,31 @@ public class DateTimeSource {
      */
     public String randomPastDate(LocalDate baseDate, long maxDays, String pattern) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(pattern), "日期格式为空");
-        Preconditions.checkArgument(maxDays > 1, "最大日期间隔无效");
-        LocalDate date = baseDate.plusDays(-1 * RandomUtils.nextLong(1, maxDays + 1));
+        LocalDate date = randomPastLocalDate(baseDate, maxDays);
         return date.format(dateTimeFormatterMap.computeIfAbsent(pattern, k -> DateTimeFormatter.ofPattern(pattern)));
+    }
+
+    /**
+     * 随机以往日期
+     *
+     * @param baseDate 基础日期
+     * @param maxDays  最大日期间隔(天)
+     * @return 随机以往日期
+     */
+    public LocalDate randomPastLocalDate(LocalDate baseDate, long maxDays) {
+        Preconditions.checkArgument(maxDays > 1, "最大日期间隔无效");
+        return baseDate.plusDays(-1 * RandomUtils.nextLong(1, maxDays + 1));
+    }
+
+    /**
+     * 随机以往日期
+     *
+     * @param baseDate 基础日期
+     * @param maxDays  最大日期间隔(天)
+     * @return 随机以往日期
+     */
+    public Date randomPastDate(LocalDate baseDate, long maxDays) {
+        return localDateToDate(randomPastLocalDate(baseDate, maxDays));
     }
 
     /**
@@ -131,11 +225,30 @@ public class DateTimeSource {
     /**
      * 随机以往日期(1年内)
      *
+     * @param baseDate 基础日期
+     * @return 随机以往日期
+     */
+    public Date randomPastDate(LocalDate baseDate) {
+        return localDateToDate(randomPastLocalDate(baseDate, 365));
+    }
+
+    /**
+     * 随机以往日期(1年内)
+     *
      * @param pattern 日期格式
      * @return 随机以往日期字符串
      */
     public String randomPastDate(String pattern) {
         return randomPastDate(LocalDate.now(), pattern);
+    }
+
+    /**
+     * 随机以往日期(1年内)
+     *
+     * @return 随机以往日期
+     */
+    public Date randomPastDate() {
+        return randomPastDate(LocalDate.now());
     }
 
     /**
@@ -156,6 +269,18 @@ public class DateTimeSource {
     }
 
     /**
+     * 随机时间
+     *
+     * @param year       年
+     * @param month      月
+     * @param dayOfMonth 日
+     * @return 随机时间
+     */
+    public Date randomDate(int year, int month, int dayOfMonth) {
+        return localDateTimeToDate(randomTime(year, month, dayOfMonth));
+    }
+
+    /**
      * 过去的随机时间(以当天为基准)
      *
      * @param maxDays 最大日期间隔
@@ -164,6 +289,16 @@ public class DateTimeSource {
     public LocalDateTime randomPastTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
         return randomPastTime(LocalDateTime.now(), maxDays * 86400);
+    }
+
+    /**
+     * 过去的随机时间(以当天为基准)
+     *
+     * @param maxDays 最大日期间隔
+     * @return 过去的随机时间
+     */
+    public Date randomPastDate(int maxDays) {
+        return localDateTimeToDate(randomPastTime(maxDays));
     }
 
     /**
@@ -181,6 +316,17 @@ public class DateTimeSource {
     }
 
     /**
+     * 过去的随机时间
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒，0或负值表示不限
+     * @return 过去的随机时间
+     */
+    public Date randomPastDate(LocalDateTime base, long maxSeconds) {
+        return localDateTimeToDate(randomPastTime(base, maxSeconds));
+    }
+
+    /**
      * 未来的随机时间(以当天为基准)
      *
      * @param maxDays 最大日期间隔
@@ -189,6 +335,16 @@ public class DateTimeSource {
     public LocalDateTime randomFutureTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
         return randomFutureTime(LocalDateTime.now(), maxDays * 86400);
+    }
+
+    /**
+     * 未来的随机时间(以当天为基准)
+     *
+     * @param maxDays 最大日期间隔
+     * @return 未来的随机时间
+     */
+    public Date randomFutureDate(int maxDays) {
+        return localDateTimeToDate(randomFutureTime(maxDays));
     }
 
     /**
@@ -203,6 +359,17 @@ public class DateTimeSource {
         long second = maxSeconds > 1L ? RandomUtils.nextLong(0L, maxSeconds + 1L) : RandomUtils.nextLong();
         long millisecond = RandomUtils.nextLong(0L, 1000L);
         return base.plus(second, ChronoUnit.SECONDS).plus(millisecond, ChronoUnit.MILLIS);
+    }
+
+    /**
+     * 未来的随机时间
+     *
+     * @param base       基准时间
+     * @param maxSeconds 最大相差秒，0或负值表示不限
+     * @return 未来的随机时间
+     */
+    public Date randomFutureDate(LocalDateTime base, long maxSeconds) {
+        return localDateTimeToDate(randomFutureTime(base, maxSeconds));
     }
 
     /**
@@ -278,5 +445,27 @@ public class DateTimeSource {
         Preconditions.checkArgument(Math.abs(maxSeconds) > 1, "相差秒数必须大于1");
         long diff = maxSeconds > 0 ? RandomUtils.nextLong(1, maxSeconds * 1000 + 1) : -1 * (RandomUtils.nextLong(1, Math.abs(maxSeconds) * 1000 + 1));
         return base.toInstant(ZONE_OFFSET).toEpochMilli() + diff;
+    }
+
+    /**
+     * 转换LocalDate到Date
+     *
+     * @param localDate LocalDate对象
+     * @return Date对象
+     */
+    private static Date localDateToDate(LocalDate localDate) {
+        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.of("Asia/Shanghai"));
+        return Date.from(zonedDateTime.toInstant());
+    }
+
+    /**
+     * 转换LocalDateTime到Date
+     *
+     * @param localDateTime LocalDateTime对象
+     * @return Date对象
+     */
+    private static Date localDateTimeToDate(LocalDateTime localDateTime) {
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Asia/Shanghai"));
+        return Date.from(zonedDateTime.toInstant());
     }
 }
