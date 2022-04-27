@@ -27,6 +27,15 @@ public class NumberSource {
     public static NumberSource getInstance() {
         return instance;
     }
+    
+    /**
+     * 返回1个随机整数
+     *
+     * @return 1个随机整数
+     */
+    public int randomInt() {
+        return RandomUtils.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
 
     /**
      * 返回1个随机整数
@@ -54,6 +63,15 @@ public class NumberSource {
             nums[i] = randomInt(startInclusive, endExclusive);
         }
         return nums;
+    }
+    
+    /**
+     * 返回1个随机长整数
+     *
+     * @return 1个随机长整数
+     */
+    public long randomLong() {
+        return RandomUtils.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
     /**
@@ -83,6 +101,15 @@ public class NumberSource {
         }
         return nums;
     }
+    
+    /**
+     * 返回1个随机双精度数
+     *
+     * @return 1个随机双精度数
+     */
+    public double randomDouble() {
+        return RandomUtils.nextDouble(Double.MIN_VALUE, Double.MAX_VALUE);
+    }
 
     /**
      * 返回1个随机双精度数
@@ -111,4 +138,6 @@ public class NumberSource {
         }
         return nums;
     }
+    
+    
 }
