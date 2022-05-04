@@ -183,10 +183,15 @@ public class AreaSource {
             //城镇地址
             String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
             String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
+            String extra = "";
+            int x = NumberSource.getInstance().randomInt(0, 11);
+            if (x % 3 == 0) {
+                extra = ResourceUtils.getRandomElement(directionList);
+            }
             String building = RandomUtils.nextInt(1, 20) + "栋";
             String unit = RandomUtils.nextInt(1, 5) + "单元";
             String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
-            return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + building + unit + room;
+            return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + extra + building + unit + room;
         }
     }
 
