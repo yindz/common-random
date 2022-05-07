@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author yin
  */
-public class ResourceUtils {
+public final class ResourceUtils {
     private static final Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
 
     /**
@@ -82,11 +82,41 @@ public class ResourceUtils {
      * @return 1个随机元素
      */
     public static <T> T getRandomElement(List<T> elementList) {
-        if (CollectionUtils.isEmpty(elementList)) {
-            return null;
+        List<T> randomElement = getRandomElement(elementList, 1);
+        return randomElement.isEmpty() ? null : randomElement.get(0);
+    }
+    
+    /**
+     * 从列表中获取number个随机元素
+     *
+     * @param elementList 列表
+     * @param number      获取的个数
+     * @param <T>         泛型
+     * @return 1个随机元素
+     */
+    public static <T> List<T> getRandomElement(List<T> elementList, int number) {
+        if (CollectionUtils.isEmpty(elementList) || number < 1) {
+            return Collections.emptyList();
         }
-        int index = RandomUtils.nextInt(0, elementList.size());
-        return elementList.get(index);
+        // 如果获取元素的个数大于等于集合的大小, 直接返回乱序的原集合,不再抛出异常
+        if (number >= elementList.size()) {
+            List<T> result = new ArrayList<>(elementList);
+            Collections.shuffle(result);
+            return result;
+        } else {
+            List<T> result = new ArrayList<>(number);
+            for (int i = 0; i < number; i++) {
+                int index = RandomUtils.nextInt(0, elementList.size());
+                T t = elementList.get(index);
+                if (result.contains(t)) {
+                    i--;
+                } else {
+                    result.add(t);
+                }
+            }
+            Collections.shuffle(result);
+            return result;
+        }
     }
 
     /**
@@ -97,14 +127,9 @@ public class ResourceUtils {
      * @return n个随机元素组成的字符串
      */
     public static String getRandomString(List<String> elementList, int n) {
-        if (CollectionUtils.isEmpty(elementList) || n < 1) {
-            return null;
-        }
+        List<String> randomElement = getRandomElement(elementList, n);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            int index = RandomUtils.nextInt(0, elementList.size());
-            sb.append(elementList.get(index));
-        }
+        randomElement.stream().forEach(sb::append);
         return sb.toString();
     }
 
