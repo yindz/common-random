@@ -5,6 +5,9 @@ import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * 数值数据源
  *
@@ -27,7 +30,7 @@ public class NumberSource {
     public static NumberSource getInstance() {
         return instance;
     }
-    
+
     /**
      * 返回1个随机整数
      *
@@ -64,7 +67,7 @@ public class NumberSource {
         }
         return nums;
     }
-    
+
     /**
      * 返回1个随机长整数
      *
@@ -101,7 +104,7 @@ public class NumberSource {
         }
         return nums;
     }
-    
+
     /**
      * 返回1个随机双精度数
      *
@@ -137,5 +140,14 @@ public class NumberSource {
             nums[i] = randomDouble(startInclusive, endExclusive);
         }
         return nums;
+    }
+
+    /**
+     * 随机百分比
+     *
+     * @return 1个随机百分比
+     */
+    public BigDecimal randomPercent() {
+        return BigDecimal.valueOf(RandomUtils.nextDouble(0.0001d, 0.9999d)).setScale(4, RoundingMode.HALF_UP);
     }
 }
