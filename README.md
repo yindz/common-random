@@ -133,7 +133,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.14</version>
 </dependency>
 ```
 
@@ -505,12 +505,10 @@ String sentence = OtherSource.getInstance().randomChineseSentence();
 ```
 String title = OtherSource.getInstance().randomNonsenseTitle("星期一", "下雨");
 ```
-<img src="https://g3g4x5.com/upload/20210828105927.png" height="180"/>
 
 ```
 String content = OtherSource.getInstance().randomNonsense("星期一", "下雨");
 ```
-<img src="https://g3g4x5.com/upload/20210828102212.png" height="180"/>
 
 #### 随机行业分类
 ```
@@ -667,10 +665,6 @@ String tableName = "user";
 //生成SQL插入语句
 String sql = DataUtils.generateJson(fieldList, tableName, total);     
 ```
-
-## 新版计划
-- 北交所上市公司名单(来自新三板精选层，所以需要从新三板名单中移除)
-- 数据生成工具支持生成对象
 
 ## 感谢 JetBrains 免费的开源授权
 <a href="https://www.jetbrains.com/?from=common-random" target="_blank">
