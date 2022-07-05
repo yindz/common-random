@@ -6,7 +6,7 @@
 
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <packaging>jar</packaging>
     <name>common-random</name>
     <description>An easy-to-use random data generator.</description>
@@ -18,21 +18,22 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <build.jar.name>common-random</build.jar.name>
-        <commons-lang.version>3.7</commons-lang.version>
+        <commons-lang.version>3.12.0</commons-lang.version>
         <commons-io.version>2.7</commons-io.version>
-        <commons-collections.version>4.1</commons-collections.version>
-        <guava.version>30.0-jre</guava.version>
-        <jackson-databind.version>2.12.6.1</jackson-databind.version>
+        <commons-collections.version>4.4</commons-collections.version>
+        <guava.version>31.1-jre</guava.version>
+        <jackson-databind.version>2.13.3</jackson-databind.version>
         <tinypinyin.version>2.0.3.RELEASE</tinypinyin.version>
         <slf4j-api.version>1.7.36</slf4j-api.version>
         <slf4j-simple.version>1.7.36</slf4j-simple.version>
+        <junit.version>4.13.2</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
