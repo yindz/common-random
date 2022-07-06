@@ -29,7 +29,7 @@ public class InternetSource {
     /**
      * 主流安卓厂商名称
      */
-    private static final String[] ANDROID_MANUFACTURERS = new String[]{"samsung", "sony", "huawei", "hornor", "xiaomi", "redmi", "mi", "vivo", "oppo", "oneplus", "lg", "lenovo", "motorola", "nokia", "meizu", "zte", "asus", "smartisan", "nubia", "realme", "iqoo", "coolpad", "gionee"};
+    private static final String[] ANDROID_MANUFACTURERS = new String[]{"samsung", "sony", "huawei", "honor", "xiaomi", "redmi", "mi", "vivo", "oppo", "oneplus", "lg", "lenovo", "motorola", "nokia", "meizu", "zte", "asus", "smartisan", "nubia", "realme", "iqoo", "coolpad", "gionee"};
 
     /**
      * 安卓 User-Agent模板
@@ -44,12 +44,12 @@ public class InternetSource {
     /**
      * 主流iOS版本号
      */
-    private static final String[] IOS_VERSIONS = new String[]{"10_0", "10_1", "10_2", "10_3", "11_0", "11_1", "11_2", "11_3", "11_4", "12_0", "12_1", "12_2", "12_3", "12_4", "13_0", "13_1", "13_2", "13_3"};
+    private static final String[] IOS_VERSIONS = new String[]{"10_0", "10_1", "10_2", "10_3", "11_0", "11_1", "11_2", "11_3", "11_4", "12_0", "12_4", "13_0", "13_7", "14_0", "14_7", "15_0", "15_7", "16_0"};
 
     /**
      * 主流Windows版本号
      */
-    private static final String[] WINDOWS_VERSIONS = new String[]{"6.0", "6.1", "6.2", "6.3", "10.0"};
+    private static final String[] WINDOWS_VERSIONS = new String[]{"6.0", "6.1", "6.2", "6.3", "10.0", "11.0"};
 
     /**
      * PC User-Agent模板
@@ -190,7 +190,7 @@ public class InternetSource {
     public String randomPCUserAgent() {
         return String.format(PC_TEMPLATE,
                 WINDOWS_VERSIONS[RandomUtils.nextInt(0, WINDOWS_VERSIONS.length)],
-                RandomUtils.nextInt(60, 80),
+                RandomUtils.nextInt(60, 100),
                 RandomUtils.nextInt(2000, 4000),
                 RandomUtils.nextInt(1, 200));
     }
@@ -201,7 +201,7 @@ public class InternetSource {
      * @return Android User-Agent
      */
     public String randomAndroidUserAgent() {
-        int androidVersion = RandomUtils.nextInt(7, 11);
+        int androidVersion = RandomUtils.nextInt(7, 13);
         return String.format(ANDROID_TEMPLATE, androidVersion,
                 ANDROID_MANUFACTURERS[RandomUtils.nextInt(0, ANDROID_MANUFACTURERS.length)].toUpperCase(),
                 RandomStringUtils.randomAlphanumeric(6).toUpperCase(),
