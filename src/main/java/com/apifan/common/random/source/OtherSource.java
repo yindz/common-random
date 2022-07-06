@@ -154,6 +154,11 @@ public class OtherSource {
      */
     private static List<String> chineseIdiomsList = Lists.newArrayList();
 
+    /**
+     * 英文常用词语
+     */
+    private static List<String> englishWordsList = Lists.newArrayList();
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -185,6 +190,7 @@ public class OtherSource {
         sensationalTitlesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("sensational-titles.txt"));
         astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
         chineseIdiomsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("chinese-idioms.txt"));
+        englishWordsList = ResourceUtils.readLines("word-en.txt");
 
         ObjectMapper objectMapper = new ObjectMapper();
         CollectionType poemType = objectMapper.getTypeFactory().constructCollectionType(List.class, Poem.class);
@@ -504,6 +510,17 @@ public class OtherSource {
      */
     public String randomChineseIdiom() {
         return ResourceUtils.getRandomElement(chineseIdiomsList);
+    }
+
+    /**
+     * 随机英文文本
+     *
+     * @param words 词语数量
+     * @return 随机英文文本
+     */
+    public String randomEnglishText(int words) {
+        Preconditions.checkArgument(words > 1, "词语数量必须大于1");
+        return StringUtils.capitalize(Joiner.on(" ").join(ResourceUtils.getRandomElement(englishWordsList, words)));
     }
 
     /**
