@@ -1,5 +1,6 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.EconomicCategory;
 import com.apifan.common.random.entity.Poem;
 import com.apifan.common.random.util.ResourceUtils;
@@ -158,6 +159,12 @@ public class OtherSource {
      * 英文常用词语
      */
     private static List<String> englishWordsList = Lists.newArrayList();
+
+    /**
+     * 统一社会信用代码候选字符(不使用I、O、Z、S、V)
+     */
+    private static final List<String> socialCreditCharactersList = Lists.newArrayList(
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "W", "X", "Y");
 
     private static final OtherSource instance = new OtherSource();
 
@@ -521,6 +528,19 @@ public class OtherSource {
     public String randomEnglishText(int words) {
         Preconditions.checkArgument(words > 1, "词语数量必须大于1");
         return StringUtils.capitalize(Joiner.on(" ").join(ResourceUtils.getRandomElement(englishWordsList, words)));
+    }
+
+    /**
+     * 随机统一社会信用代码(虚拟)
+     *
+     * @return 统一社会信用代码(虚拟)
+     */
+    public String randomSocialCreditCode() {
+        String prefix = "91";
+        //为避免与真实的社会信用代码重合，不计算校验码而是随机生成
+        String checkCode = String.valueOf(RandomUtils.nextInt(0, 10));
+        Area area = AreaSource.getInstance().nextArea();
+        return prefix + area.getZipCode() + Joiner.on("").join(ResourceUtils.getRandomElement(socialCreditCharactersList, 9)) + checkCode;
     }
 
     /**
