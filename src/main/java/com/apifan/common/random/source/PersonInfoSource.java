@@ -469,24 +469,14 @@ public class PersonInfoSource {
 
     /**
      * 随机信用卡号码
+     * <p>注意: 此方法已移动到 {@link com.apifan.common.random.source.FinancialSource#randomCreditCardNo(CreditCardType) FinancialSource.randomCreditCardNo}</p>
      *
      * @param type 信用卡类型
      * @return 随机信用卡号码
      */
+    @Deprecated
     public String randomCreditCardNo(CreditCardType type) {
-        if (CreditCardType.Visa.equals(type)) {
-            return "4" + RandomStringUtils.randomNumeric(15);
-        } else if (CreditCardType.MasterCard.equals(type)) {
-            return "5" + RandomStringUtils.randomNumeric(15);
-        } else if (CreditCardType.Amex.equals(type)) {
-            return "37" + RandomStringUtils.randomNumeric(14);
-        } else if (CreditCardType.UnionPay.equals(type)) {
-            return "62" + RandomStringUtils.randomNumeric(14);
-        } else if (CreditCardType.JCB.equals(type)) {
-            return "35" + RandomStringUtils.randomNumeric(14);
-        } else {
-            throw new RuntimeException("未知的信用卡类型");
-        }
+        return FinancialSource.getInstance().randomCreditCardNo(type);
     }
 
     /**
