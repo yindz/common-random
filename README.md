@@ -1,6 +1,6 @@
 ![https://opensource.org/licenses/Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://search.maven.org/artifact/com.apifan.common/common-random/1.0.14/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.apifan.common/common-random/badge.svg "Maven Central")](https://mvnrepository.com/artifact/com.apifan.common/common-random)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
@@ -17,6 +17,14 @@
 - 本程序基于Apache协议开源，请使用者在遵守Apache协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
 
 ## 版本历史
+### v1.0.15
+- 新增支持生成虚拟借记卡号;
+- 新增支持生成英文文本;
+- 新增支持生成虚拟统一社会信用代码;
+- 修订一些User-Agent数据;
+- 优化重构随机信用卡号生成逻辑，生成的卡号符合Luhn算法校验规则;
+- 升级依赖版本;
+
 ### v1.0.14
 - 修订常见的地名用字，优化详细地址的随机性
 - 优化数字工具类 by @changhe626
@@ -84,7 +92,6 @@
 - [虚拟拼音网络昵称](#随机网络昵称)
 - [虚拟手机号码](#随机中国大陆手机号)
 - [虚拟QQ号码](#随机qq信息)
-- [虚拟信用卡号码](#随机虚拟信用卡号码)
 - [虚拟姓名图片文件](#生成姓名头像)
 - [虚拟非主流QQ网名](#随机qq信息)
 - [随机民族名称](#随机民族名称)
@@ -100,6 +107,7 @@
 - [虚拟日K线数据](#日k线数据)
 - [随机开放式基金名称+基金代码](#开放式基金名称和基金代码)
 - [随机货币信息](#货币)
+- [虚拟银行卡（借记卡及信用卡）号码](#随机虚拟银行卡号码)
 
 ### 体育
 - [随机六大足球联赛球队名称](#足球联赛球队名称)
@@ -116,11 +124,13 @@
 - [随机RGB颜色值](#随机颜色值)
 - [随机HEX颜色值](#随机颜色值)
 - [随机中文短句](#随机中文短句)
+- [随机英文文本](#随机英文文本)
 - [虚拟企业及部门名称](#随机公司及部门名称)
 - [随机营销号文案](#随机营销号)
 - [随机ISBN](#随机EAN)
 - [随机EAN商品编码](#随机EAN)
 - [随机行业分类](#随机行业分类)
+- [随机统一社会信用代码](#统一社会信用代码)
 - [数据生成工具](#数据生成工具)
 
 ## 如何使用
@@ -133,7 +143,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
 </dependency>
 ```
 
@@ -235,25 +245,28 @@ String id4 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", 19);
 - 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)
 - 随机生成的虚拟身份证号码符合校验规则，但有可能与真实号码相同（纯属巧合）
 
-#### 随机虚拟信用卡号码
+#### 随机虚拟银行卡号码
 ```
-//生成1个随机VISA信用卡号码
+//生成1个随机虚拟VISA信用卡号码
 String cc1 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Visa);
 
-//生成1个随机MasterCard信用卡号码
+//生成1个随机虚拟MasterCard信用卡号码
 String cc2 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.MasterCard);
 
-//生成1个随机American Express信用卡号码
+//生成1个随机虚拟American Express信用卡号码
 String cc3 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Amex);
 
-//生成1个随机银联信用卡号码
+//生成1个随机虚拟银联信用卡号码
 String cc4 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.UnionPay);
 
-//生成1个随机JCB信用卡号码
+//生成1个随机虚拟JCB信用卡号码
 String cc5 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.JCB);
+
+//生成1个随机虚拟借记卡(储蓄卡)号码
+String dbc = PersonInfoSource.getInstance().randomDebitCardNo();
 ```
 注意：
-- 随机生成的虚拟信用卡号码只是前缀和位数符合规则，并不能通过校验，也无法用于支付，仅供模拟测试/仿真/项目演示等用途
+- 随机生成的虚拟银行卡号码只是前缀和位数符合规则，不会与现实中的真实卡号产生重合，无法用于支付，仅供模拟测试/仿真/项目演示等用途
 
 #### 随机中国大陆手机号
 ```
@@ -501,6 +514,12 @@ String department = OtherSource.getInstance().randomCompanyDepartment();
 String sentence = OtherSource.getInstance().randomChineseSentence();
 ```
 
+#### 随机英文文本
+```
+//随机生成1条英文文本，包含10个单词
+String text = OtherSource.getInstance().randomEnglishText(10);
+```
+
 #### 随机营销号
 ```
 String title = OtherSource.getInstance().randomNonsenseTitle("星期一", "下雨");
@@ -515,6 +534,11 @@ String content = OtherSource.getInstance().randomNonsense("星期一", "下雨")
 OtherSource.getInstance().randomEconomicCategory();
 ```
 说明：行业分类编码和名称来自国家统计局发布的公开数据
+
+#### 统一社会信用代码
+```
+OtherSource.getInstance().randomSocialCreditCode();
+```
 
 #### 随机EAN
 ```
