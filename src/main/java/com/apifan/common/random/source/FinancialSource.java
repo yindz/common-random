@@ -257,6 +257,7 @@ public class FinancialSource {
      * <p> 特别说明: 不会与现实中的真实借记卡号产生重合 </p>
      *
      * @return 随机虚拟借记卡号码
+     * @since 1.0.15
      */
     public String randomDebitCardNo() {
         //发卡机构标识码9000~9999为目前尚未实际使用的号段(为了避免不必要的麻烦)

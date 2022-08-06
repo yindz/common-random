@@ -3,10 +3,8 @@ package com.apifan.common.random.source;
 import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.EconomicCategory;
 import com.apifan.common.random.entity.Poem;
+import com.apifan.common.random.util.JsonUtils;
 import com.apifan.common.random.util.ResourceUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -198,12 +196,9 @@ public class OtherSource {
         astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
         chineseIdiomsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("chinese-idioms.txt"));
         englishWordsList = ResourceUtils.readLines("word-en.txt");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        CollectionType poemType = objectMapper.getTypeFactory().constructCollectionType(List.class, Poem.class);
         try {
-            tangPoemsList = objectMapper.readValue(ResourceUtils.readString("tang-poems.json"), poemType);
-        } catch (JsonProcessingException e) {
+            tangPoemsList = JsonUtils.parseObjectList(ResourceUtils.readString("tang-poems.json"), Poem.class);
+        } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
     }
@@ -524,6 +519,7 @@ public class OtherSource {
      *
      * @param words 词语数量
      * @return 随机英文文本
+     * @since 1.0.15
      */
     public String randomEnglishText(int words) {
         Preconditions.checkArgument(words > 1, "词语数量必须大于1");
@@ -534,6 +530,7 @@ public class OtherSource {
      * 随机统一社会信用代码(虚拟)
      *
      * @return 统一社会信用代码(虚拟)
+     * @since 1.0.15
      */
     public String randomSocialCreditCode() {
         String prefix = "91";

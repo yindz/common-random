@@ -3,8 +3,8 @@ package com.apifan.common.random.source;
 import com.apifan.common.random.constant.CreditCardType;
 import com.apifan.common.random.constant.RandomConstant;
 import com.apifan.common.random.entity.IdPrefix;
+import com.apifan.common.random.util.PinyinUtils;
 import com.apifan.common.random.util.ResourceUtils;
-import com.github.promeg.pinyinhelper.Pinyin;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -296,7 +296,7 @@ public class PersonInfoSource {
      */
     public String randomPinyinNickName(int maxLength) {
         String nickName = randomChineseNickName(maxLength);
-        return Pinyin.toPinyin(nickName, "").toLowerCase();
+        return PinyinUtils.toPinyin(nickName, true);
     }
 
     /**
