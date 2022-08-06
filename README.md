@@ -10,48 +10,14 @@
 - 简单方便，无需编写冗余代码
 - 生成的随机数据比较接近真实数据
 
-## 注意事项
-- 随机数据由程序随机生成，不存在真实性，但有可能与真实数据雷同（纯属巧合）。
-- 程序中使用了小部分真实数据（包括但不限于：行政区划名称、邮编、区号、高校名称、股票代码及名称等）作为基础数据源，全部来自于各个合法运营的网站上的可公开访问的网页；其中涉及的著作权或商标的所有权属于各自合法的拥有者。
-- 禁止利用本程序实施任何具有恶意、违反相关法律法规政策或损害他人合法权益的行为。
-- 本程序基于Apache协议开源，请使用者在遵守Apache协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
-
-## 版本历史
-### v1.0.15
-- 新增支持生成虚拟借记卡号;
-- 新增支持生成英文文本;
-- 新增支持生成虚拟统一社会信用代码;
-- 修订一些User-Agent数据;
-- 优化重构随机信用卡号生成逻辑，生成的卡号符合Luhn算法校验规则;
-- 升级依赖版本;
-
-### v1.0.14
-- 修订常见的地名用字，优化详细地址的随机性
-- 优化数字工具类 by @changhe626
-- 优化随机元素工具类 by @changhe626
-- 支持生成随机百分比
-- 升级依赖
-
-### v1.0.13
-- 日期时间数据源支持返回 java.util.Date 类型以方便使用
-- 新增支持随机大学专业名称
-- 升级依赖
-
-### v1.0.12
-- 数据工具类支持直接生成对象
-- 更换为 Apache License Version 2.0
-
-### v1.0.11
-- 新增北交所（北京证券交易所，Beijing Stock Exchange）股票代码及名称
-- 更新新三板股票代码及名称（原新三板精选层上市公司已平移至北交所）
-
-### v1.0.10
-- 新增数据工具类，支持生成JSON/SQL/CSV等格式的字符串
-
-### v1.0.9
-- 修复随机邮箱地址的bug
-- 新增随机四字成语
-- 新增随机唐诗
+## 快速开始
+- [如何使用](#如何使用)
+- [支持哪些随机数据类型](#支持的随机数据类型)
+- [JSON库的相关说明](#JSON库说明)
+- [拼音库的相关说明](#拼音库说明)
+- [常见问题](#常见问题)
+- [注意事项](#注意事项)
+- [最近版本历史](#版本历史)
 
 ## 支持的随机数据类型
 
@@ -143,7 +109,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.15</version>
+    <version>1.0.16</version>
 </dependency>
 ```
 
@@ -689,6 +655,113 @@ String tableName = "user";
 //生成SQL插入语句
 String sql = DataUtils.generateJson(fieldList, tableName, total);     
 ```
+
+## JSON库说明
+### 主要变化
+考虑到某些项目可能使用其它JSON依赖库，**从 1.0.16 版起**，本程序就不再强依赖 jackson，更加灵活：
+- jackson（默认）
+- fastjson
+- gson
+
+### 依赖坐标
+由于不再强依赖 jackson，因此您需要在您的项目中手动添加相关依赖。三选一：
+1. jackson
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.3</version>
+</dependency>
+```
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind)
+
+2. fastjson
+```xml
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.83</version>
+</dependency>
+```
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.alibaba/fastjson)
+
+3. gson
+```xml
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.9.0</version>
+</dependency>
+```
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.google.code.gson/gson)
+
+## 拼音库说明
+### 主要变化
+考虑到某些项目可能使用 pinyin4j，**从 1.0.16 版起**，本程序就不再强依赖 tinypinyin，更加灵活：
+- tinypinyin（默认）
+- pinyin4j
+
+### 如何设置
+由于不再强依赖 tinypinyin，因此您需要在您的项目中手动添加相关依赖。二选一：
+1. tinypinyin
+```xml
+<dependency>
+    <groupId>io.github.biezhi</groupId>
+    <artifactId>TinyPinyin</artifactId>
+    <version>2.0.3.RELEASE</version>
+</dependency>
+```
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/io.github.biezhi/TinyPinyin)
+
+2. pinyin4j
+```xml
+<dependency>
+    <groupId>com.belerweb</groupId>
+    <artifactId>pinyin4j</artifactId>
+    <version>2.5.1</version>
+</dependency>
+```
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.belerweb/pinyin4j)
+
+## 常见问题
+| 报错信息                                                                                     | 原因及解决方法               |
+|------------------------------------------------------------------------------------------|-----------------------|
+| ```java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/JsonProcessingException``` | 缺少jackson依赖，手动添加即可    |
+| ```java.lang.NoClassDefFoundError: com/alibaba/fastjson/TypeReference```                 | 缺少fastjson依赖，手动添加即可   |
+| ```java.lang.NoClassDefFoundError: com/google/gson/reflect/TypeToken```                  | 缺少gson依赖，手动添加即可       |
+| ```java.lang.NoClassDefFoundError: com/github/promeg/pinyinhelper/Pinyin```                  | 缺少tinypinyin依赖，手动添加即可 |
+| ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination```                  | 缺少pinyin4j依赖，手动添加即可   |
+
+## 版本历史
+### v1.0.16
+- 不再强依赖jackson，支持jackson/fastjson/gson三种不同的json库
+- 不再强依赖tinypinyin，支持tinypinyin/pinyin4j两种不同的拼音库
+
+### v1.0.15
+- 新增支持生成虚拟借记卡号;
+- 新增支持生成英文文本;
+- 新增支持生成虚拟统一社会信用代码;
+- 修订一些User-Agent数据;
+- 优化重构随机信用卡号生成逻辑，生成的卡号符合Luhn算法校验规则;
+- 升级依赖版本;
+
+### v1.0.14
+- 修订常见的地名用字，优化详细地址的随机性
+- 优化数字工具类 by @changhe626
+- 优化随机元素工具类 by @changhe626
+- 支持生成随机百分比
+- 升级依赖
+
+### v1.0.13
+- 日期时间数据源支持返回 java.util.Date 类型以方便使用
+- 新增支持随机大学专业名称
+- 升级依赖
+
+## 注意事项
+- 随机数据由程序随机生成，不存在真实性，但有可能与真实数据雷同（纯属巧合）。
+- 程序中使用了小部分真实数据（包括但不限于：行政区划名称、邮编、区号、高校名称、股票代码及名称等）作为基础数据源，全部来自于各个合法运营的网站上的可公开访问的网页；其中涉及的著作权或商标的所有权属于各自合法的拥有者。
+- 禁止利用本程序实施任何具有恶意、违反相关法律法规政策或损害他人合法权益的行为。
+- 本程序基于Apache协议开源，请使用者在遵守Apache协议和相关法律法规政策的前提下合理使用；使用本程序所存在的风险以及因使用本程序而产生的一切后果由使用者自己承担，程序作者不承担任何责任。
 
 ## 感谢 JetBrains 免费的开源授权
 <a href="https://www.jetbrains.com/?from=common-random" target="_blank">
