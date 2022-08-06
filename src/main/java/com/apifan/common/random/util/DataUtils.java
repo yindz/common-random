@@ -1,8 +1,6 @@
 package com.apifan.common.random.util;
 
 import com.apifan.common.random.entity.DataField;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.apache.commons.collections4.CollectionUtils;
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
  */
 public class DataUtils {
     private static final Logger logger = LoggerFactory.getLogger(DataUtils.class);
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * 生成JSON
@@ -97,7 +93,7 @@ public class DataUtils {
      */
     public static <T> T generateObject(List<DataField> fieldList, Class<T> clazz) throws Exception {
         Preconditions.checkArgument(clazz != null, "对象类型为空");
-        return objectMapper.readValue(generateJson(fieldList), clazz);
+        return JsonUtils.parseObject(generateJson(fieldList), clazz);
     }
 
     /**
@@ -153,8 +149,8 @@ public class DataUtils {
             element.put(f.getField(), f.getValueSupplier().get());
         });
         try {
-            return objectMapper.writeValueAsString(element);
-        } catch (JsonProcessingException e) {
+            return JsonUtils.toJson(element);
+        } catch (Exception e) {
             logger.error("转换JSON字符串时出错", e);
         }
         return null;
