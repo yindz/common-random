@@ -1,7 +1,5 @@
 package com.apifan.common.random.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -62,11 +60,9 @@ public final class ResourceUtils {
      */
     public static List<Map<String, Object>> readAsMapList(String fileName) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(fileName), "资源文件名为空");
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class);
-            return objectMapper.readValue(readString(fileName), collectionType);
-        } catch (IOException e) {
+            return JsonUtils.parseMapList(readString(fileName));
+        } catch (Exception e) {
             logger.error("解析json出现异常", e);
         }
         return null;
@@ -83,7 +79,7 @@ public final class ResourceUtils {
         List<T> randomElement = getRandomElement(elementList, 1);
         return randomElement.isEmpty() ? null : randomElement.get(0);
     }
-    
+
     /**
      * 从列表中获取number个随机元素
      *
@@ -159,5 +155,24 @@ public final class ResourceUtils {
             decoded.add(base64Decode(v));
         });
         return decoded;
+    }
+
+    /**
+     * 判断当前运行环境下是否存在某个类
+     *
+     * @param clazzName 类名
+     * @return
+     */
+    public static boolean isClassLoaded(String clazzName) {
+        if (StringUtils.isBlank(clazzName)) {
+            return false;
+        }
+        try {
+            Class.forName(clazzName);
+            return true;
+        } catch (ClassNotFoundException e) {
+            logger.warn("未找到类: {}", clazzName);
+            return false;
+        }
     }
 }
