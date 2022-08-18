@@ -114,7 +114,7 @@
 ```
 
 ### 基础用法
-#### 随机数字
+#### [随机数字](https://www.scaler.com/topics/random-number-generator-in-c/)
 ```
 //生成1个1~101(不含)之间的随机整数
 int a = NumberSource.getInstance().randomInt(1, 101);
