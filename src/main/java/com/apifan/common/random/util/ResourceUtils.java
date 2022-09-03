@@ -123,7 +123,7 @@ public final class ResourceUtils {
     public static String getRandomString(List<String> elementList, int n) {
         List<String> randomElement = getRandomElement(elementList, n);
         StringBuilder sb = new StringBuilder();
-        randomElement.stream().forEach(sb::append);
+        randomElement.forEach(sb::append);
         return sb.toString();
     }
 
