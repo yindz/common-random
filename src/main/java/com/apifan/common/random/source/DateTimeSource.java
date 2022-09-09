@@ -288,7 +288,7 @@ public class DateTimeSource {
      */
     public LocalDateTime randomPastTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
-        return randomPastTime(LocalDateTime.now(), maxDays * 86400);
+        return randomPastTime(LocalDateTime.now(), maxDays * 86400L);
     }
 
     /**
@@ -334,7 +334,7 @@ public class DateTimeSource {
      */
     public LocalDateTime randomFutureTime(int maxDays) {
         Preconditions.checkArgument(maxDays >= 1, "最大日期间隔必须大于0");
-        return randomFutureTime(LocalDateTime.now(), maxDays * 86400);
+        return randomFutureTime(LocalDateTime.now(), maxDays * 86400L);
     }
 
     /**
