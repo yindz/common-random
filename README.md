@@ -58,7 +58,6 @@
 - [虚拟拼音网络昵称](#随机网络昵称)
 - [虚拟手机号码](#随机中国大陆手机号)
 - [虚拟QQ号码](#随机qq信息)
-- [虚拟姓名图片文件](#生成姓名头像)
 - [虚拟非主流QQ网名](#随机qq信息)
 - [随机民族名称](#随机民族名称)
 
@@ -109,7 +108,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.16</version>
+    <version>1.0.17</version>
 </dependency>
 ```
 
@@ -169,24 +168,6 @@ String k3 = PersonInfoSource.getInstance().randomFemaleChineseName();
 ```
 //生成1个随机英文人名
 String l = PersonInfoSource.getInstance().randomEnglishName();
-```
-##### 生成姓名头像
-- 该功能可以根据用户姓名快速生成各类网站、app的用户头像
-- 背景颜色随机，数据源取自最近十几年来广受欢迎的颜色，详情参见: [Colors of the Year](https://www.w3schools.com/colors/colors_trends.asp)
-- 支持使用自定义TTF字体，但是需要使用者自行保证字体版权合法以避免纠纷
-- 该功能不支持在Android运行环境中使用(因为缺少awt)
-```
-//姓名
-String name = PersonInfoSource.getInstance().randomChineseName();
-//头像文件保存路径
-String targetPath = "/home/user/picture/" + name + ".png;
-
-//使用默认的Dialog字体
-PersonInfoSource.getInstance().generateNamePicture(name, targetPath);
-
-//使用自定义的字体
-String font = "/home/user/font/SourceHanSansCN-Normal.ttf";
-PersonInfoSource.getInstance().generateNamePicture(name, targetPath, font);
 ```
 
 #### 随机生成符合规则的虚拟身份证号码
