@@ -17,15 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 个人信息数据源
@@ -34,11 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class PersonInfoSource {
     private static final Logger logger = LoggerFactory.getLogger(PersonInfoSource.class);
-
-    /**
-     * 默认字体
-     */
-    private static final Font defaultFont = new Font("Dialog", Font.PLAIN, 78);
 
     /**
      * 姓名图片可选颜色
@@ -85,11 +73,6 @@ public class PersonInfoSource {
         checkNumMap.put(9, "3");
         checkNumMap.put(10, "2");
     }
-
-    /**
-     * 字体对象缓存
-     */
-    private static Map<String, Font> fontMap = new ConcurrentHashMap<>();
 
     /**
      * 常见中文姓氏
@@ -480,97 +463,12 @@ public class PersonInfoSource {
     }
 
     /**
-     * 生成姓名图片文件
-     *
-     * @param name     姓名
-     * @param savePath 图片文件的保存路径
-     * @param fontPath 第三方字体的路径
-     * @throws IOException IO异常
-     */
-    public void generateNamePicture(String name, String savePath, String fontPath) throws IOException {
-        Preconditions.checkArgument(StringUtils.isNotEmpty(name), "姓名不能为空");
-        Preconditions.checkArgument(StringUtils.isNotEmpty(savePath), "图片保存路径不能为空");
-        String text = name;
-        if (name.length() > 1) {
-            //长度超过1时，随机取一个字
-            int i = RandomUtils.nextInt(0, name.length());
-            text = name.substring(i, i + 1);
-        }
-        File file = new File(savePath);
-        if (file.exists()) {
-            throw new IllegalArgumentException("文件 " + savePath + " 已存在");
-        }
-        int width = 200, height = 200;
-        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = (Graphics2D) bi.getGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setBackground(getRandomColor());
-        g2.clearRect(0, 0, width, height);
-        //文字为白色
-        g2.setPaint(Color.WHITE);
-        g2.setFont(getFont(fontPath));
-        g2.drawString(text, 62, 126);
-        ImageIO.write(bi, "png", file);
-        logger.info("{} 的姓名图片已生成到 {}", name, savePath);
-    }
-
-    /**
-     * 生成姓名图片文件(使用默认字体)
-     *
-     * @param name     姓名
-     * @param savePath 图片文件的保存路径
-     * @throws IOException IO异常
-     */
-    public void generateNamePicture(String name, String savePath) throws IOException {
-        generateNamePicture(name, savePath, null);
-    }
-
-    /**
      * 随机性别
      *
      * @return 性别标识：0女性，1男性
      */
     public int randomGender() {
         return RandomUtils.nextInt(0, 2);
-    }
-
-    /**
-     * 获取字体
-     *
-     * @param fontPath 字体文件路径
-     * @return 字体
-     */
-    private Font getFont(String fontPath) {
-        if (StringUtils.isEmpty(fontPath)) {
-            logger.warn("字体文件路径为空! 将使用默认字体 {}", defaultFont.getName());
-            return defaultFont;
-        }
-        File fontFile = new File(fontPath);
-        if (!fontFile.exists()) {
-            logger.warn("字体文件 {} 不存在! 将使用默认字体 {}", fontPath, defaultFont.getName());
-            return defaultFont;
-        }
-        return fontMap.computeIfAbsent(fontPath, k -> {
-            try {
-                Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(Float.parseFloat("78"));
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                ge.registerFont(font);
-                return font;
-            } catch (FontFormatException | IOException e) {
-                logger.error("初始化字体异常", e);
-                return null;
-            }
-        });
-    }
-
-    /**
-     * 获取随机颜色
-     *
-     * @return 随机颜色
-     */
-    private Color getRandomColor() {
-        String[] color = ResourceUtils.getRandomElement(namePictureColorsList).split(",");
-        return new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2]));
     }
 
     /**
