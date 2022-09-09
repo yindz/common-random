@@ -714,6 +714,10 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 | ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination```                  | 缺少pinyin4j依赖，手动添加即可   |
 
 ## 版本历史
+### v1.0.17
+- 不再支持生成图片的功能
+- 更新一些基础数据
+
 ### v1.0.16
 - 不再强依赖jackson，支持jackson/fastjson/gson三种不同的json库
 - 不再强依赖tinypinyin，支持tinypinyin/pinyin4j两种不同的拼音库
