@@ -108,7 +108,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.17</version>
+    <version>1.0.18</version>
 </dependency>
 ```
 
@@ -547,6 +547,9 @@ String xsbStockCode = xsbStock[1];
 String[] bseStock = FinancialSource.getInstance().randomBseStock();
 String bseStockName = bseStock[0];
 String bseStockCode = bseStock[1];
+
+//随机股票代码(纳斯达克)
+FinancialSource.getInstance().randomNasdaqStock();
 ```
 #### 开放式基金名称和基金代码
 ```
@@ -714,6 +717,9 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 | ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination```                  | 缺少pinyin4j依赖，手动添加即可   |
 
 ## 版本历史
+### v1.0.18
+- 增加纳斯达克上市股票信息
+
 ### v1.0.17
 - 不再支持生成图片的功能
 - 更新一些基础数据
