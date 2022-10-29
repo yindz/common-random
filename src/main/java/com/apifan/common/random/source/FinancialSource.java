@@ -49,6 +49,11 @@ public class FinancialSource {
     private static List<String> stockBseList = Lists.newArrayList();
 
     /**
+     * 股票(纳斯达克)
+     */
+    private static List<String> stockNasdaqList = Lists.newArrayList();
+
+    /**
      * 开放式基金
      */
     private static List<String> fundsList = Lists.newArrayList();
@@ -69,6 +74,7 @@ public class FinancialSource {
         stockBseList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("stock-bse.txt"));
         fundsList = ResourceUtils.readLines("fund.txt");
         currencyList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("currency.txt"));
+        stockNasdaqList = ResourceUtils.readLines("stock-nasdaq.txt");
     }
 
     /**
@@ -118,6 +124,15 @@ public class FinancialSource {
     public String[] randomBseStock() {
         String stock = ResourceUtils.getRandomString(stockBseList, 1);
         return StringUtils.isBlank(stock) ? null : stock.split(",");
+    }
+
+    /**
+     * 随机股票代码(纳斯达克)
+     *
+     * @return 股票代码
+     */
+    public String randomNasdaqStock() {
+        return ResourceUtils.getRandomString(stockNasdaqList, 1);
     }
 
     /**
