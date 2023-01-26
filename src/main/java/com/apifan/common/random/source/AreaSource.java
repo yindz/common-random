@@ -1,5 +1,6 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.constant.Province;
 import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.CountryOrRegionCode;
 import com.apifan.common.random.util.ResourceUtils;
@@ -171,28 +172,21 @@ public class AreaSource {
      * @return 随机的详细地址
      */
     public String randomAddress() {
-        Area area = nextArea();
-        String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
-        if (prefix.endsWith("县") || prefix.endsWith("旗")) {
-            //乡村地址
-            String town = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(townSuffixList);
-            String village = ResourceUtils.getRandomString(addressWordList, 2) + "村";
-            String group = ResourceUtils.getRandomString(addressWordList, 2) + "组";
-            return prefix + town + village + group + RandomUtils.nextInt(1, 100) + "号";
-        } else {
-            //城镇地址
-            String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
-            String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
-            String extra = "";
-            int x = NumberSource.getInstance().randomInt(0, 11);
-            if (x % 3 == 0) {
-                extra = ResourceUtils.getRandomElement(directionList);
-            }
-            String building = RandomUtils.nextInt(1, 20) + "栋";
-            String unit = RandomUtils.nextInt(1, 5) + "单元";
-            String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
-            return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + extra + building + unit + room;
+        return randomAddress(nextArea());
+    }
+
+    /**
+     * 获取随机的详细地址(指定省级行政区)
+     *
+     * @param province 省级行政区枚举
+     * @return 省级行政区范围内的随机详细地址
+     */
+    public String randomAddress(Province province) {
+        if (province == null) {
+            return null;
         }
+        Area area = ResourceUtils.getRandomElement(areaList.stream().filter(i -> province.getName().equals(i.getProvince())).collect(Collectors.toList()));
+        return randomAddress(area);
     }
 
     /**
@@ -280,5 +274,38 @@ public class AreaSource {
      */
     private CountryOrRegionCode randomCountryOrRegionCode(List<CountryOrRegionCode> list) {
         return CollectionUtils.isNotEmpty(list) ? list.get(RandomUtils.nextInt(0, list.size() - 1)) : null;
+    }
+
+    /**
+     * 根据指定的区域信息生成随机的详细地址
+     *
+     * @param area 区域信息
+     * @return 随机的详细地址
+     */
+    private String randomAddress(Area area) {
+        if (area == null) {
+            return null;
+        }
+        String prefix = area.getProvince() + area.getCity() + Objects.toString(area.getCounty(), "");
+        if (prefix.endsWith("县") || prefix.endsWith("旗")) {
+            //乡村地址
+            String town = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(townSuffixList);
+            String village = ResourceUtils.getRandomString(addressWordList, 2) + "村";
+            String group = ResourceUtils.getRandomString(addressWordList, 2) + "组";
+            return prefix + town + village + group + RandomUtils.nextInt(1, 100) + "号";
+        } else {
+            //城镇地址
+            String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
+            String community = ResourceUtils.getRandomElement(communityNameList) + ResourceUtils.getRandomElement(communitySuffixList);
+            String extra = "";
+            int x = NumberSource.getInstance().randomInt(0, 11);
+            if (x % 3 == 0) {
+                extra = ResourceUtils.getRandomElement(directionList);
+            }
+            String building = RandomUtils.nextInt(1, 20) + "栋";
+            String unit = RandomUtils.nextInt(1, 5) + "单元";
+            String room = String.format("%02d", RandomUtils.nextInt(1, 31)) + String.format("%02d", RandomUtils.nextInt(1, 5)) + "房";
+            return prefix + road + "路" + RandomUtils.nextInt(1, 1000) + "号" + community + extra + building + unit + room;
+        }
     }
 }
