@@ -4,7 +4,6 @@ import com.apifan.common.random.constant.Province;
 import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.EconomicCategory;
 import com.apifan.common.random.entity.Poem;
-import com.apifan.common.random.util.JsonUtils;
 import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -79,36 +78,6 @@ public class OtherSource {
     private static List<String> departmentList = Lists.newArrayList();
 
     /**
-     * 中文名词
-     */
-    private static List<String> chineseNounsList = Lists.newArrayList();
-
-    /**
-     * 中文动词
-     */
-    private static List<String> chineseVerbsList = Lists.newArrayList();
-
-    /**
-     * 中文副词
-     */
-    private static List<String> chineseAdverbsList = Lists.newArrayList();
-
-    /**
-     * 中文代词
-     */
-    private static List<String> chinesePronounsList = Lists.newArrayList();
-
-    /**
-     * 中文连词
-     */
-    private static List<String> chineseConjunctionsList = Lists.newArrayList();
-
-    /**
-     * 中文助词
-     */
-    private static List<String> chineseParticlesList = Lists.newArrayList();
-
-    /**
      * 热门手机型号
      */
     private static List<String> mobileModelsList = Lists.newArrayList();
@@ -119,39 +88,9 @@ public class OtherSource {
     private static List<String> ethnicNamesList = Lists.newArrayList();
 
     /**
-     * 废话模板
-     */
-    private static List<String> nonsenseList = Lists.newArrayList();
-
-    /**
-     * 震惊类前缀
-     */
-    private static List<String> astonishingPrefixList = Lists.newArrayList();
-
-    /**
-     * 标题党模板
-     */
-    private static List<String> sensationalTitlesList = Lists.newArrayList();
-
-    /**
      * 国民经济行业分类列表
      */
     private static final List<EconomicCategory> economicCategoryList = Lists.newArrayList();
-
-    /**
-     * 唐诗
-     */
-    private static List<Poem> tangPoemsList = Lists.newArrayList();
-
-    /**
-     * 四字成语
-     */
-    private static List<String> chineseIdiomsList = Lists.newArrayList();
-
-    /**
-     * 英文常用词语
-     */
-    private static List<String> englishWordsList = Lists.newArrayList();
 
     /**
      * 统一社会信用代码候选字符(不使用I、O、Z、S、V)
@@ -162,12 +101,6 @@ public class OtherSource {
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
-        chineseNounsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-nouns.txt"));
-        chinesePronounsList = ResourceUtils.readLines("common-chinese-pronouns.txt");
-        chineseAdverbsList = ResourceUtils.readLines("common-chinese-adverbs.txt");
-        chineseVerbsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("common-chinese-verbs.txt"));
-        chineseConjunctionsList = ResourceUtils.readLines("common-chinese-conjunctions.txt");
-        chineseParticlesList = ResourceUtils.readLines("common-chinese-particles.txt");
         departmentList = ResourceUtils.readLines("common-department.txt");
         List<String> economicCategoryLines = ResourceUtils.readLines("national-economic-category.txt");
         if (CollectionUtils.isNotEmpty(economicCategoryLines)) {
@@ -186,16 +119,6 @@ public class OtherSource {
         }
         mobileModelsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("mobile-models.txt"));
         ethnicNamesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("ethnic-cn.txt"));
-        nonsenseList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("nonsense.txt"));
-        sensationalTitlesList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("sensational-titles.txt"));
-        astonishingPrefixList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("astonishing-prefix.txt"));
-        chineseIdiomsList = ResourceUtils.base64DecodeLines(ResourceUtils.readLines("chinese-idioms.txt"));
-        englishWordsList = ResourceUtils.readLines("word-en.txt");
-        try {
-            tangPoemsList = JsonUtils.parseObjectList(ResourceUtils.readString("tang-poems.json"), Poem.class);
-        } catch (Exception e) {
-            logger.error("初始化数据异常", e);
-        }
         for (Province province : Province.values()) {
             if (Province.TW.equals(province) || Province.HK.equals(province) || Province.MO.equals(province)) {
                 continue;
@@ -332,47 +255,12 @@ public class OtherSource {
     }
 
     /**
-     * 随机中文句子
+     * 随机中文句子(兼容)
      *
      * @return 随机中文句子
      */
     public String randomChineseSentence() {
-        StringBuilder sb = new StringBuilder();
-        int r = RandomUtils.nextInt(1, 11);
-        if (r % 2 == 0) {
-            sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
-        }
-        sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-        sb.append(ResourceUtils.getRandomElement(chineseAdverbsList));
-        sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
-        sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-        r = RandomUtils.nextInt(1, 11);
-        if (r % 2 == 0) {
-            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-        }
-        r = RandomUtils.nextInt(1, 101);
-        if (r % 2 == 0) {
-            r = RandomUtils.nextInt(1, 11);
-            if (r % 2 == 0) {
-                sb.append("，");
-            } else {
-                sb.append(ResourceUtils.getRandomElement(chineseParticlesList));
-                sb.append("？");
-            }
-            r = RandomUtils.nextInt(1, 11);
-            if (r % 2 == 0) {
-                sb.append(ResourceUtils.getRandomElement(chineseConjunctionsList));
-            }
-            r = RandomUtils.nextInt(1, 11);
-            if (r % 3 == 0) {
-                sb.append(ResourceUtils.getRandomElement(chinesePronounsList));
-            }
-            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-            sb.append(ResourceUtils.getRandomElement(chineseVerbsList));
-            sb.append(ResourceUtils.getRandomElement(chineseNounsList));
-        }
-        sb.append("。");
-        return sb.toString();
+        return LanguageSource.getInstance().randomChineseSentence();
     }
 
     /**
@@ -394,31 +282,25 @@ public class OtherSource {
     }
 
     /**
-     * 随机营销号文案
+     * 随机营销号文案(兼容)
      *
      * @param subject  主语
      * @param behavior 行为
      * @return 营销号文案(废话)
      */
     public String randomNonsense(String subject, String behavior) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
-        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
-        String tpl = ResourceUtils.getRandomElement(nonsenseList);
-        return tpl.replaceAll("A", subject).replaceAll("B", behavior);
+        return LanguageSource.getInstance().randomNonsense(subject, behavior);
     }
 
     /**
-     * 随机营销号文案标题
+     * 随机营销号文案标题(兼容)
      *
      * @param subject  主语
      * @param behavior 行为
      * @return 营销号文案标题
      */
     public String randomNonsenseTitle(String subject, String behavior) {
-        Preconditions.checkArgument(StringUtils.isNotBlank(subject), "主语不能为空");
-        Preconditions.checkArgument(StringUtils.isNotBlank(behavior), "行为不能为空");
-        String tpl = ResourceUtils.getRandomElement(sensationalTitlesList);
-        return ResourceUtils.getRandomElement(astonishingPrefixList) + "！" + tpl.replaceAll("A", subject).replaceAll("B", behavior);
+        return LanguageSource.getInstance().randomNonsenseTitle(subject, behavior);
     }
 
     /**
@@ -509,33 +391,32 @@ public class OtherSource {
     }
 
     /**
-     * 随机一首唐诗
+     * 随机一首唐诗(兼容)
      *
      * @return 唐诗
      */
     public Poem randomTangPoem() {
-        return ResourceUtils.getRandomElement(tangPoemsList);
+        return LanguageSource.getInstance().randomTangPoem();
     }
 
     /**
-     * 随机四字成语
+     * 随机四字成语(兼容)
      *
      * @return 四字成语
      */
     public String randomChineseIdiom() {
-        return ResourceUtils.getRandomElement(chineseIdiomsList);
+        return LanguageSource.getInstance().randomChineseIdiom();
     }
 
     /**
-     * 随机英文文本
+     * 随机英文文本(兼容)
      *
      * @param words 词语数量
      * @return 随机英文文本
      * @since 1.0.15
      */
     public String randomEnglishText(int words) {
-        Preconditions.checkArgument(words > 1, "词语数量必须大于1");
-        return StringUtils.capitalize(Joiner.on(" ").join(ResourceUtils.getRandomElement(englishWordsList, words)));
+        return LanguageSource.getInstance().randomEnglishText(words);
     }
 
     /**

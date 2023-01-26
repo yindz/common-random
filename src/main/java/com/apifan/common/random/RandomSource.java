@@ -83,6 +83,15 @@ public class RandomSource {
     }
 
     /**
+     * 获取语言文字数据源
+     *
+     * @return 语言文字数据源
+     */
+    public static LanguageSource languageSource() {
+        return LanguageSource.getInstance();
+    }
+
+    /**
      * 获取其它杂项数据源
      *
      * @return 其它杂项数据源
