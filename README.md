@@ -108,66 +108,99 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.18</version>
+    <version>1.0.19</version>
 </dependency>
 ```
 
 ### 基础用法
+#### 统一入口
+```
+//地区类虚拟数据
+AreaSource areaSource = RandomSource.areaSource();
+
+//日期时间类虚拟数据
+DateTimeSource dateTimeSource = RandomSource.dateTimeSource();
+
+//教育类虚拟数据
+EducationSource educationSource = RandomSource.educationSource();
+
+//金融类虚拟数据
+FinancialSource financialSource = RandomSource.financialSource();
+
+//互联网信息类虚拟数据
+InternetSource internetSource = RandomSource.internetSource();
+
+//数字类虚拟数据
+NumberSource numberSource = RandomSource.numberSource();
+
+//个人类虚拟数据
+PersonInfoSource personInfoSource = RandomSource.personInfoSource();
+
+//体育竞技类虚拟数据
+SportSource sportSource = RandomSource.sportSource();
+
+//语言文字类虚拟数据
+LanguageSource languageSource = RandomSource.languageSource();
+
+//其它杂项虚拟数据
+OtherSource otherSource = RandomSource.otherSource();
+```
+
 #### 随机数字
 ```
 //生成1个1~101(不含)之间的随机整数
-int a = NumberSource.getInstance().randomInt(1, 101);
+int a = RandomSource.numberSource().randomInt(1, 101);
 
 //生成8个1~101(不含)之间的随机整数
-int[] b = NumberSource.getInstance().randomInt(1, 101, 8);
+int[] b = RandomSource.numberSource().randomInt(1, 101, 8);
 
 //生成1个10000000000~20000000001(不含)之间的随机长整数
-long c = NumberSource.getInstance().randomLong(10000000000L, 20000000001L);
+long c = RandomSource.numberSource().randomLong(10000000000L, 20000000001L);
 
 //生成9个10000000000~20000000001(不含)之间的随机长整数
-long[] d = NumberSource.getInstance().randomLong(10000000000L, 20000000001L, 9);
+long[] d = RandomSource.numberSource().randomLong(10000000000L, 20000000001L, 9);
 
 //生成1个0.01~0.51(不含)之间的随机整数
-double e = NumberSource.getInstance().randomDouble(0.01D, 0.51D);
+double e = RandomSource.numberSource().randomDouble(0.01D, 0.51D);
 
 //生成8个0.01~0.51(不含)之间的随机整数
-double[] f = NumberSource.getInstance().randomDouble(0.01D, 0.51D, 8);
+double[] f = RandomSource.numberSource().randomDouble(0.01D, 0.51D, 8);
 
 //生成随机百分比
-BigDecimal percent = NumberSource.getInstance().randomPercent();
+BigDecimal percent = RandomSource.numberSource().randomPercent();
 ```
 #### 随机汉字
 ```
 //生成1个随机汉字
-String i = OtherSource.getInstance().randomChinese();
+RandomSource.languageSource().randomChinese();
 
 //生成4个随机汉字
-String j = OtherSource.getInstance().randomChinese(4);
+RandomSource.languageSource().randomChinese(4);
 ```
 #### 随机成语
 ```
-String idiom = OtherSource.getInstance().randomChineseIdiom();
+RandomSource.languageSource().randomChineseIdiom();
 ```
 #### 随机唐诗
 ```
-Poem p = OtherSource.getInstance().randomTangPoem();
+RandomSource.languageSource().randomTangPoem();
 ```
 #### 随机人名
 ##### 中文名
 ```
 //生成1个随机中文人名(性别随机)
-String k = PersonInfoSource.getInstance().randomChineseName();
+RandomSource.personInfoSource().randomChineseName();
 
 //生成1个随机男性中文人名
-String k2 = PersonInfoSource.getInstance().randomMaleChineseName();
+RandomSource.personInfoSource().randomMaleChineseName();
 
 //生成1个随机女性中文人名
-String k3 = PersonInfoSource.getInstance().randomFemaleChineseName();
+RandomSource.personInfoSource().randomFemaleChineseName();
 ```
 ##### 英文名
 ```
 //生成1个随机英文人名
-String l = PersonInfoSource.getInstance().randomEnglishName();
+RandomSource.personInfoSource().randomEnglishName();
 ```
 
 #### 随机生成符合规则的虚拟身份证号码
@@ -175,18 +208,18 @@ String l = PersonInfoSource.getInstance().randomEnglishName();
 //生成1个随机的虚拟身份证号码，地区为广西壮族自治区，男性，出生日期在1990年11月11日至1999年12月12日之间
 LocalDate beginDate = LocalDate.of(1990,11,11);
 LocalDate endDate = LocalDate.of(1999,12,12); 
-String id1 = PersonInfoSource.getInstance().randomMaleIdCard("广西壮族自治区", beginDate, endDate);
+String id1 = RandomSource.personInfoSource().randomMaleIdCard(Province.GX, beginDate, endDate);
 
 //生成1个随机的虚拟身份证号码，地区为河北省，女性，出生日期在2001年1月11日至2008年2月22日之间
 LocalDate beginDate2 = LocalDate.of(2001,1,11);
 LocalDate endDate2 = LocalDate.of(2008,2,22);
-String id2 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", beginDate2, endDate2);
+String id2 = RandomSource.personInfoSource().randomFemaleIdCard(Province.HE, beginDate2, endDate2);
 
 //生成1个随机的虚拟身份证号码，地区为广西壮族自治区，男性，年龄为18岁
-String id3 = PersonInfoSource.getInstance().randomMaleIdCard("广西壮族自治区", 18);
+String id3 = RandomSource.personInfoSource().randomMaleIdCard(Province.GX, 18);
 
 //生成1个随机的虚拟身份证号码，地区为河北省，女性，年龄为19岁
-String id4 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", 19);
+String id4 = RandomSource.personInfoSource().randomFemaleIdCard(Province.HE, 19);
 ```
 注意：
 - 身份证号码前6位地区码数据取自[民政部网站2019年公开数据](http://www.mca.gov.cn/article/sj/xzqh/2019/)
@@ -195,22 +228,22 @@ String id4 = PersonInfoSource.getInstance().randomFemaleIdCard("河北省", 19);
 #### 随机虚拟银行卡号码
 ```
 //生成1个随机虚拟VISA信用卡号码
-String cc1 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Visa);
+String cc1 = RandomSource.personInfoSource().randomCreditCardNo(CreditCardType.Visa);
 
 //生成1个随机虚拟MasterCard信用卡号码
-String cc2 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.MasterCard);
+String cc2 = RandomSource.personInfoSource().randomCreditCardNo(CreditCardType.MasterCard);
 
 //生成1个随机虚拟American Express信用卡号码
-String cc3 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.Amex);
+String cc3 = RandomSource.personInfoSource().randomCreditCardNo(CreditCardType.Amex);
 
 //生成1个随机虚拟银联信用卡号码
-String cc4 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.UnionPay);
+String cc4 = RandomSource.personInfoSource().randomCreditCardNo(CreditCardType.UnionPay);
 
 //生成1个随机虚拟JCB信用卡号码
-String cc5 = PersonInfoSource.getInstance().randomCreditCardNo(CreditCardType.JCB);
+String cc5 = RandomSource.personInfoSource().randomCreditCardNo(CreditCardType.JCB);
 
 //生成1个随机虚拟借记卡(储蓄卡)号码
-String dbc = PersonInfoSource.getInstance().randomDebitCardNo();
+String dbc = RandomSource.personInfoSource().randomDebitCardNo();
 ```
 注意：
 - 随机生成的虚拟银行卡号码只是前缀和位数符合规则，不会与现实中的真实卡号产生重合，无法用于支付，仅供模拟测试/仿真/项目演示等用途
@@ -218,285 +251,285 @@ String dbc = PersonInfoSource.getInstance().randomDebitCardNo();
 #### 随机中国大陆手机号
 ```
 //生成1个随机中国大陆手机号
-String m = PersonInfoSource.getInstance().randomChineseMobile();
+RandomSource.personInfoSource().randomChineseMobile();
 ```
 #### 随机邮箱地址
 ```
 //生成1个随机邮箱地址，后缀随机，邮箱用户名最大长度为10
-String n1 = InternetSource.getInstance().randomEmail(10);
+RandomSource.internetSource().randomEmail(10);
 
 //生成1个随机邮箱地址，后缀为163.com，邮箱用户名最大长度为10
-String n2 = InternetSource.getInstance().randomEmail(10, "163.com");
+RandomSource.internetSource().randomEmail(10, "163.com");
 ```
 #### 随机域名
 ```
 //生成1个随机域名，域名最大长度为16
-String dm = InternetSource.getInstance().randomDomain(16);
+RandomSource.internetSource().randomDomain(16);
 ```
 #### 随机ipv4地址
 ```
 //生成1个随机公网IPv4地址
-String pub = InternetSource.getInstance().randomPublicIpv4();
+String pub = RandomSource.internetSource().randomPublicIpv4();
 
 //生成1个随机私有(内网)IPv4地址
-String prv = InternetSource.getInstance().randomPrivateIpv4();
+String prv = RandomSource.internetSource().randomPrivateIpv4();
 ```
 #### 随机ipv6地址
 ```
 //生成1个随机ipv6地址
-String ipv6 = InternetSource.getInstance().randomIpV6();
+String ipv6 = RandomSource.internetSource().randomIpV6();
 ```
 #### 随机端口号
 ```
 //生成1个随机端口号
-int port = InternetSource.getInstance().randomPort();
+RandomSource.internetSource().randomPort();
 ```
 #### 随机app信息
 ```
 //生成1个随机App名称
-String appName = InternetSource.getInstance().randomAppName();
+String appName = RandomSource.internetSource().randomAppName();
 
 //生成1个随机App Bundle ID
-String appBundleID = InternetSource.getInstance().randomAppBundleId();
+String appBundleID = RandomSource.internetSource().randomAppBundleId();
 
 //生成1个随机App版本号
-String appVersionCode = InternetSource.getInstance().randomAppVersionCode();
+String appVersionCode = RandomSource.internetSource().randomAppVersionCode();
 ```
 #### 随机静态url
 ```
 //生成1个随机静态url，后缀为jpg
-String url = InternetSource.getInstance().randomStaticUrl("jpg");
+String url = RandomSource.internetSource().randomStaticUrl("jpg");
 ```
 #### 随机日期
 ```
 //生成1个2020年的随机日期，日期格式为yyyy-MM-dd
-String d1 = DateTimeSource.getInstance().randomDate(2020, "yyyy-MM-dd");
+String d1 = RandomSource.dateTimeSource().randomDate(2020, "yyyy-MM-dd");
 
 //生成1个2020年1月2日之后的随机日期，日期格式为yyyy-MM-dd
-String d2 = DateTimeSource.getInstance().randomFutureDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
+String d2 = RandomSource.dateTimeSource().randomFutureDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
 
 //生成1个今天(基于系统时间判断)之后的随机日期，日期格式为yyyy-MM-dd
-String d3 = DateTimeSource.getInstance().randomFutureDate("yyyy-MM-dd");
+String d3 = RandomSource.dateTimeSource().randomFutureDate("yyyy-MM-dd");
 
 //生成1个2020年1月2日之前1年内的随机日期，日期格式为yyyy-MM-dd
-String d4 = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
+String d4 = RandomSource.dateTimeSource().randomPastDate(LocalDate.of(2020,1,2), "yyyy-MM-dd");
 
 //生成1个今天(基于系统时间判断)之前1年内的随机日期，日期格式为yyyy-MM-dd
-String d5 = DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd");
+String d5 = RandomSource.dateTimeSource().randomPastDate("yyyy-MM-dd");
 
 //生成1个2020年1月2日之前10年内的随机日期，日期格式为yyyy-MM-dd
-String dd = DateTimeSource.getInstance().randomPastDate(LocalDate.of(2020,1,2), 3650, "yyyy-MM-dd");
+String dd = RandomSource.dateTimeSource().randomPastDate(LocalDate.of(2020,1,2), 3650, "yyyy-MM-dd");
 
 //生成1个2000年1月11日至2010年2月22日范围之间的随机日期，日期格式为yyyy-MM-dd
 LocalDate beginDate = LocalDate.of(2000,1,11);
 LocalDate endDate = LocalDate.of(2010,2,22);
-String d6 = DateTimeSource.getInstance().randomDate(beginDate, endDate, "yyyy-MM-dd");
+String d6 = RandomSource.dateTimeSource().randomDate(beginDate, endDate, "yyyy-MM-dd");
 ```
 #### 随机时间
 ```
 //生成过去7天范围内的随机时间
-LocalDateTime time1 = DateTimeSource.getInstance().randomPastTime(7);
+LocalDateTime time1 = RandomSource.dateTimeSource().randomPastTime(7);
 
 //生成未来7天范围内的随机时间
-LocalDateTime time2 = DateTimeSource.getInstance().randomFutureTime(7);
+LocalDateTime time2 = RandomSource.dateTimeSource().randomFutureTime(7);
 
 //生成2020年2月14日当天范围内的随机时间
-LocalDateTime time3 = DateTimeSource.getInstance().randomTime(2020, 2, 14);
+LocalDateTime time3 = RandomSource.dateTimeSource().randomTime(2020, 2, 14);
 
 //生成过去100秒范围内的随机时间
-LocalDateTime time4 = DateTimeSource.getInstance().randomPastTime(LocalDateTime.now(), 100);
+LocalDateTime time4 = RandomSource.dateTimeSource().randomPastTime(LocalDateTime.now(), 100);
 
 //生成未来100秒范围内的随机时间
-LocalDateTime time5 = DateTimeSource.getInstance().randomFutureTime(LocalDateTime.now(), 100);
+LocalDateTime time5 = RandomSource.dateTimeSource().randomFutureTime(LocalDateTime.now(), 100);
 ```
 #### 随机时间戳
 ```
 //生成1个当天范围内的随机时间戳
-long ts1 = DateTimeSource.getInstance().randomTimestamp(LocalDate.now());
+long ts1 = RandomSource.dateTimeSource().randomTimestamp(LocalDate.now());
 
 //生成1个2020年3月6日范围内的随机时间戳
-long ts2 = DateTimeSource.getInstance().randomTimestamp(LocalDate.of(2020, 3, 6));
+long ts2 = RandomSource.dateTimeSource().randomTimestamp(LocalDate.of(2020, 3, 6));
 
 //生成1个介于2020年3月6日12:00:00至2020年3月6日12:30:00之间的随机时间戳
 LocalDateTime begin = LocalDateTime.of(2020, 3, 6, 12, 0, 0);
 LocalDateTime end = LocalDateTime.of(2020, 3, 6, 12, 30, 0);
-long ts3 = DateTimeSource.getInstance().randomTimestamp(begin, end);
+long ts3 = RandomSource.dateTimeSource().randomTimestamp(begin, end);
 
 //生成1个2020年3月6日12:00:00之后180秒内的随机时间戳
 LocalDateTime base1 = LocalDateTime.of(2020, 3, 6, 12, 0, 0);
-long ts4 = DateTimeSource.getInstance().randomFutureTimestamp(base1, 180);
+long ts4 = RandomSource.dateTimeSource().randomFutureTimestamp(base1, 180);
 
 //生成1个2020年3月7日13:00:00之前120秒内的随机时间戳
 LocalDateTime base2 = LocalDateTime.of(2020, 3, 7, 13, 0, 0);
-long ts5 = DateTimeSource.getInstance().randomPastTimestamp(base2, 120);
+long ts5 = RandomSource.dateTimeSource().randomPastTimestamp(base2, 120);
 ```
 #### 随机时区名称
 ```
 //生成1个随机时区名称
-String timezone = DateTimeSource.getInstance().randomTimezoneName();
+String timezone = RandomSource.dateTimeSource().randomTimezoneName();
 ```
 
 #### 随机强密码
 ```
 //生成1个随机强密码，长度为16，无特殊字符
-String pwd1 = PersonInfoSource.getInstance().randomStrongPassword(16, false);
+RandomSource.personInfoSource().randomStrongPassword(16, false);
 
 //生成1个随机强密码，长度为16，有特殊字符
-String pwd2 = PersonInfoSource.getInstance().randomStrongPassword(16, true);
+RandomSource.personInfoSource().randomStrongPassword(16, true);
 ```
 
 #### 随机地址
 ```
 //随机获取省份
-String prv = AreaSource.getInstance().randomProvince();
+RandomSource.areaSource().randomProvince();
 
 //随机获取城市(省份+城市，以逗号为分隔符)
-String city = AreaSource.getInstance().randomCity(",");
+RandomSource.areaSource().randomCity(",");
 
 //随机获取邮编
-String zipCode = AreaSource.getInstance().randomZipCode();
+RandomSource.areaSource().randomZipCode();
 
 //生成1个随机中国大陆详细地址
-String addr = AreaSource.getInstance().randomAddress();
+RandomSource.areaSource().randomAddress();
 ```
 
 #### 随机国家或地区
 ```
 //随机获取1个编码首字母为b的国家或地区
-CountryOrRegionCode code0 = AreaSource.getInstance().randomCountryOrRegionCode("b");
+RandomSource.areaSource().randomCountryOrRegionCode("b");
 
 //随机获取1个国家或地区(不限首字母)
-CountryOrRegionCode code1 = AreaSource.getInstance().randomCountryOrRegionCode();
+RandomSource.areaSource().randomCountryOrRegionCode();
 ```
 
 #### 随机经纬度
 ```
 //随机生成1个纬度
-double lat = AreaSource.getInstance().randomLatitude();
+double lat = RandomSource.areaSource().randomLatitude();
 
 //随机生成1个经度
-double lng = AreaSource.getInstance().randomLongitude();
+double lng = RandomSource.areaSource().randomLongitude();
 ```
 
 #### 随机固话
 ```
 //随机固话区号(省级行政区名称不需要包含后缀)
-String phoneCode = AreaSource.getInstance().randomPhoneCode("湖南");
+RandomSource.areaSource().randomPhoneCode("湖南");
 
 //随机固话号码(使用-作为分隔符，默认的分隔符是空格)
-String phoneNumber = AreaSource.getInstance().randomPhoneNumber("广东", "-");
+RandomSource.areaSource().randomPhoneNumber("广东", "-");
 ```
 
 #### 随机中国大陆车牌号
 ```
 //生成1个随机中国大陆车牌号(新能源车型)
-String n1 = OtherSource.getInstance().randomPlateNumber(true);
+RandomSource.otherSource().randomPlateNumber(true);
 
 //生成1个随机中国大陆车牌号(非新能源车型)
-String n2 = OtherSource.getInstance().randomPlateNumber();
+RandomSource.otherSource().randomPlateNumber();
 ```
 #### 随机网络昵称
 ```
 //生成1个随机英文网络昵称，最大长度为8个字符
-String nickName = PersonInfoSource.getInstance().randomNickName(8);
+RandomSource.personInfoSource().randomNickName(8);
 
 //生成1个随机汉字网络昵称，最大长度为8个汉字
-String nickName2 = PersonInfoSource.getInstance().randomChineseNickName(8);
+RandomSource.personInfoSource().randomChineseNickName(8);
 
 //基于随机汉字网络昵称生成1个拼音网络昵称，最大长度为4个汉字
-String nickName3 = PersonInfoSource.getInstance().randomPinyinNickName(4);
+RandomSource.personInfoSource().randomPinyinNickName(4);
 ```
 #### 随机qq信息
 ```
 //生成1个随机QQ号
-String qq = PersonInfoSource.getInstance().randomQQAccount();
+RandomSource.personInfoSource().randomQQAccount();
 
 //生成1个随机非主流QQ网名
-String nickName = PersonInfoSource.getInstance().randomQQNickName();
+RandomSource.personInfoSource().randomQQNickName();
 ```
 
 #### 随机民族名称
 ```
-String ethnicName = OtherSource.getInstance().randomEthnicName();
+RandomSource.otherSource().randomEthnicName();
 ```
 
 #### 随机教育背景信息
 ```
 //随机获取学历
-String degree = EducationSource.getInstance().randomDegree();
+RandomSource.educationSource().randomDegree();
 
 //随机获取本科高校名称
-String college = EducationSource.getInstance().randomCollege();
+RandomSource.educationSource().randomCollege();
 
 //随机高校专业名称
-String majorName = EducationSource.getInstance().randomMajorName();
+RandomSource.educationSource().randomMajorName();
 
 //随机获取小学名称
-String primarySchoolName = EducationSource.getInstance().randomPrimarySchoolName();
+RandomSource.educationSource().randomPrimarySchoolName();
 
 //随机获取小学年级
-String primarySchoolGrade = EducationSource.getInstance().randomPrimarySchoolGrade();
+RandomSource.educationSource().randomPrimarySchoolGrade();
 
 //随机获取中学名称
-String highSchoolName = EducationSource.getInstance().randomHighSchoolName();
+RandomSource.educationSource().randomHighSchoolName();
 
 //随机获取中学年级
-String highSchoolGrade = EducationSource.getInstance().randomHighSchoolGrade();
+RandomSource.educationSource().randomHighSchoolGrade();
 
 //随机班级名称
-String className = EducationSource.getInstance().randomClassName();
+RandomSource.educationSource().randomClassName();
 ```
 #### 随机公司及部门名称
 ```
 //随机生成1个公司名称，地区前缀为北京
-String companyName = OtherSource.getInstance().randomCompanyName("北京");
+RandomSource.otherSource().randomCompanyName("北京");
 
 //随机生成1个公司部门名称
-String department = OtherSource.getInstance().randomCompanyDepartment();
+RandomSource.otherSource().randomCompanyDepartment();
 ```
 
 #### 随机中文短句
 ```
 //随机生成1条中文短句
-String sentence = OtherSource.getInstance().randomChineseSentence();
+RandomSource.languageSource().randomChineseSentence();
 ```
 
 #### 随机英文文本
 ```
 //随机生成1条英文文本，包含10个单词
-String text = OtherSource.getInstance().randomEnglishText(10);
+RandomSource.languageSource().randomEnglishText(10);
 ```
 
 #### 随机营销号
 ```
-String title = OtherSource.getInstance().randomNonsenseTitle("星期一", "下雨");
+RandomSource.languageSource().randomNonsenseTitle("星期一", "下雨");
 ```
 
 ```
-String content = OtherSource.getInstance().randomNonsense("星期一", "下雨");
+RandomSource.languageSource().randomNonsense("星期一", "下雨");
 ```
 
 #### 随机行业分类
 ```
-OtherSource.getInstance().randomEconomicCategory();
+RandomSource.otherSource().randomEconomicCategory();
 ```
 说明：行业分类编码和名称来自国家统计局发布的公开数据
 
 #### 统一社会信用代码
 ```
-OtherSource.getInstance().randomSocialCreditCode();
+RandomSource.otherSource().randomSocialCreditCode();
 ```
 
 #### 随机EAN
 ```
 //随机ISBN，返回结果需要分隔符-，格式例如：978-7-XXXX-XXXX-X
-String isbn1 = OtherSource.getInstance().randomISBN(true);
+RandomSource.otherSource().randomISBN(true);
 
 //随机ISBN，返回结果不需要分隔符，格式例如：9787XXXXXXXXX
-String isbn2 = OtherSource.getInstance().randomISBN(false);
+RandomSource.otherSource().randomISBN(false);
 
 //随机国际商品编码，格式例如：691XXXXXXXXXX
-String ean = OtherSource.getInstance().randomEAN();
+RandomSource.otherSource().randomEAN();
 ```
 说明：
 - 本程序随机生成的EAN编码长度为13位
@@ -505,112 +538,112 @@ String ean = OtherSource.getInstance().randomEAN();
 #### 随机useragent
 ```
 //随机生成1个PC User-Agent
-String ua1 = InternetSource.getInstance().randomPCUserAgent();
+RandomSource.internetSource().randomPCUserAgent();
 
 //随机生成1个Android User-Agent
-String ua2 = InternetSource.getInstance().randomAndroidUserAgent();
+RandomSource.internetSource().randomAndroidUserAgent();
 
 //随机生成1个iOS User-Agent
-String ua3 = InternetSource.getInstance().randomIOSUserAgent();
+RandomSource.internetSource().randomIOSUserAgent();
 ```
 #### 随机网卡mac地址
 ```
 //随机生成1个网卡MAC地址，使用:作为分隔符
-String mac = InternetSource.getInstance().randomMacAddress(":");
+RandomSource.internetSource().randomMacAddress(":");
 ```
 #### 随机颜色值
 ```
 //随机生成1个RGB颜色值
-int[] rgb = OtherSource.getInstance().randomRgbColor();
+int[] rgb = RandomSource.otherSource().randomRgbColor();
 
 //随机生成1个16进制(HEX)颜色值
-String hex = OtherSource.getInstance().randomHexColor();
+String hex = RandomSource.otherSource().randomHexColor();
 ```
 #### 股票名称和股票代码
 ```
 //随机股票信息(沪A+深A+创业板+科创版)
-String[] stock = FinancialSource.getInstance().randomStock();
+String[] stock = RandomSource.financialSource().randomStock();
 String stockName = stock[0];
 String stockCode = stock[1];
 
 //随机股票信息(港股)
-String[] hkStock = FinancialSource.getInstance().randomHKStock();
+String[] hkStock = RandomSource.financialSource().randomHKStock();
 String hkStockName = hkStock[0];
 String hkStockCode = hkStock[1];
 
 //随机股票信息(新三板)
-String[] xsbStock = FinancialSource.getInstance().randomXsbStock();
+String[] xsbStock = RandomSource.financialSource().randomXsbStock();
 String xsbStockName = xsbStock[0];
 String xsbStockCode = xsbStock[1];
 
 //随机股票信息(北交所)
-String[] bseStock = FinancialSource.getInstance().randomBseStock();
+String[] bseStock = RandomSource.financialSource().randomBseStock();
 String bseStockName = bseStock[0];
 String bseStockCode = bseStock[1];
 
 //随机股票代码(纳斯达克)
-FinancialSource.getInstance().randomNasdaqStock();
+RandomSource.financialSource().randomNasdaqStock();
 ```
 #### 开放式基金名称和基金代码
 ```
-String[] fund = FinancialSource.getInstance().randomFund();
+String[] fund = RandomSource.financialSource().randomFund();
 String fundName = fund[0];
 String fundCode = fund[1];
 ```
 #### 日k线数据
 ```
 //随机生成20210201~20210228日期范围内的K线数据，起始价格为100，单日最大涨幅10%，单日最大跌幅-10%
-List<KChartData> kList = FinancialSource.getInstance().randomDailyKChartData(100, 0.1, -0.1, "20210201", "20210228");
+List<KChartData> kList = RandomSource.financialSource().randomDailyKChartData(100, 0.1, -0.1, "20210201", "20210228");
 ```
 #### 货币
 ```
 //随机获取一种货币信息
-CurrencyInfo ci = FinancialSource.getInstance().randomCurrencyInfo();
+CurrencyInfo ci = RandomSource.financialSource().randomCurrencyInfo();
 ```
 #### 足球联赛球队名称
 ```
 //英超
-SportSource.getInstance().randomFootballTeam(CompetitionType.PREMIER_LEAGUE);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.PREMIER_LEAGUE);
 
 //西甲
-SportSource.getInstance().randomFootballTeam(CompetitionType.LA_LIGA);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.LA_LIGA);
 
 //德甲
-SportSource.getInstance().randomFootballTeam(CompetitionType.BUNDESLIGA);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.BUNDESLIGA);
 
 //意甲
-SportSource.getInstance().randomFootballTeam(CompetitionType.SERIE_A);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.SERIE_A);
 
 //法甲
-SportSource.getInstance().randomFootballTeam(CompetitionType.LIGUE_1);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.LIGUE_1);
 
 //荷甲
-SportSource.getInstance().randomFootballTeam(CompetitionType.EREDIVISIE);
+RandomSource.sportSource().randomFootballTeam(CompetitionType.EREDIVISIE);
 ```
 #### 篮球联赛球队名称
 ```
 //CBA
-SportSource.getInstance().randomBasketballTeam(CompetitionType.CBA);
+RandomSource.sportSource().randomBasketballTeam(CompetitionType.CBA);
 
 //NBA
-SportSource.getInstance().randomBasketballTeam(CompetitionType.NBA);
+RandomSource.sportSource().randomBasketballTeam(CompetitionType.NBA);
 ```
 #### 国家及地区的足球代表队
 ```
 //(亚洲足联范围内)随机足球队名称
-SportSource.getInstance().randomFootballTeam(FootballConfederation.AFC);
+RandomSource.sportSource().randomFootballTeam(FootballConfederation.AFC);
 
 //(欧洲足联范围内)随机足球队名称
-SportSource.getInstance().randomFootballTeam(FootballConfederation.UEFA);
+RandomSource.sportSource().randomFootballTeam(FootballConfederation.UEFA);
 
 //随机足球队名称(不限足球联合会)
-SportSource.getInstance().randomFootballTeam();
+RandomSource.sportSource().randomFootballTeam();
 ```
 访问 [Wikipedia网页](https://en.wikipedia.org/wiki/Category:FIFA_confederations) 可以查看完整的足球联合会列表信息。
 
 #### 热门手机型号
 ```
-OtherSource.getInstance().randomMobileModel();
+RandomSource.otherSource().randomMobileModel();
 ```
 
 ## 数据生成工具
@@ -618,11 +651,11 @@ OtherSource.getInstance().randomMobileModel();
 ```
 //准备字段定义
 //字段name：随机姓名
-DataField df1 = new DataField("name", () -> PersonInfoSource.getInstance().randomChineseName());
+DataField df1 = new DataField("name", () -> RandomSource.personInfoSource().randomChineseName());
 //字段birthDate：随机日期
-DataField df2 = new DataField("birthDate", () -> DateTimeSource.getInstance().randomPastDate("yyyy-MM-dd"));
+DataField df2 = new DataField("birthDate", () -> RandomSource.dateTimeSource().randomPastDate("yyyy-MM-dd"));
 //字段salary：随机数字
-DataField df3 = new DataField("salary", () -> NumberSource.getInstance().randomInt(5000, 18000));
+DataField df3 = new DataField("salary", () -> RandomSource.numberSource().randomInt(5000, 18000));
 List<DataField> fieldList = Lists.newArrayList(df1, df2, df3);
 
 //设置数量
@@ -654,7 +687,7 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 <dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
-    <version>2.13.3</version>
+    <version>2.13.4</version>
 </dependency>
 ```
 版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind)
@@ -674,7 +707,7 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 <dependency>
     <groupId>com.google.code.gson</groupId>
     <artifactId>gson</artifactId>
-    <version>2.9.0</version>
+    <version>2.9.1</version>
 </dependency>
 ```
 版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.google.code.gson/gson)
@@ -717,6 +750,11 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 | ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination```                  | 缺少pinyin4j依赖，手动添加即可   |
 
 ## 版本历史
+### v1.0.19
+- 增加统一入口类RandomSource
+- 生成随机地址、身份证号、公司名称时可通过枚举指定省级行政区（避免因名称规范问题导致的错误）
+- 从杂项数据源中拆分出单独的语言文字数据源
+
 ### v1.0.18
 - 增加纳斯达克上市股票信息
 
