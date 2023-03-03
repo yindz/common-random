@@ -37,7 +37,7 @@ public class NumberSource {
      * @return 1个随机整数
      */
     public int randomInt() {
-        return RandomUtils.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return RandomUtils.nextInt();
     }
 
     /**
