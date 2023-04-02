@@ -1,5 +1,6 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.entity.GreekAlphabet;
 import com.apifan.common.random.entity.Poem;
 import com.apifan.common.random.util.JsonUtils;
 import com.apifan.common.random.util.ResourceUtils;
@@ -82,6 +83,11 @@ public class LanguageSource {
      */
     private static List<String> englishWordsList = Lists.newArrayList();
 
+    /**
+     * 希腊字母
+     */
+    private static final List<GreekAlphabet> greekAlphabets = Lists.newArrayList();
+
     private static final LanguageSource instance = new LanguageSource();
 
     private LanguageSource() {
@@ -101,6 +107,31 @@ public class LanguageSource {
         } catch (Exception e) {
             logger.error("初始化数据异常", e);
         }
+
+        greekAlphabets.add(new GreekAlphabet("Α", "α", "alpha"));
+        greekAlphabets.add(new GreekAlphabet("Β", "β", "beta"));
+        greekAlphabets.add(new GreekAlphabet("Γ", "γ", "gamma"));
+        greekAlphabets.add(new GreekAlphabet("Δ", "δ", "delta"));
+        greekAlphabets.add(new GreekAlphabet("Ε", "ε", "epsilon"));
+        greekAlphabets.add(new GreekAlphabet("Ζ", "ζ", "zeta"));
+        greekAlphabets.add(new GreekAlphabet("Η", "η", "eta"));
+        greekAlphabets.add(new GreekAlphabet("Θ", "θ", "theta"));
+        greekAlphabets.add(new GreekAlphabet("Ι", "ι", "iota"));
+        greekAlphabets.add(new GreekAlphabet("Κ", "κ", "kappa"));
+        greekAlphabets.add(new GreekAlphabet("Λ", "λ", "lambda"));
+        greekAlphabets.add(new GreekAlphabet("Μ", "μ", "mu"));
+        greekAlphabets.add(new GreekAlphabet("Ν", "ν", "nu"));
+        greekAlphabets.add(new GreekAlphabet("Ξ", "ξ", "xi"));
+        greekAlphabets.add(new GreekAlphabet("Ο", "ο", "omicron"));
+        greekAlphabets.add(new GreekAlphabet("Π", "π", "pi"));
+        greekAlphabets.add(new GreekAlphabet("Ρ", "ρ", "rho"));
+        greekAlphabets.add(new GreekAlphabet("Σ", "σ (ς)", "sigma"));
+        greekAlphabets.add(new GreekAlphabet("Τ", "τ", "tau"));
+        greekAlphabets.add(new GreekAlphabet("Υ", "υ", "upsilon"));
+        greekAlphabets.add(new GreekAlphabet("Φ", "φ", "phi"));
+        greekAlphabets.add(new GreekAlphabet("Χ", "χ", "chi"));
+        greekAlphabets.add(new GreekAlphabet("Ψ", "ψ", "psi"));
+        greekAlphabets.add(new GreekAlphabet("Ω", "ω", "omega"));
     }
 
     /**
@@ -248,5 +279,15 @@ public class LanguageSource {
     public String randomEnglishText(int words) {
         Preconditions.checkArgument(words > 1, "词语数量必须大于1");
         return StringUtils.capitalize(Joiner.on(" ").join(ResourceUtils.getRandomElement(englishWordsList, words)));
+    }
+
+    /**
+     * 随机希腊字母
+     *
+     * @return 随机希腊字母
+     * @since 1.0.20
+     */
+    public GreekAlphabet randomGreekAlphabet() {
+        return ResourceUtils.getRandomElement(greekAlphabets);
     }
 }

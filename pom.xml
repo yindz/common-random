@@ -6,7 +6,7 @@
 
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.19</version>
+    <version>1.0.20</version>
     <packaging>jar</packaging>
     <name>common-random</name>
     <description>An easy-to-use random data generator.</description>
