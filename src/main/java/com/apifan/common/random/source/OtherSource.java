@@ -98,6 +98,11 @@ public class OtherSource {
     private static final List<String> socialCreditCharactersList = Lists.newArrayList(
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "W", "X", "Y");
 
+    /**
+     * 文件后缀
+     */
+    private static final List<String> fileSuffixList = Lists.newArrayList("txt", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "wps", "et", "zip", "rar", "7z", "png", "jpg", "tar");
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -431,6 +436,15 @@ public class OtherSource {
         String checkCode = String.valueOf(RandomUtils.nextInt(0, 10));
         Area area = AreaSource.getInstance().nextArea();
         return prefix + area.getZipCode() + Joiner.on("").join(ResourceUtils.getRandomElement(socialCreditCharactersList, 9)) + checkCode;
+    }
+
+    /**
+     * 随机文件后缀
+     *
+     * @return 文件后缀(小写)
+     */
+    public String randomFileSuffix() {
+        return ResourceUtils.getRandomElement(fileSuffixList);
     }
 
     /**
