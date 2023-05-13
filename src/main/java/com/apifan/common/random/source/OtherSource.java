@@ -184,9 +184,42 @@ public class OtherSource {
      * @return 随机的中国大陆车牌号
      */
     public String randomPlateNumber(boolean isNewEnergyVehicle) {
+        String prefix = ResourceUtils.getRandomElement(provincePrefixList);
+        return randomPlateNumber(prefix, isNewEnergyVehicle);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号(非新能源车型)
+     *
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber() {
+        return randomPlateNumber(false);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号
+     *
+     * @param province           省/直辖市/自治区(不含港澳台地区)
+     * @param isNewEnergyVehicle 是否为新能源车型
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber(Province province, boolean isNewEnergyVehicle) {
+        Preconditions.checkNotNull(province);
+        Preconditions.checkArgument(!province.equals(Province.HK) && !province.equals(Province.TW) && !province.equals(Province.MO));
+        return randomPlateNumber(province.getPrefix(), isNewEnergyVehicle);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号
+     *
+     * @param provinceNamePrefix 省/直辖市/自治区(不含港澳台地区)简称
+     * @param isNewEnergyVehicle 是否为新能源车型
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber(String provinceNamePrefix, boolean isNewEnergyVehicle) {
         int length = 5;
         List<String> plateNumbers = new ArrayList<>(length);
-        String prefix = ResourceUtils.getRandomElement(provincePrefixList);
         //最多2个字母
         int alphaCnt = RandomUtils.nextInt(0, 3);
         if (alphaCnt > 0) {
@@ -208,17 +241,8 @@ public class OtherSource {
             //新能源车牌前缀为D或F
             newEnergyVehicleTag = (j == 0 ? "D" : "F");
         }
-        return prefix + ResourceUtils.getRandomElement(plateNumbersList)
+        return provinceNamePrefix + ResourceUtils.getRandomElement(plateNumbersList)
                 + newEnergyVehicleTag + Joiner.on("").join(plateNumbers);
-    }
-
-    /**
-     * 生成随机的中国大陆车牌号(非新能源车型)
-     *
-     * @return 随机的中国大陆车牌号
-     */
-    public String randomPlateNumber() {
-        return randomPlateNumber(false);
     }
 
     /**
