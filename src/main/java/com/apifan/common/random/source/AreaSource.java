@@ -286,6 +286,16 @@ public class AreaSource {
     }
 
     /**
+     * 随机虚构地址
+     *
+     * @return 虚构地址
+     */
+    public String randomFictionalAddress() {
+        String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
+        return randomFictionalProvince() + randomFictionalCity() + road + "路" + RandomUtils.nextInt(1, 1000) + "号";
+    }
+
+    /**
      * 返回随机的国家或地区编码信息
      *
      * @param list 原始列表
