@@ -98,6 +98,11 @@ public class OtherSource {
     private static final List<String> socialCreditCharactersList = Lists.newArrayList(
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "W", "X", "Y");
 
+    /**
+     * 文件后缀
+     */
+    private static final List<String> fileSuffixList = Lists.newArrayList("txt", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "wps", "et", "zip", "rar", "7z", "png", "jpg", "tar");
+
     private static final OtherSource instance = new OtherSource();
 
     private OtherSource() {
@@ -179,9 +184,42 @@ public class OtherSource {
      * @return 随机的中国大陆车牌号
      */
     public String randomPlateNumber(boolean isNewEnergyVehicle) {
+        String prefix = ResourceUtils.getRandomElement(provincePrefixList);
+        return randomPlateNumber(prefix, isNewEnergyVehicle);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号(非新能源车型)
+     *
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber() {
+        return randomPlateNumber(false);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号
+     *
+     * @param province           省/直辖市/自治区(不含港澳台地区)
+     * @param isNewEnergyVehicle 是否为新能源车型
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber(Province province, boolean isNewEnergyVehicle) {
+        Preconditions.checkNotNull(province);
+        Preconditions.checkArgument(!province.equals(Province.HK) && !province.equals(Province.TW) && !province.equals(Province.MO));
+        return randomPlateNumber(province.getPrefix(), isNewEnergyVehicle);
+    }
+
+    /**
+     * 生成随机的中国大陆车牌号
+     *
+     * @param provinceNamePrefix 省/直辖市/自治区(不含港澳台地区)简称
+     * @param isNewEnergyVehicle 是否为新能源车型
+     * @return 随机的中国大陆车牌号
+     */
+    public String randomPlateNumber(String provinceNamePrefix, boolean isNewEnergyVehicle) {
         int length = 5;
         List<String> plateNumbers = new ArrayList<>(length);
-        String prefix = ResourceUtils.getRandomElement(provincePrefixList);
         //最多2个字母
         int alphaCnt = RandomUtils.nextInt(0, 3);
         if (alphaCnt > 0) {
@@ -203,17 +241,8 @@ public class OtherSource {
             //新能源车牌前缀为D或F
             newEnergyVehicleTag = (j == 0 ? "D" : "F");
         }
-        return prefix + ResourceUtils.getRandomElement(plateNumbersList)
+        return provinceNamePrefix + ResourceUtils.getRandomElement(plateNumbersList)
                 + newEnergyVehicleTag + Joiner.on("").join(plateNumbers);
-    }
-
-    /**
-     * 生成随机的中国大陆车牌号(非新能源车型)
-     *
-     * @return 随机的中国大陆车牌号
-     */
-    public String randomPlateNumber() {
-        return randomPlateNumber(false);
     }
 
     /**
@@ -431,6 +460,15 @@ public class OtherSource {
         String checkCode = String.valueOf(RandomUtils.nextInt(0, 10));
         Area area = AreaSource.getInstance().nextArea();
         return prefix + area.getZipCode() + Joiner.on("").join(ResourceUtils.getRandomElement(socialCreditCharactersList, 9)) + checkCode;
+    }
+
+    /**
+     * 随机文件后缀
+     *
+     * @return 文件后缀(小写)
+     */
+    public String randomFileSuffix() {
+        return ResourceUtils.getRandomElement(fileSuffixList);
     }
 
     /**

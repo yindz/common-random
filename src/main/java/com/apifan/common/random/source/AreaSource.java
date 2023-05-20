@@ -4,6 +4,7 @@ import com.apifan.common.random.constant.Province;
 import com.apifan.common.random.entity.Area;
 import com.apifan.common.random.entity.CountryOrRegionCode;
 import com.apifan.common.random.util.ResourceUtils;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -251,7 +252,7 @@ public class AreaSource {
      * @return 随机的国家或地区编码信息
      */
     public CountryOrRegionCode randomCountryOrRegionCode(String startsWith) {
-        Preconditions.checkArgument(ALPHA_1.matcher(startsWith).matches(), "startsWith 必须为单个字母");
+        Preconditions.checkArgument(ALPHA_1.matcher(startsWith).matches(), "首字母必须为单个字母");
         List<CountryOrRegionCode> filteredList = countryOrRegionCodeList.stream()
                 .filter(i -> i.getAlpha2().startsWith(startsWith.toUpperCase()) || i.getAlpha3().startsWith(startsWith.toUpperCase())).collect(Collectors.toList());
         return randomCountryOrRegionCode(filteredList);
@@ -264,6 +265,34 @@ public class AreaSource {
      */
     public CountryOrRegionCode randomCountryOrRegionCode() {
         return randomCountryOrRegionCode(countryOrRegionCodeList);
+    }
+
+    /**
+     * 随机虚构省份名称
+     *
+     * @return 虚构省份名称
+     */
+    public String randomFictionalProvince() {
+        return Joiner.on("").join(ResourceUtils.getRandomElement(addressWordList, 2)) + "省";
+    }
+
+    /**
+     * 随机虚构城市名称
+     *
+     * @return 虚构城市名称
+     */
+    public String randomFictionalCity() {
+        return Joiner.on("").join(ResourceUtils.getRandomElement(addressWordList, 2)) + "市";
+    }
+
+    /**
+     * 随机虚构地址
+     *
+     * @return 虚构地址
+     */
+    public String randomFictionalAddress() {
+        String road = ResourceUtils.getRandomString(addressWordList, 2) + ResourceUtils.getRandomElement(directionList);
+        return randomFictionalProvince() + randomFictionalCity() + road + "路" + RandomUtils.nextInt(1, 1000) + "号";
     }
 
     /**
