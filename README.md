@@ -108,7 +108,7 @@
 <dependency>
     <groupId>com.apifan.common</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.19</version>
+    <version>1.0.21</version>
 </dependency>
 ```
 
