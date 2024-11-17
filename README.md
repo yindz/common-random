@@ -114,7 +114,7 @@ mvn clean install -Dmaven.test.skip=true -Dgpg.skip
 然后引入依赖：
 ```xml
 <dependency>
-    <groupId>com.github.yindz</groupId>
+    <groupId>io.github.yindz</groupId>
     <artifactId>common-random</artifactId>
     <version>1.1.0</version>
 </dependency>
@@ -769,7 +769,7 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 
 ## 版本历史
 ### v1.1.0
-- 包名修改为`com.github.yindz`，类名保持不变
+- 包名修改为`io.github.yindz`，类名保持不变
 - JSON库升级到`fastjson2`，不再支持`fastjson`
 - 支持日期转农历
 - 修订基础数据
