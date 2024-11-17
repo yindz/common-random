@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.yindz</groupId>
+    <groupId>io.github.yindz</groupId>
     <artifactId>common-random</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
@@ -30,6 +30,7 @@
         <slf4j-api.version>1.7.36</slf4j-api.version>
         <slf4j-simple.version>1.7.36</slf4j-simple.version>
         <junit.version>4.13.2</junit.version>
+        <serverId>oss</serverId>
     </properties>
 
     <dependencies>
@@ -165,6 +166,16 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>oss</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -193,14 +204,8 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <name>OSS Snapshots Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <id>${serverId}</id>
+            <url>https://central.sonatype.com/</url>
         </snapshotRepository>
-        <repository>
-            <id>oss</id>
-            <name>OSS Staging Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
     </distributionManagement>
 </project>
