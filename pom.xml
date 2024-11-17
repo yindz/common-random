@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.apifan.common</groupId>
+    <groupId>com.github.yindz</groupId>
     <artifactId>common-random</artifactId>
-    <version>1.0.21</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
     <name>common-random</name>
     <description>An easy-to-use random data generator.</description>
@@ -21,10 +21,10 @@
         <commons-lang.version>3.12.0</commons-lang.version>
         <commons-io.version>2.14.0</commons-io.version>
         <commons-collections.version>4.4</commons-collections.version>
-        <guava.version>32.0.0-jre</guava.version>
-        <jackson-databind.version>2.13.4.2</jackson-databind.version>
-        <gson.version>2.9.1</gson.version>
-        <fastjson.version>1.2.83</fastjson.version>
+        <guava.version>33.2.1-jre</guava.version>
+        <jackson-databind.version>2.15.4</jackson-databind.version>
+        <gson.version>2.11.0</gson.version>
+        <fastjson2.version>2.0.53</fastjson2.version>
         <tinypinyin.version>2.0.3.RELEASE</tinypinyin.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
         <slf4j-api.version>1.7.36</slf4j-api.version>
@@ -74,9 +74,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -179,8 +179,7 @@
     <developers>
         <developer>
             <name>Zhili Yin</name>
-            <email>yinzhili001@foxmail.com</email>
-            <organization>apifan</organization>
+            <email>yinzhili@outlook.com</email>
             <url>https://github.com/yindz</url>
         </developer>
     </developers>

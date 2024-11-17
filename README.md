@@ -6,7 +6,7 @@
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
 
 ## 优点
-- 非常轻量级(不到1M)，容易集成，无需过多第三方依赖
+- 非常轻量级(~~不到1M~~ *由于基础数据增加，体积已达到1.2M*)，容易集成，无需过多第三方依赖
 - 简单方便，无需编写冗余代码
 - 生成的随机数据比较接近真实数据
 
@@ -103,10 +103,20 @@
 1.8或更高
 
 ### 配置依赖
-已发布到maven中央仓库。
+最新`1.1.x`版本暂未发布中央仓库：
 ```xml
 <dependency>
-    <groupId>com.apifan.common</groupId>
+    <groupId>com.github.yindz</groupId>
+    <artifactId>common-random</artifactId>
+    <version>1.1.0</version>
+</dependency>
+```
+
+`1.0.x`旧版本：
+
+```xml
+<dependency>
+    <groupId>com.apifan.random</groupId>
     <artifactId>common-random</artifactId>
     <version>1.0.21</version>
 </dependency>
@@ -677,7 +687,7 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 ### 主要变化
 考虑到某些项目可能使用其它JSON依赖库，**从 1.0.16 版起**，本程序就不再强依赖 jackson，更加灵活：
 - jackson（默认）
-- fastjson
+- fastjson2
 - gson
 
 ### 依赖坐标
@@ -695,12 +705,12 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 2. fastjson
 ```xml
 <dependency>
-    <groupId>com.alibaba</groupId>
-    <artifactId>fastjson</artifactId>
-    <version>1.2.83</version>
+    <groupId>com.alibaba.fastjson2</groupId>
+    <artifactId>fastjson2</artifactId>
+    <version>2.0.53</version>
 </dependency>
 ```
-版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.alibaba/fastjson)
+版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2)
 
 3. gson
 ```xml
@@ -741,15 +751,33 @@ String sql = DataUtils.generateJson(fieldList, tableName, total);
 版本号仅供参考，最新版本请[查看这里](https://mvnrepository.com/artifact/com.belerweb/pinyin4j)
 
 ## 常见问题
-| 报错信息                                                                                     | 原因及解决方法               |
-|------------------------------------------------------------------------------------------|-----------------------|
-| ```java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/JsonProcessingException``` | 缺少jackson依赖，手动添加即可    |
-| ```java.lang.NoClassDefFoundError: com/alibaba/fastjson/TypeReference```                 | 缺少fastjson依赖，手动添加即可   |
-| ```java.lang.NoClassDefFoundError: com/google/gson/reflect/TypeToken```                  | 缺少gson依赖，手动添加即可       |
-| ```java.lang.NoClassDefFoundError: com/github/promeg/pinyinhelper/Pinyin```                  | 缺少tinypinyin依赖，手动添加即可 |
-| ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination```                  | 缺少pinyin4j依赖，手动添加即可   |
+| 报错信息                                                                                                                  | 原因及解决方法               |
+|-----------------------------------------------------------------------------------------------------------------------|-----------------------|
+| ```java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/JsonProcessingException```                              | 缺少jackson依赖，手动添加即可    |
+| ```java.lang.NoClassDefFoundError: com/alibaba/fastjson2/TypeReference```                                             | 缺少fastjson2依赖，手动添加即可  |
+| ```java.lang.NoClassDefFoundError: com/google/gson/reflect/TypeToken```                                               | 缺少gson依赖，手动添加即可       |
+| ```java.lang.NoClassDefFoundError: com/github/promeg/pinyinhelper/Pinyin```                                           | 缺少tinypinyin依赖，手动添加即可 |
+| ```java.lang.NoClassDefFoundError: net/sourceforge/pinyin4j/format/exception/BadHanyuPinyinOutputFormatCombination``` | 缺少pinyin4j依赖，手动添加即可   |
 
 ## 版本历史
+### v1.1.0
+- 包名修改为`com.github.yindz`，类名保持不变
+- JSON库升级到`fastjson2`，不再支持`fastjson`
+- 支持日期转农历
+- 修订基础数据
+- `randomAddress(nextArea())`[修改为公开方法](https://github.com/yindz/common-random/issues/77)
+- 升级相关依赖
+
+### v1.0.21
+- 修订基础数据
+- 新增支持生成常见文件后缀
+- 支持生成虚构省市名称及地址
+- 逻辑优化
+
+### v1.0.20
+- 新增支持生成随机希腊字母
+- 完善逻辑
+
 ### v1.0.19
 - 增加统一入口类RandomSource
 - 生成随机地址、身份证号、公司名称时可通过枚举指定省级行政区（避免因名称规范问题导致的错误）
