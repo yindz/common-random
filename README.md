@@ -103,7 +103,15 @@
 1.8或更高
 
 ### 配置依赖
-最新`1.1.x`版本暂未发布中央仓库：
+最新`1.1.x`版本暂未发布中央仓库，拉取代码：
+```
+git clone https://github.com/yindz/common-random.git
+```
+自行编译（gpg只在发布中央仓库时使用，本地编译不需要，跳过即可）：
+```
+mvn clean install -Dmaven.test.skip=true -Dgpg.skip
+```
+然后引入依赖：
 ```xml
 <dependency>
     <groupId>com.github.yindz</groupId>
