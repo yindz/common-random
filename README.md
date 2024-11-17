@@ -103,7 +103,7 @@
 1.8或更高
 
 ### 配置依赖
-最新`1.1.x`版本已发布中央仓库：
+最新`1.1.x`版本已发布中央仓库（请注意groupId已经变了）：
 ```xml
 <dependency>
     <groupId>io.github.yindz</groupId>
