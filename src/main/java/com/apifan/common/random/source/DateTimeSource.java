@@ -1,6 +1,9 @@
 package com.apifan.common.random.source;
 
+import com.apifan.common.random.entity.ChineseLunarDate;
+import com.apifan.common.random.util.ResourceUtils;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -25,6 +25,12 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class DateTimeSource {
     private static final Logger logger = LoggerFactory.getLogger(DateTimeSource.class);
 
+    private static final List<String> YEAR_TAGS = Lists.newArrayList("甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥");
+
+    private static final int BEGIN_YEAR = 1912;
+
+    private static final int END_YEAR = 2099;
+
     /**
      * 日期时间格式缓存
      */
@@ -32,10 +38,28 @@ public class DateTimeSource {
 
     private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+8");
 
+    private static final Map<String, String[]> calMap = new LinkedHashMap<>();
+
     private static final DateTimeSource instance = new DateTimeSource();
 
     private DateTimeSource() {
-
+        //初始化农历
+        /* cal.txt 原始数据格式说明：
+         (公历年份-1911)/公历月份/公历日期,农历年份标识/农历月份标识/农历日期
+         其中：公历年份、月份、日期为16进制数字;
+         农历年份: 1-60之间的数字，分别代表从甲子到癸亥;
+         农历月份: 1代表正月，2代表二月，依此类推，包含字母R则为闰月;
+         农历日期: 1-30，分别代表初一到三十（并非每个月都有三十）；
+         */
+        List<String> calList = ResourceUtils.readLines("cal.txt");
+        calList.forEach(c -> {
+            if (StringUtils.isBlank(c)) {
+                return;
+            }
+            String[] tmp = c.split(",");
+            String[] calData = tmp[1].split("/");
+            calMap.put(tmp[0], calData);
+        });
     }
 
     /**
@@ -431,6 +455,31 @@ public class DateTimeSource {
         Set<String> zoneIds = ZoneId.getAvailableZoneIds();
         Object[] array = zoneIds.toArray();
         return Objects.toString(array[RandomUtils.nextInt(0, array.length)]);
+    }
+
+    /**
+     * 公历日期转换为农历日期
+     *
+     * @param date 公历日期
+     * @return 农历日期
+     */
+    public ChineseLunarDate toChineseLunarDate(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        Preconditions.checkArgument(date.getYear() >= BEGIN_YEAR && date.getYear() <= END_YEAR, "待转换的日期超出范围");
+
+        ChineseLunarDate lunarDate = new ChineseLunarDate();
+        String searchKey = Integer.toHexString(date.getYear() - BEGIN_YEAR + 1) + "/" + Integer.toHexString(date.getMonthValue()) + "/" + Integer.toHexString(date.getDayOfMonth());
+        String[] value = calMap.get(searchKey);
+        if (value == null) {
+            return null;
+        }
+        lunarDate.setYear(YEAR_TAGS.get(Integer.parseInt(value[0]) - 1));
+        lunarDate.setMonth(value[1]);
+        lunarDate.setDay(value[2]);
+        lunarDate.convert();
+        return lunarDate;
     }
 
     /**
