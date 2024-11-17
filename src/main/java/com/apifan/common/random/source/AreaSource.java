@@ -311,7 +311,7 @@ public class AreaSource {
      * @param area 区域信息
      * @return 随机的详细地址
      */
-    private String randomAddress(Area area) {
+    public String randomAddress(Area area) {
         if (area == null) {
             return null;
         }
