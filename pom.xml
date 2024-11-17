@@ -22,8 +22,8 @@
         <commons-io.version>2.14.0</commons-io.version>
         <commons-collections.version>4.4</commons-collections.version>
         <guava.version>33.2.1-jre</guava.version>
-        <jackson-databind.version>2.13.4.2</jackson-databind.version>
-        <gson.version>2.9.1</gson.version>
+        <jackson-databind.version>2.15.4</jackson-databind.version>
+        <gson.version>2.11.0</gson.version>
         <fastjson2.version>2.0.53</fastjson2.version>
         <tinypinyin.version>2.0.3.RELEASE</tinypinyin.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
