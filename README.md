@@ -1,6 +1,6 @@
 ![https://opensource.org/licenses/Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![](https://img.shields.io/badge/java-1.8%2B-yellow)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.yindz/common-random/badge.svg "Maven Central")](https://mvnrepository.com/artifact/com.apifan.common/common-random)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.yindz/common-random/badge.svg "Maven Central")](https://mvnrepository.com/artifact/io.github.yindz/common-random)
 # 随机数据生成器
 ## 概述
 简单易用的随机数据生成器。一般用于开发和测试阶段的数据填充、模拟、仿真研究、演示等场景。可以集成到各种类型的java项目中使用。
