@@ -17,8 +17,8 @@ import java.util.Map;
  *
  * <p>
  * 从 1.0.16 起，不再强依赖 jackson; <br>
- * 支持目前常用的以下3种json第三方库: jackson/fastjson/gson <br>
- * 检测顺序：jackson>fastjson>gson <br>
+ * 支持目前常用的以下3种json第三方库: jackson/fastjson2/gson <br>
+ * 检测顺序：jackson>fastjson2>gson <br>
  * 注意: 不要忘记手动添加依赖
  * </p>
  *
@@ -93,8 +93,8 @@ public class JsonUtils {
         if (ResourceUtils.isClassLoaded("com.fasterxml.jackson.databind.ObjectMapper")) {
             log.info("将使用 jackson");
             return new JacksonConverter();
-        } else if (ResourceUtils.isClassLoaded("com.alibaba.fastjson.JSON")) {
-            log.info("将使用 fastjson");
+        } else if (ResourceUtils.isClassLoaded("com.alibaba.fastjson2.JSON")) {
+            log.info("将使用 fastjson2");
             return new FastjsonConverter();
         } else if (ResourceUtils.isClassLoaded("com.google.gson.Gson")) {
             log.info("将使用 gson");

@@ -1,7 +1,7 @@
 package com.apifan.common.random.util.json.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.apifan.common.random.util.json.JsonConverter;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
  * Fastjson转换器接口实现类
  *
  * <p>
- * 注意: 需要手动引入fastjson依赖
+ * 注意: 需要手动引入fastjson2依赖
  * </p>
  *
  * @author yin
